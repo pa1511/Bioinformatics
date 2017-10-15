@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/SimpleClass.o \
+	${OBJECTDIR}/Stopwatch.o \
 	${OBJECTDIR}/welcome.o
 
 
@@ -67,6 +68,11 @@ ${OBJECTDIR}/SimpleClass.o: SimpleClass.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SimpleClass.o SimpleClass.cpp
+
+${OBJECTDIR}/Stopwatch.o: Stopwatch.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Stopwatch.o Stopwatch.cpp
 
 ${OBJECTDIR}/welcome.o: welcome.cc
 	${MKDIR} -p ${OBJECTDIR}

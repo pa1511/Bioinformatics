@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include "SimpleClass.h"
+#include "Stopwatch.h"
 
 #define EXAMPLE 2
 
@@ -20,6 +21,9 @@ void doSomethingFancy1(SimpleClass object);
 
 int main(int argc, char**argv) {
 
+    Stopwatch stopwatch;
+    stopwatch.start();
+    
 #if EXAMPLE == 1  
     example1();
 #elif EXAMPLE == 2  
@@ -27,7 +31,10 @@ int main(int argc, char**argv) {
 #else  
     std::cout << "Unknown example" << std::endl;  
 #endif      
-            
+    
+    stopwatch.end();
+    std::cout << "Time: " << stopwatch.getTime() << " ms" << std::endl;
+    
     return 0;
 }
 

@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/SimpleClass.o \
+	${OBJECTDIR}/Stopwatch.o \
 	${OBJECTDIR}/welcome.o
 
 
@@ -43,8 +44,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-std=c++11
+CXXFLAGS=-std=c++11
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -67,6 +68,11 @@ ${OBJECTDIR}/SimpleClass.o: SimpleClass.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SimpleClass.o SimpleClass.cpp
+
+${OBJECTDIR}/Stopwatch.o: Stopwatch.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Stopwatch.o Stopwatch.cpp
 
 ${OBJECTDIR}/welcome.o: welcome.cc
 	${MKDIR} -p ${OBJECTDIR}
