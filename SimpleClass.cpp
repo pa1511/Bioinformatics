@@ -13,6 +13,7 @@ SimpleClass::SimpleClass(int id) : id(id) {
 
 SimpleClass::SimpleClass(const SimpleClass& orig) {
     std::cout << "Creating a copy of " << orig.id << std::endl;
+    this->id = orig.id +100;
 }
 
 SimpleClass::~SimpleClass() {

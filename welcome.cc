@@ -12,6 +12,8 @@ SimpleClass createSimpleClassObject1();
 SimpleClass* createSimpleClassObject2();
 SimpleClass& createSimpleClassObject3();
 
+void example2();
+void doSomethingFancy1(SimpleClass object);
 
 
 //Method implementations
@@ -21,7 +23,7 @@ int main(int argc, char**argv) {
 #if EXAMPLE == 1  
     example1();
 #elif EXAMPLE == 2  
-    std::cout << "Run example 2" << std::endl;
+    example2();
 #else  
     std::cout << "Unknown example" << std::endl;  
 #endif      
@@ -86,3 +88,15 @@ SimpleClass& createSimpleClassObject3(){
     return object;
 }
 
+//===========================================================================
+void example2(){
+    SimpleClass object(1);
+    
+    //Please notice that a call by value like this creates a copy of the object
+    doSomethingFancy1(object);
+    //The copy is destroyed when the method finishes
+}
+
+void doSomethingFancy1(SimpleClass object){
+    std::cout << "I did something fancy"  << std::endl;
+}
