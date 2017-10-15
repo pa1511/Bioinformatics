@@ -4,14 +4,24 @@
 
 //List of methods defined in this file
 int main(int argc, char**argv);
+
+void example1();
 SimpleClass createSimpleClassObject1();
 SimpleClass* createSimpleClassObject2();
 SimpleClass& createSimpleClassObject3();
+
+
 
 //Method implementations
 
 int main(int argc, char**argv) {
     
+    example1();
+            
+    return 0;
+}
+
+void example1(){
     //==============================================================
     //Basic object creation
     
@@ -38,9 +48,9 @@ int main(int argc, char**argv) {
     std::cout << std::endl;
     //==============================================================
     //Notice that in the end you have objects being destroyed
-    
-    return 0;
+     
 }
+
 
 /*
  * The created object is either copied and returned or the compiler optimizes and directly creates the object
