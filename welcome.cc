@@ -2,6 +2,8 @@
 #include <iostream>
 #include "SimpleClass.h"
 
+#define EXAMPLE 2
+
 //List of methods defined in this file
 int main(int argc, char**argv);
 
@@ -15,8 +17,14 @@ SimpleClass& createSimpleClassObject3();
 //Method implementations
 
 int main(int argc, char**argv) {
-    
+
+#if EXAMPLE == 1  
     example1();
+#elif EXAMPLE == 2  
+    std::cout << "Run example 2" << std::endl;
+#else  
+    std::cout << "Unknown example" << std::endl;  
+#endif      
             
     return 0;
 }
