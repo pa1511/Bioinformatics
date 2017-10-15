@@ -35,6 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/BioSequence.o \
+	${OBJECTDIR}/FastADocument.o \
 	${OBJECTDIR}/SimpleClass.o \
 	${OBJECTDIR}/Stopwatch.o \
 	${OBJECTDIR}/welcome.o
@@ -63,6 +65,16 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/welcome_1: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/welcome_1 ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/BioSequence.o: BioSequence.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BioSequence.o BioSequence.cpp
+
+${OBJECTDIR}/FastADocument.o: FastADocument.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FastADocument.o FastADocument.cpp
 
 ${OBJECTDIR}/SimpleClass.o: SimpleClass.cpp
 	${MKDIR} -p ${OBJECTDIR}

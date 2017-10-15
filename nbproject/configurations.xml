@@ -43,6 +43,8 @@ Contributor(s):
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>BioSequence.h</itemPath>
+      <itemPath>FastADocument.h</itemPath>
       <itemPath>SimpleClass.h</itemPath>
       <itemPath>Stopwatch.h</itemPath>
       <itemPath>welcome.h</itemPath>
@@ -51,10 +53,13 @@ Contributor(s):
                    displayName="Resource Files"
                    projectFiles="true">
       <itemPath>example-input.txt</itemPath>
+      <itemPath>fasta-example</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>BioSequence.cpp</itemPath>
+      <itemPath>FastADocument.cpp</itemPath>
       <itemPath>SimpleClass.cpp</itemPath>
       <itemPath>Stopwatch.cpp</itemPath>
       <itemPath>welcome.cc</itemPath>
@@ -78,6 +83,14 @@ Contributor(s):
           <commandLine>-std=c++11</commandLine>
         </ccTool>
       </compileType>
+      <item path="BioSequence.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BioSequence.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FastADocument.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FastADocument.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="SimpleClass.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SimpleClass.h" ex="false" tool="3" flavor2="0">
@@ -87,6 +100,8 @@ Contributor(s):
       <item path="Stopwatch.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="example-input.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="fasta-example" ex="false" tool="3" flavor2="0">
       </item>
       <item path="welcome.cc" ex="false" tool="1" flavor2="0">
       </item>
@@ -113,6 +128,14 @@ Contributor(s):
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="BioSequence.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BioSequence.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FastADocument.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FastADocument.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="SimpleClass.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SimpleClass.h" ex="false" tool="3" flavor2="0">
@@ -122,6 +145,8 @@ Contributor(s):
       <item path="Stopwatch.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="example-input.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="fasta-example" ex="false" tool="3" flavor2="0">
       </item>
       <item path="welcome.cc" ex="false" tool="1" flavor2="0">
       </item>

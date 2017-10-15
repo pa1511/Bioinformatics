@@ -3,8 +3,11 @@
 #include <fstream>
 #include "SimpleClass.h"
 #include "Stopwatch.h"
+#include "FastADocument.h"
 
-#define EXAMPLE 3
+#define EXAMPLE 4
+
+using namespace bioinformatics;
 
 //List of methods defined in this file
 int main(int argc, char**argv);
@@ -19,6 +22,8 @@ void doSomethingFancy1(SimpleClass object);
 
 void example3();
 
+void fastAExample();
+
 //Method implementations
 
 int main(int argc, char**argv) {
@@ -32,6 +37,8 @@ int main(int argc, char**argv) {
     example2();
 #elif EXAMPLE == 3
     example3();
+#elif EXAMPLE == 4
+    fastAExample();
 #else  
     std::cout << "Unknown example" << std::endl;  
 #endif      
@@ -140,5 +147,26 @@ void example3(){
     }
     fileReader.close();
 
+    
+}
+//===========================================================================
+void fastAExample(){
+    std::cout << "FastA example" << std::endl;
+    FastADocument fastADoc("fasta-example");
+    fastADoc.initialize();
+    
+    std::cout << "Document: " << fastADoc.getDocumentName() << std::endl;
+    int count = fastADoc.getSequenceCount();
+    std::cout << "Sequence count: " << count << std::endl;
+        std::cout << std::endl;
+    
+    for(int i=0; i<count; i++){
+        BioSequence *sequence = fastADoc.getSequence(i);
+        
+        std::cout << "Sequence: " << sequence->getName() << std::endl;
+        std::cout << "Comment: " << sequence->getComment() << std::endl;
+        std::cout << "Content: " << sequence->getSequence() << std::endl;
+        std::cout << std::endl;
+    }
     
 }
