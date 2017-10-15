@@ -23,11 +23,11 @@ Stopwatch::~Stopwatch() {
 }
 
 void Stopwatch::start(){
-    this->startMoment = std::chrono::high_resolution_clock::now();
+    this->startMoment = this->now();
 }
 
 void Stopwatch::end(){
-    this->endMoment = std::chrono::high_resolution_clock::now();
+    this->endMoment = this->now();
 }
 
 int Stopwatch::getTime(){
@@ -35,7 +35,11 @@ int Stopwatch::getTime(){
 }
 
 void Stopwatch::reset(){
-    Moment now = std::chrono::high_resolution_clock::now();
+    Moment now = this->now();
     this->startMoment = now;
     this->endMoment = now;
+}
+
+Moment Stopwatch::now(){
+    return std::chrono::high_resolution_clock::now();
 }

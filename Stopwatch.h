@@ -30,7 +30,9 @@ public:
     int getTime();    
     void reset();
     
-private:
+    
+private:    
+    Moment now();
     Moment startMoment;
     Moment endMoment;
 };
