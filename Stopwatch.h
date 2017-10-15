@@ -32,7 +32,7 @@ public:
     
     
 private:    
-    Moment now();
+    inline Moment now();
     Moment startMoment;
     Moment endMoment;
 };
