@@ -1,9 +1,10 @@
 
 #include <iostream>
+#include <fstream>
 #include "SimpleClass.h"
 #include "Stopwatch.h"
 
-#define EXAMPLE 2
+#define EXAMPLE 3
 
 //List of methods defined in this file
 int main(int argc, char**argv);
@@ -16,6 +17,7 @@ SimpleClass& createSimpleClassObject3();
 void example2();
 void doSomethingFancy1(SimpleClass object);
 
+void example3();
 
 //Method implementations
 
@@ -28,6 +30,8 @@ int main(int argc, char**argv) {
     example1();
 #elif EXAMPLE == 2  
     example2();
+#elif EXAMPLE == 3
+    example3();
 #else  
     std::cout << "Unknown example" << std::endl;  
 #endif      
@@ -106,4 +110,35 @@ void example2(){
 
 void doSomethingFancy1(SimpleClass object){
     std::cout << "I did something fancy"  << std::endl;
+}
+
+//===========================================================================
+void example3(){
+    
+    std::string input;
+    
+    std::ifstream fileReader;
+    fileReader.open("example-input.txt");
+    if(fileReader.is_open()){
+        while(std::getline(fileReader,input)){
+            std::cout << input << std::endl;
+        }
+    }
+    fileReader.close();
+    std::cout << std::endl;
+
+    
+
+    fileReader.open("example-input.txt");
+    char c;
+    if(fileReader.is_open()){
+        char c;
+        while(!fileReader.eof()){
+            fileReader >> c;
+            std::cout << c << std::endl;
+        }
+    }
+    fileReader.close();
+
+    
 }

@@ -36,6 +36,5 @@
 #define	_welcome_H
 
 
-
 #endif	/* _welcome_H */
 
