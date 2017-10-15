@@ -18,11 +18,19 @@
 
 class SimpleClass {
 public:
-    SimpleClass();
+    /*
+     *This is the default object constructor 
+     */
+    SimpleClass(int id);
+       
+    /*
+     * This is a object copy constructor. 
+     * It is used when cpp decides it needs to create a copy or clone of a object. 
+     */
     SimpleClass(const SimpleClass& orig);
     virtual ~SimpleClass();
 private:
-
+    int id;
 };
 
 #endif /* SIMPLECLASS_H */

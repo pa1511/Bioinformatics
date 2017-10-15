@@ -7,13 +7,15 @@
 
 #include "SimpleClass.h"
 
-SimpleClass::SimpleClass() {
-    std::cout << "SimpleClass constructor execution" << std::endl; 
+SimpleClass::SimpleClass(int id) : id(id) {
+    std::cout << "SimpleClass constructor execution " << this->id << std::endl; 
 }
 
 SimpleClass::SimpleClass(const SimpleClass& orig) {
+    std::cout << "Creating a copy of " << orig.id << std::endl;
 }
 
 SimpleClass::~SimpleClass() {
+    std::cout << "Object destruction execution " << this->id << std::endl;
 }
 
