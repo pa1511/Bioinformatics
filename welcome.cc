@@ -1,18 +1,15 @@
 
 #include <iostream>
+#include "SimpleClass.h"
 
 int main(int argc, char**argv) {
     
-    // Prints welcome message...
-    std::cout << "Welcome ..." << std::endl;
-
-    // Prints arguments...
-    if (argc > 1) {
-        std::cout << std::endl << "Arguments:" << std::endl;
-        for (int i = 1; i < argc; i++) {
-            std::cout << i << ": " << argv[i] << std::endl;
-        }
-    }
+    SimpleClass objectOnStack;
+    SimpleClass *objectOnHeap = new SimpleClass();
+    
+    
+    //notice you don't need to delete objects on stack
+    delete objectOnHeap;
     
     return 0;
 }

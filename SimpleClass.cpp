@@ -8,6 +8,7 @@
 #include "SimpleClass.h"
 
 SimpleClass::SimpleClass() {
+    std::cout << "SimpleClass constructor execution" << std::endl; 
 }
 
 SimpleClass::SimpleClass(const SimpleClass& orig) {
