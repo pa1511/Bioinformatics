@@ -41,7 +41,8 @@ void fastAExample(){
         
         std::cout << "Sequence: " << sequence->getName() << std::endl;
         std::cout << "Comment: " << sequence->getComment() << std::endl;
-        std::cout << "Content: " << sequence->getSequence() << std::endl;
+        std::cout << "Sequence:  " << sequence->getSequence() << std::endl;
+        std::cout << "!Sequence: " << sequence->getInvertedSequence() << std::endl;
         std::cout << std::endl;
     }
     

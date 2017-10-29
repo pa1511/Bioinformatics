@@ -5,6 +5,8 @@
  * Created on October 15, 2017, 10:35 PM
  */
 
+#include <algorithm>
+
 #include "BioSequence.h"
 
 using namespace bioinformatics;
@@ -20,6 +22,7 @@ BioSequence::~BioSequence() {
 
 void BioSequence::setSequence(std::string sequence){
     this->sequence = sequence;
+    this->inv_sequence = calculateInvertedSequence();
 }
 
 std::string BioSequence::getName(){
@@ -32,4 +35,34 @@ std::string BioSequence::getComment(){
 
 std::string BioSequence::getSequence(){
     return this->sequence;
+}
+
+std::string BioSequence::getInvertedSequence() {
+    return this->inv_sequence;
+}
+
+std::string BioSequence::calculateInvertedSequence(){
+    //create a copy of the sequence
+    std::string inverted(this->sequence);
+    
+    //reverse the sequence 
+    std::reverse(inverted.begin(),inverted.end());
+    
+    //change sequence bases
+    for(int i=0,limit=inverted.size();i<limit;i++){
+        if(inverted[i]=='A'){
+            inverted[i] = 'T';
+        }
+        else if(inverted[i]=='C'){
+            inverted[i] = 'G';
+        }
+        else if(inverted[i]=='G'){
+            inverted[i] = 'C';
+        }
+        else if(inverted[i]=='T'){
+            inverted[i] = 'A';
+        }
+    }
+        
+    return inverted;
 }

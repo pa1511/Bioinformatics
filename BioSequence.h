@@ -23,11 +23,18 @@ namespace bioinformatics{
         std::string getName();
         std::string getComment();
         std::string getSequence();
+        std::string getInvertedSequence();
+        
         
     private:
+        
+        std::string calculateInvertedSequence();
+        
         std::string name;
         std::string comment;
         std::string sequence;
+        std::string inv_sequence;
+        
     };
 }
 #endif /* BIOSEQUENCE_H */

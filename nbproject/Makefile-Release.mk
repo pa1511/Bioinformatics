@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/BioSequence.o \
+	${OBJECTDIR}/CodeDump.o \
 	${OBJECTDIR}/FastADocument.o \
 	${OBJECTDIR}/Stopwatch.o \
 	${OBJECTDIR}/welcome.o
@@ -69,6 +70,11 @@ ${OBJECTDIR}/BioSequence.o: BioSequence.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BioSequence.o BioSequence.cpp
+
+${OBJECTDIR}/CodeDump.o: CodeDump.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CodeDump.o CodeDump.cpp
 
 ${OBJECTDIR}/FastADocument.o: FastADocument.cpp
 	${MKDIR} -p ${OBJECTDIR}
