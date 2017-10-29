@@ -37,7 +37,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/BioSequence.o \
 	${OBJECTDIR}/FastADocument.o \
-	${OBJECTDIR}/SimpleClass.o \
 	${OBJECTDIR}/Stopwatch.o \
 	${OBJECTDIR}/welcome.o
 
@@ -60,11 +59,11 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/welcome_1
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bioinformatics
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/welcome_1: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bioinformatics: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/welcome_1 ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bioinformatics ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/BioSequence.o: BioSequence.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -75,11 +74,6 @@ ${OBJECTDIR}/FastADocument.o: FastADocument.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FastADocument.o FastADocument.cpp
-
-${OBJECTDIR}/SimpleClass.o: SimpleClass.cpp
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SimpleClass.o SimpleClass.cpp
 
 ${OBJECTDIR}/Stopwatch.o: Stopwatch.cpp
 	${MKDIR} -p ${OBJECTDIR}

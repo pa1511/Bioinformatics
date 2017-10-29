@@ -1,7 +1,6 @@
 
 #include <iostream>
 #include <fstream>
-#include "SimpleClass.h"
 #include "Stopwatch.h"
 #include "FastADocument.h"
 

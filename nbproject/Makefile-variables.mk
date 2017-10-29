@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=welcome_1
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/welcome_1
+CND_ARTIFACT_NAME_Debug=bioinformatics
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/bioinformatics
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=welcome1.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/welcome1.tar
+CND_PACKAGE_NAME_Debug=bioinformatics.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/bioinformatics.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=welcome_1
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/welcome_1
+CND_ARTIFACT_NAME_Release=bioinformatics
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/bioinformatics
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=welcome1.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/welcome1.tar
+CND_PACKAGE_NAME_Release=bioinformatics.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/bioinformatics.tar
 #
 # include compiler specific variables
 #

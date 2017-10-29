@@ -45,7 +45,6 @@ Contributor(s):
                    projectFiles="true">
       <itemPath>BioSequence.h</itemPath>
       <itemPath>FastADocument.h</itemPath>
-      <itemPath>SimpleClass.h</itemPath>
       <itemPath>Stopwatch.h</itemPath>
       <itemPath>welcome.h</itemPath>
     </logicalFolder>
@@ -60,7 +59,6 @@ Contributor(s):
                    projectFiles="true">
       <itemPath>BioSequence.cpp</itemPath>
       <itemPath>FastADocument.cpp</itemPath>
-      <itemPath>SimpleClass.cpp</itemPath>
       <itemPath>Stopwatch.cpp</itemPath>
       <itemPath>welcome.cc</itemPath>
     </logicalFolder>
@@ -90,10 +88,6 @@ Contributor(s):
       <item path="FastADocument.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="FastADocument.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="SimpleClass.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SimpleClass.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stopwatch.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -135,10 +129,6 @@ Contributor(s):
       <item path="FastADocument.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="FastADocument.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="SimpleClass.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SimpleClass.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stopwatch.cpp" ex="false" tool="1" flavor2="0">
       </item>
