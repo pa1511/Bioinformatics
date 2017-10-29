@@ -33,6 +33,10 @@ std::string BioSequence::getComment(){
     return this->comment;
 }
 
+int BioSequence::size() {
+    return this->sequence.size();
+}
+
 std::string BioSequence::getSequence(){
     return this->sequence;
 }

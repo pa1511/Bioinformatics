@@ -22,6 +22,7 @@ namespace bioinformatics{
 
         std::string getName();
         std::string getComment();
+        int size();
         std::string getSequence();
         std::string getInvertedSequence();
         
