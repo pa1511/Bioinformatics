@@ -1,3 +1,0 @@
-/home/paf/workspace-c/netbeans-projects/Welcome_1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/paf/workspace-c/netbeans-projects/Welcome_1/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/paf/workspace-c/netbeans-projects/Welcome_1/cmake-build-debug/CMakeFiles/Welcome_1.dir
