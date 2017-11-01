@@ -9,21 +9,36 @@ using namespace bioinformatics;
 //List of methods defined in this file
 int main(int argc, char**argv);
 
+char invert(char c);
 void fastAExample();
 
 //Method implementations
 
 int main(int argc, char**argv) {
 
-    Stopwatch stopwatch;
-    stopwatch.start();
+    //Stopwatch stopwatch;
+    //stopwatch.start();
+    //
+    //fastAExample();
+    //
+    //stopwatch.end();
+    //std::cout << "Time: " << stopwatch.getTime() << " ms" << std::endl;
     
-    fastAExample();
-    
-    stopwatch.end();
-    std::cout << "Time: " << stopwatch.getTime() << " ms" << std::endl;
+    std::cout << invert('A') << std::endl;
+    std::cout << invert('T') << std::endl;
+    std::cout << invert('C') << std::endl;
+    std::cout << invert('G') << std::endl;
     
     return 0;
+}
+
+char invert(char c) {
+
+    char mask = (0x2 ^ c) & 0x2;
+    mask = 0x4 | (mask<<3) | (mask>>1);
+    c = c ^ mask;
+
+    return c;
 }
 
 void fastAExample(){

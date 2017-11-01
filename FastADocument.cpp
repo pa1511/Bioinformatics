@@ -23,6 +23,7 @@ FastADocument::~FastADocument() {
     for (auto elem : sequences) {
         delete elem;
     }
+    sequences.clear();
 }
 
 void FastADocument::initialize(){
