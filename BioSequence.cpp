@@ -70,3 +70,15 @@ std::string BioSequence::calculateInvertedSequence(){
         
     return inverted;
 }
+
+/*
+char invert1(char c) {
+    
+    if(c=='A' || c=='T' || c=='C' || c=='G'){
+        char mask = (0x2 ^ c) & 0x2;
+        mask = 0x4 | (mask<<3) | (mask>>1);
+        c = c ^ mask;
+    }
+    return c;
+}
+*/
