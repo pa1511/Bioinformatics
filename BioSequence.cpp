@@ -47,24 +47,25 @@ std::string BioSequence::getInvertedSequence() {
 
 std::string BioSequence::calculateInvertedSequence(){
     //create a copy of the sequence
-    std::string inverted(this->sequence);
-    
-    //reverse the sequence 
-    std::reverse(inverted.begin(),inverted.end());
-    
+    std::string inverted(this->sequence.size(),'0');
+        
     //change sequence bases
-    for(int i=0,limit=inverted.size();i<limit;i++){
-        if(inverted[i]=='A'){
+    for(int i=0,size=inverted.size();i<size;i++){
+        char c = this->sequence[size-i-1];
+        if(c=='A'){
             inverted[i] = 'T';
         }
-        else if(inverted[i]=='C'){
+        else if(c=='C'){
             inverted[i] = 'G';
         }
-        else if(inverted[i]=='G'){
+        else if(c=='G'){
             inverted[i] = 'C';
         }
-        else if(inverted[i]=='T'){
+        else if(c=='T'){
             inverted[i] = 'A';
+        }
+        else{
+            inverted[i] = c;
         }
     }
         
