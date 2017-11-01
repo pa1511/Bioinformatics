@@ -31,7 +31,7 @@ void Stopwatch::end(){
 }
 
 int Stopwatch::getTime(){
-    return  std::chrono::duration_cast<std::chrono::microseconds>( endMoment - startMoment ).count();
+    return  std::chrono::duration_cast<std::chrono::milliseconds>( endMoment - startMoment ).count();
 }
 
 void Stopwatch::reset(){
