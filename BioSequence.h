@@ -25,8 +25,7 @@ namespace bioinformatics{
         int size();
         std::string getSequence();
         std::string getInvertedSequence();
-        
-        
+                
     private:
         
         std::string calculateInvertedSequence();

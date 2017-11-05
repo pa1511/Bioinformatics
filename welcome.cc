@@ -29,10 +29,6 @@ int main(int argc, char**argv) {
     return 0;
 }
 
-void Hello() {
-    std::cout << "Hello, it's meeeeee";
-}
-
 void fastAExample(){
     std::cout << "FastA example" << std::endl;
     FastADocument fastADoc("fasta-example");
