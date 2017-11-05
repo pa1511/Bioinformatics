@@ -38,7 +38,7 @@ made subject to such option by the copyright holder.
 
 Contributor(s):
 -->
-<configurationDescriptor version="97">
+<configurationDescriptor version="100">
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">

@@ -14,7 +14,7 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=g++
+CC=gcc
 CCC=g++
 CXX=g++
 FC=gfortran
@@ -39,7 +39,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/CodeDump.o \
 	${OBJECTDIR}/FastADocument.o \
 	${OBJECTDIR}/HashTable.o \
-	${OBJECTDIR}/LuffyKaizoku.o \
+	${OBJECTDIR}/HashTableCalculationMethod.o \
+	${OBJECTDIR}/PAF.o \
 	${OBJECTDIR}/Stopwatch.o \
 	${OBJECTDIR}/welcome.o
 
@@ -68,37 +69,42 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bioinformatics: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bioinformatics ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/BioSequence.o: BioSequence.cpp 
+${OBJECTDIR}/BioSequence.o: BioSequence.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BioSequence.o BioSequence.cpp
 
-${OBJECTDIR}/CodeDump.o: CodeDump.cpp 
+${OBJECTDIR}/CodeDump.o: CodeDump.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CodeDump.o CodeDump.cpp
 
-${OBJECTDIR}/FastADocument.o: FastADocument.cpp 
+${OBJECTDIR}/FastADocument.o: FastADocument.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FastADocument.o FastADocument.cpp
 
-${OBJECTDIR}/HashTable.o: HashTable.cpp 
+${OBJECTDIR}/HashTable.o: HashTable.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HashTable.o HashTable.cpp
 
-${OBJECTDIR}/LuffyKaizoku.o: LuffyKaizoku.cpp 
+${OBJECTDIR}/HashTableCalculationMethod.o: HashTableCalculationMethod.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LuffyKaizoku.o LuffyKaizoku.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HashTableCalculationMethod.o HashTableCalculationMethod.cpp
 
-${OBJECTDIR}/Stopwatch.o: Stopwatch.cpp 
+${OBJECTDIR}/PAF.o: PAF.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PAF.o PAF.cpp
+
+${OBJECTDIR}/Stopwatch.o: Stopwatch.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Stopwatch.o Stopwatch.cpp
 
-${OBJECTDIR}/welcome.o: welcome.cc 
+${OBJECTDIR}/welcome.o: welcome.cc
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/welcome.o welcome.cc
@@ -109,7 +115,6 @@ ${OBJECTDIR}/welcome.o: welcome.cc
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bioinformatics
 
 # Subprojects
 .clean-subprojects:
