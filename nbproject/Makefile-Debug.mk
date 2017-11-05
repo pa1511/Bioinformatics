@@ -39,6 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/CodeDump.o \
 	${OBJECTDIR}/FastADocument.o \
 	${OBJECTDIR}/HashTable.o \
+	${OBJECTDIR}/Luffy.o \
 	${OBJECTDIR}/Stopwatch.o \
 	${OBJECTDIR}/welcome.o
 
@@ -86,6 +87,11 @@ ${OBJECTDIR}/HashTable.o: HashTable.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HashTable.o HashTable.cpp
+
+${OBJECTDIR}/Luffy.o: Luffy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Luffy.o Luffy.cpp
 
 ${OBJECTDIR}/Stopwatch.o: Stopwatch.cpp 
 	${MKDIR} -p ${OBJECTDIR}

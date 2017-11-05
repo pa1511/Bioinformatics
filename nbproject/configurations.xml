@@ -47,6 +47,7 @@ Contributor(s):
       <itemPath>CodeDump.h</itemPath>
       <itemPath>FastADocument.h</itemPath>
       <itemPath>HashTable.h</itemPath>
+      <itemPath>Luffy.h</itemPath>
       <itemPath>Stopwatch.h</itemPath>
       <itemPath>welcome.h</itemPath>
     </logicalFolder>
@@ -63,6 +64,7 @@ Contributor(s):
       <itemPath>CodeDump.cpp</itemPath>
       <itemPath>FastADocument.cpp</itemPath>
       <itemPath>HashTable.cpp</itemPath>
+      <itemPath>Luffy.cpp</itemPath>
       <itemPath>Stopwatch.cpp</itemPath>
       <itemPath>welcome.cc</itemPath>
     </logicalFolder>
@@ -100,6 +102,10 @@ Contributor(s):
       <item path="HashTable.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="HashTable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Luffy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Luffy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stopwatch.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -149,6 +155,10 @@ Contributor(s):
       <item path="HashTable.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="HashTable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Luffy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Luffy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stopwatch.cpp" ex="false" tool="1" flavor2="0">
       </item>
