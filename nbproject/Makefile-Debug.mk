@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/BioSequence.o \
 	${OBJECTDIR}/CodeDump.o \
 	${OBJECTDIR}/FastADocument.o \
+	${OBJECTDIR}/HashTable.o \
 	${OBJECTDIR}/Stopwatch.o \
 	${OBJECTDIR}/welcome.o
 
@@ -46,8 +47,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=std=c++11
-CXXFLAGS=std=c++11
+CCFLAGS=-std=c++11
+CXXFLAGS=-std=c++11
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -80,6 +81,11 @@ ${OBJECTDIR}/FastADocument.o: FastADocument.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FastADocument.o FastADocument.cpp
+
+${OBJECTDIR}/HashTable.o: HashTable.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HashTable.o HashTable.cpp
 
 ${OBJECTDIR}/Stopwatch.o: Stopwatch.cpp 
 	${MKDIR} -p ${OBJECTDIR}
