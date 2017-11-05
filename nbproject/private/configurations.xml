@@ -38,7 +38,7 @@ made subject to such option by the copyright holder.
 
 Contributor(s):
 -->
-<configurationDescriptor version="100">
+<configurationDescriptor version="97">
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">
@@ -69,6 +69,7 @@ Contributor(s):
         <runcommand>"${OUTPUT_PATH}" "arg 1" "arg 2" "arg 3" "arg 4"</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
+        <console-type>2</console-type>
         <terminal-type>0</terminal-type>
         <remove-instrumentation>0</remove-instrumentation>
         <environment>

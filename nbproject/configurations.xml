@@ -38,7 +38,7 @@ made subject to such option by the copyright holder.
 
 Contributor(s):
 -->
-<configurationDescriptor version="100">
+<configurationDescriptor version="97">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -80,7 +80,7 @@ Contributor(s):
       </toolsSet>
       <compileType>
         <ccTool>
-          <commandLine>-std=c++11</commandLine>
+          <commandLine>std=c++11</commandLine>
         </ccTool>
       </compileType>
       <item path="BioSequence.cpp" ex="false" tool="1" flavor2="0">

@@ -6,7 +6,6 @@
 
 /* 
  * File:   CodeDump.cpp
- * Author: paf
  * 
  * Created on October 29, 2017, 4:32 PM
  */
