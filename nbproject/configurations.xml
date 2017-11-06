@@ -44,7 +44,6 @@ Contributor(s):
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>BioSequence.h</itemPath>
-      <itemPath>CodeDump.h</itemPath>
       <itemPath>FastADocument.h</itemPath>
       <itemPath>HashTable.h</itemPath>
       <itemPath>HashTableCalculationMethod.h</itemPath>
@@ -63,7 +62,6 @@ Contributor(s):
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>BioSequence.cpp</itemPath>
-      <itemPath>CodeDump.cpp</itemPath>
       <itemPath>FastADocument.cpp</itemPath>
       <itemPath>HashTable.cpp</itemPath>
       <itemPath>HashTableCalculationMethod.cpp</itemPath>
@@ -98,10 +96,6 @@ Contributor(s):
       <item path="BioSequence.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="BioSequence.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="CodeDump.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="CodeDump.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="FastADocument.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -157,10 +151,6 @@ Contributor(s):
       <item path="BioSequence.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="BioSequence.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="CodeDump.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="CodeDump.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="FastADocument.cpp" ex="false" tool="1" flavor2="0">
       </item>

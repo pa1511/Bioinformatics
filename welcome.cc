@@ -4,6 +4,8 @@
 #include <string>
 #include "Stopwatch.h"
 #include "FastADocument.h"
+#include "HashTable.h"
+#include "HashTableCalculationMethod.h"
 
 #define PROGRAM 1
 
@@ -21,30 +23,38 @@ int main(int argc, char**argv) {
     
     #if PROGRAM == 1
     
+    //Ask user for input arguments
     std::cout << "Please enter document name: " ;
-    std::string document;//("Lambda_reads.fasta");
+    std::string document;
     std::cin >> document;
     
-    std::cout << "FastA example" << std::endl;
-    FastADocument fastADoc(document);
-    std::cout << "Document: " << fastADoc.getDocumentName() << std::endl;
-    std::cout << std::endl;
-    
-    BioSequence *sequence;
-    while((sequence = fastADoc.getNextSequence())!=NULL){
+    std::cout << "Please enter hash table save name: " ;
+    std::string hashDocumentName;
+    std::cin >> hashDocumentName;
+
+    //Calculate and save hash table
+    FastADocument *fastADoc = new FastADocument(document);    
+    HashTableCalculationMethod method;
+    HashTable *hashTable = method.calculate(fastADoc);     
+    hashTable->save(hashDocumentName);
         
+    #elif PROGRAM == 2
+    
+        std::cout << " TODO " << std::endl;
+    #else
+
+    FastADocument *fastADoc = new FastADocument("Lambda_reads.fasta");
+    BioSequence *sequence;
+    while((sequence = fastADoc->getNextSequence())!=NULL){
+
         std::cout << "Sequence: " << sequence->getName() << std::endl;
         std::cout << "Comment: " << sequence->getComment() << std::endl;
         std::cout << "Sequence:  " << sequence->getSequence() << std::endl;
         std::cout << "!Sequence: " << sequence->getInvertedSequence() << std::endl;
         std::cout << std::endl;
         delete sequence;
-    }
+    }    
     
-    #elif PROGRAM == 2
-    
-        std::cout << " TODO " << std::endl;
-        
     #endif
             
     stopwatch.end();
