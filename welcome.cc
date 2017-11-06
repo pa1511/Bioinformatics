@@ -31,11 +31,19 @@ int main(int argc, char**argv) {
     std::cout << "Please enter hash table save name: " ;
     std::string hashDocumentName;
     std::cin >> hashDocumentName;
+    
+    std:: cout << "Please enter w: ";
+    int w;
+    std::cin >> w;
+    
+    std::cout << "Please enter k: ";
+    int k;
+    std::cin >> k;
 
     //Calculate and save hash table
     FastADocument *fastADoc = new FastADocument(document);    
     HashTableCalculationMethod method;
-    HashTable *hashTable = method.calculate(fastADoc);     
+    HashTable *hashTable = method.calculate(fastADoc,w,k);     
     hashTable->save(hashDocumentName);
         
     #elif PROGRAM == 2

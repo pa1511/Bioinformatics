@@ -25,10 +25,15 @@ HashTableCalculationMethod::HashTableCalculationMethod() {
 HashTableCalculationMethod::~HashTableCalculationMethod() {
 }
 
-HashTable* HashTableCalculationMethod::calculate(FastADocument* document) {
+HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w, int k) {
     
     BioSequence *sequence;
     while((sequence = document->getNextSequence())!=NULL){
+        
+        std::set<minimizer> minimizerSet = minimizerSketch(sequence,w,k);
+        
+        
+        
         //TODO: implement calculation
         delete sequence;
     }
@@ -94,14 +99,14 @@ int HashTableCalculationMethod::invertibleHash(int x, int p) {
 }
 
 //ALGORITHM 1
-std::set<minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence sequence, int w, int k) {
+std::set<minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k) {
 
     std::set<minimizer> M;
     
-    std::string* raw_sequence = sequence.getSequence();
-    std::string* raw_inv_sequence = sequence.getInvertedSequence();
+    std::string* raw_sequence = sequence->getSequence();
+    std::string* raw_inv_sequence = sequence->getInvertedSequence();
     
-    for(int i=1,limit = sequence.size()-w-k+1; i<limit; i++){
+    for(int i=1,limit = sequence->size()-w-k+1; i<limit; i++){
         double m  = std::numeric_limits<double>::max();
         for(int j=0; j<w-1;j++){
             double u = PHI_function(raw_sequence,i+j,k);
