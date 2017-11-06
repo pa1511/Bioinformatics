@@ -14,6 +14,8 @@ namespace bioinformatics{
 
     class BioSequence {
     public:
+        static char inversion[4];
+
         BioSequence(std::string name,std::string comment);
         BioSequence(const BioSequence& orig);
         ~BioSequence();
@@ -24,11 +26,11 @@ namespace bioinformatics{
         std::string getName();
         std::string getComment();
         int size();
-        std::string getSequence();
-        std::string getInvertedSequence();
+        std::string *getSequence();
+        std::string *getInvertedSequence();
                 
     private:
-        
+    
         std::string calculateInvertedSequence();
         inline char invert(char c);
         
@@ -36,9 +38,10 @@ namespace bioinformatics{
         std::string name;
         std::string comment;
         std::string sequence;
-        std::string inv_sequence;
-        
+        std::string inv_sequence;        
     };
+    
 }
+
 #endif /* BIOSEQUENCE_H */
 

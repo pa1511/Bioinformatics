@@ -11,6 +11,9 @@
 
 using namespace bioinformatics;
 
+
+char BioSequence::inversion[4] = {'T','G','A','C'};
+
 BioSequence::BioSequence(std::string name,std::string comment):name(name),comment(comment) {
 }
 
@@ -43,12 +46,12 @@ int BioSequence::size() {
     return this->sequence.size();
 }
 
-std::string BioSequence::getSequence(){
-    return this->sequence;
+std::string* BioSequence::getSequence(){
+    return &this->sequence;
 }
 
-std::string BioSequence::getInvertedSequence() {
-    return this->inv_sequence;
+std::string* BioSequence::getInvertedSequence() {
+    return &this->inv_sequence;
 }
 
 std::string BioSequence::calculateInvertedSequence(){
@@ -80,8 +83,22 @@ inline char BioSequence::invert(char c) {
 //
 //    return c;
 
-    char mask = (0x2 ^ c) & 0x2;
-    mask = 0x4 | (mask<<3) | (mask>>1);
-    c = c ^ mask;
-    return c;
+    // Faster inversion will not work if any other character appears
+    
+    // A 0x41   0100 0001   0
+    // T 0x54   0101 0100   2
+    // C 0x43   0100 0011   1
+    // G 0x47   0100 0111   3
+    // mask     0000 0110
+
+//    faster inversion 1
+//    char mask = (0x2 ^ c) & 0x2;
+//    mask = 0x4 | (mask<<3) | (mask>>1);
+//    c = c ^ mask;
+//    return c;
+
+    
+//    faster inversion 2
+    int id = (c & 0x6) >> 1;
+    return BioSequence::inversion[id];
 }

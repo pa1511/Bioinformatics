@@ -38,15 +38,17 @@ struct minimizer{
 
 class HashTableCalculationMethod {
 public:
+    static int PHI_VALUE[4];
+    
     HashTableCalculationMethod();
     ~HashTableCalculationMethod();
 
     HashTable* calculate(FastADocument* document);
     
 private:
-    std::string PI_function(bioinformatics::BioSequence* biosequence,int r);
+    std::string* PI_function(bioinformatics::BioSequence* biosequence,int r);
     //
-    int PHI_function(std::string seqence,int startIndex, int k);
+    int PHI_function(std::string *seqence,int startIndex, int k);
     int PHI_function(char b);
     //
     int invertibleHash(int x, int p);

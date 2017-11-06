@@ -43,14 +43,16 @@ int main(int argc, char**argv) {
         std::cout << " TODO " << std::endl;
     #else
 
-    FastADocument *fastADoc = new FastADocument("Lambda_reads.fasta");
+    std::string document("fasta-example");//"Lambda_reads.fasta"
+    
+    FastADocument *fastADoc = new FastADocument(document);
     BioSequence *sequence;
     while((sequence = fastADoc->getNextSequence())!=NULL){
 
         std::cout << "Sequence: " << sequence->getName() << std::endl;
         std::cout << "Comment: " << sequence->getComment() << std::endl;
-        std::cout << "Sequence:  " << sequence->getSequence() << std::endl;
-        std::cout << "!Sequence: " << sequence->getInvertedSequence() << std::endl;
+        std::cout << "Sequence:  " << *sequence->getSequence() << std::endl;
+        std::cout << "!Sequence: " << *sequence->getInvertedSequence() << std::endl;
         std::cout << std::endl;
         delete sequence;
     }    

@@ -17,6 +17,8 @@
 #include <limits.h>
 #include <algorithm>
 
+int HashTableCalculationMethod::PHI_VALUE[] = {0,1,3,2};
+
 HashTableCalculationMethod::HashTableCalculationMethod() {
 }
 
@@ -25,17 +27,16 @@ HashTableCalculationMethod::~HashTableCalculationMethod() {
 
 HashTable* HashTableCalculationMethod::calculate(FastADocument* document) {
     
-    //TODO
     BioSequence *sequence;
     while((sequence = document->getNextSequence())!=NULL){
-        
+        //TODO: implement calculation
         delete sequence;
     }
     
     return NULL;
 }
 
-std::string HashTableCalculationMethod::PI_function(bioinformatics::BioSequence* biosequence, int r) {
+std::string* HashTableCalculationMethod::PI_function(bioinformatics::BioSequence* biosequence, int r) {
     if(r==0)
         return biosequence->getSequence();
     
@@ -45,12 +46,12 @@ std::string HashTableCalculationMethod::PI_function(bioinformatics::BioSequence*
     throw "r was different from 0 and 1";
 }
 
-int HashTableCalculationMethod::PHI_function(std::string seqence, int startIndex, int k) {
+int HashTableCalculationMethod::PHI_function(std::string *seqence, int startIndex, int k) {
 
     int hashValue = 0;
     
     for(int i=0; i<k; i++){
-        hashValue += powf(4.0,k-i-1)*PHI_function(seqence[startIndex+i]);
+        hashValue += powf(4.0,k-i-1)*PHI_function((*seqence)[startIndex+i]);
     }
     
     return hashValue;
@@ -58,14 +59,22 @@ int HashTableCalculationMethod::PHI_function(std::string seqence, int startIndex
 
 int HashTableCalculationMethod::PHI_function(char b) {
 
-    if(b=='A')
-        return 0;
-    if(b=='C')
-        return 1;
-    if(b=='G')
-        return 2;
-    if(b=='T')
-        return 3;
+    // A 0x41   0100 0001   0
+    // T 0x54   0101 0100   2
+    // C 0x43   0100 0011   1
+    // G 0x47   0100 0111   3
+    // mask     0000 0110
+        
+//    if(b=='A')
+//        return 0;
+//    if(b=='C')
+//        return 1;
+//    if(b=='G')
+//        return 2;
+//    if(b=='T')
+//        return 3;
+    
+    return (b & 0x6) >> 1;
     
     //TODO: what if it is some other value
     throw "Unknown b";
@@ -89,8 +98,8 @@ std::set<minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::
 
     std::set<minimizer> M;
     
-    std::string raw_sequence = sequence.getSequence();
-    std::string raw_inv_sequence = sequence.getInvertedSequence();
+    std::string* raw_sequence = sequence.getSequence();
+    std::string* raw_inv_sequence = sequence.getInvertedSequence();
     
     for(int i=1,limit = sequence.size()-w-k+1; i<limit; i++){
         double m  = std::numeric_limits<double>::max();
