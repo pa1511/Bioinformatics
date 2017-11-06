@@ -7,6 +7,7 @@
  */
 
 #include <string>
+#include <cctype>
 
 #include "FastADocument.h"
 #include "BioSequence.h"
@@ -14,33 +15,41 @@
 using namespace bioinformatics;
 
 FastADocument::FastADocument(std::string documentLocation):document(documentLocation) {
-}
-
-FastADocument::FastADocument(const FastADocument& orig) {
+    inputStream = new std::ifstream();
+    inputStream->open(this->document);
 }
 
 FastADocument::~FastADocument() {
-    for (auto elem : sequences) {
-        delete elem;
-    }
-    sequences.clear();
+    inputStream->close();
+    delete inputStream;
 }
 
-void FastADocument::initialize(){
-    std::ifstream fileReader;
-    fileReader.open(this->document);
-    char c;
-    if(fileReader.is_open()){
-        std::string input;
-        BioSequence *sequence = NULL;
+std::string FastADocument::getDocumentName(){
+    return this->document;
+}
+
+/**
+ * 
+ * @return Pointer to BioSequence if it can be read or NULL
+ */
+BioSequence* FastADocument::getNextSequence() {
+    BioSequence *sequence = NULL;
+    
+    if(inputStream->is_open()){
         
-        while(std::getline(fileReader,input)){
-            const char c = input.at(0);
-            if(c=='>'){
-                if(sequence!=NULL){
-                    this->addSequence(sequence);
-                }
-                
+        char c;
+        std::string input;
+        
+        while((c =inputStream->peek())!=EOF){
+            
+            //we see the start of the next sequence
+            if(c=='>' && sequence!=NULL)
+                break;
+            
+            //read line
+            std::getline(*inputStream,input);
+            
+            if(c=='>'){               
                 std::string name;
                 std::string comment;
                 
@@ -59,29 +68,11 @@ void FastADocument::initialize(){
                 continue;
             }
             else{
-                sequence->setSequence(input);
+                sequence->appeandSequence(input);
             }
         }
-        if(sequence!=NULL){
-            this->addSequence(sequence);
-        }
+                
     }
-    fileReader.close();
-
-}
-
-std::string FastADocument::getDocumentName(){
-    return this->document;
-}
-
-void FastADocument::addSequence(BioSequence* sequence){
-    this->sequences.push_back(sequence);
-}
-
-int FastADocument::getSequenceCount(){
-    return this->sequences.size();
-}
-
-BioSequence* FastADocument::getSequence(int i){
-    return this->sequences[i];
+    
+    return sequence;
 }

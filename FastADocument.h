@@ -23,19 +23,14 @@ namespace bioinformatics{
     class FastADocument {
     public:
         FastADocument(std::string documentLocation);
-        FastADocument(const FastADocument& orig);
         ~FastADocument();
-        void initialize();
         
         std::string getDocumentName();
-        int getSequenceCount();
-        void addSequence(BioSequence *sequence);
-
-        BioSequence* getSequence(int i);
+        BioSequence* getNextSequence();
         
     private:
         std::string document;
-        std::vector<BioSequence*> sequences;
+        std::ifstream *inputStream;
     };
 
 }

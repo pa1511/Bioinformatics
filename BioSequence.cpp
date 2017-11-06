@@ -25,6 +25,12 @@ void BioSequence::setSequence(std::string sequence){
     this->inv_sequence = calculateInvertedSequence();
 }
 
+void BioSequence::appeandSequence(std::string sequence) {
+    //TODO: this implementation might need to be changed!
+    this->setSequence(sequence);
+}
+
+
 std::string BioSequence::getName(){
     return this->name;
 }
@@ -52,34 +58,30 @@ std::string BioSequence::calculateInvertedSequence(){
     //change sequence bases
     for(int i=0,size=inverted.size();i<size;i++){
         char c = this->sequence[size-i-1];
-        if(c=='A'){
-            inverted[i] = 'T';
-        }
-        else if(c=='C'){
-            inverted[i] = 'G';
-        }
-        else if(c=='G'){
-            inverted[i] = 'C';
-        }
-        else if(c=='T'){
-            inverted[i] = 'A';
-        }
-        else{
-            inverted[i] = c;
-        }
+        inverted[i] = this->invert(c);
     }
         
     return inverted;
 }
 
-/*
-char invert1(char c) {
-    
-    if(c=='A' || c=='T' || c=='C' || c=='G'){
-        char mask = (0x2 ^ c) & 0x2;
-        mask = 0x4 | (mask<<3) | (mask>>1);
-        c = c ^ mask;
-    }
+inline char BioSequence::invert(char c) {
+//    if(c=='A'){
+//        c = 'T';
+//    }
+//    else if(c=='C'){
+//        c = 'G';
+//    }
+//    else if(c=='G'){
+//        c = 'C';
+//    }
+//    else if(c=='T'){
+//        c = 'A';
+//    }
+//
+//    return c;
+
+    char mask = (0x2 ^ c) & 0x2;
+    mask = 0x4 | (mask<<3) | (mask>>1);
+    c = c ^ mask;
     return c;
 }
-*/

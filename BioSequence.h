@@ -19,6 +19,7 @@ namespace bioinformatics{
         ~BioSequence();
         
         void setSequence(std::string sequence);
+        void appeandSequence(std::string sequence);
 
         std::string getName();
         std::string getComment();
@@ -29,6 +30,8 @@ namespace bioinformatics{
     private:
         
         std::string calculateInvertedSequence();
+        inline char invert(char c);
+        
         
         std::string name;
         std::string comment;

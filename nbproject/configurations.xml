@@ -55,6 +55,7 @@ Contributor(s):
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>Lambda_reads.fasta</itemPath>
       <itemPath>example-input.txt</itemPath>
       <itemPath>fasta-example</itemPath>
     </logicalFolder>
@@ -114,6 +115,8 @@ Contributor(s):
       </item>
       <item path="HashTableCalculationMethod.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Lambda_reads.fasta" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="PAF.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="PAF.h" ex="false" tool="3" flavor2="0">
@@ -170,6 +173,8 @@ Contributor(s):
       <item path="HashTableCalculationMethod.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="HashTableCalculationMethod.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Lambda_reads.fasta" ex="false" tool="3" flavor2="0">
       </item>
       <item path="PAF.cpp" ex="false" tool="1" flavor2="0">
       </item>
