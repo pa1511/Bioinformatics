@@ -28,7 +28,7 @@ HashTableCalculationMethod::~HashTableCalculationMethod() {
 HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w, int k) {
 
     //TODO: change so it follows the logic from the text
-    //The key is the minimizer hash value and the value is a set of target sequence index
+    //The key is the minimizer hash value and the value is a set of target sequence index, the position of the minimizer and the strand
     
     std::map<double,bioinformatics::Entry> *hashTable = new std::map<double,bioinformatics::Entry>();
     
