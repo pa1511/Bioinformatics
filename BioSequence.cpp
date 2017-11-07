@@ -17,9 +17,6 @@ char BioSequence::inversion[4] = {'T','G','A','C'};
 BioSequence::BioSequence(std::string name,std::string comment):name(name),comment(comment) {
 }
 
-BioSequence::BioSequence(const BioSequence& orig) {
-}
-
 BioSequence::~BioSequence() {
 }
 

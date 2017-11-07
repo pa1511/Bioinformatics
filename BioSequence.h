@@ -17,7 +17,6 @@ namespace bioinformatics{
         static char inversion[4];
 
         BioSequence(std::string name,std::string comment);
-        BioSequence(const BioSequence& orig);
         ~BioSequence();
         
         void setSequence(std::string sequence);

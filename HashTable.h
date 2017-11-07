@@ -15,17 +15,28 @@
 #define HASHTABLE_H
 
 #include <string>
+#include <map>
 
 namespace bioinformatics {
-    class HashTable {
+
+struct Entry{
+
+    std::string *rawSequence;
+    int i;
+    int r;
+    
+};    
+    
+    
+class HashTable {
     public:
-        HashTable();
+        HashTable(std::map<double,bioinformatics::Entry> *hashTableRaw);
         ~HashTable(); //destruktor
         void save(std::string path);
         
         static HashTable* load(std::string path);
     private:
-
+        std::map<double,bioinformatics::Entry> *hashTableRaw;
     };
 }
 #endif /* HASHTABLE_H */

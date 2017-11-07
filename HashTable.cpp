@@ -15,10 +15,12 @@
 
 using namespace bioinformatics;
 
-HashTable::HashTable() {
+HashTable::HashTable(std::map<double,bioinformatics::Entry> *hashTableRaw):hashTableRaw(hashTableRaw){
+    
 }
 
 HashTable::~HashTable() {
+    delete hashTableRaw;
 }
 
 void HashTable::save(std::string path) {

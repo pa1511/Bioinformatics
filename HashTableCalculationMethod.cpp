@@ -26,19 +26,28 @@ HashTableCalculationMethod::~HashTableCalculationMethod() {
 }
 
 HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w, int k) {
+
+    std::map<double,bioinformatics::Entry> *hashTable = new std::map<double,bioinformatics::Entry>();
     
     BioSequence *sequence;
     while((sequence = document->getNextSequence())!=NULL){
         
         std::set<minimizer> minimizerSet = minimizerSketch(sequence,w,k);
         
+        for(auto it = minimizerSet.begin(); it!=minimizerSet.end(); it++){
+            
+            bioinformatics::Entry entry;
+            entry.rawSequence = sequence->getSequence();
+            entry.i = it->i;
+            entry.r = it->r;
+            
+            hashTable->insert(std::pair<double,bioinformatics::Entry>(it->m,entry));
+        }
         
-        
-        //TODO: implement calculation
         delete sequence;
     }
     
-    return NULL;
+    return new HashTable(hashTable);
 }
 
 std::string* HashTableCalculationMethod::PI_function(bioinformatics::BioSequence* biosequence, int r) {

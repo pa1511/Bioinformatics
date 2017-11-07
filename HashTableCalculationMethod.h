@@ -20,6 +20,7 @@
 
 #include <string>
 #include <set>
+#include <map>
 
 using namespace bioinformatics;
 
