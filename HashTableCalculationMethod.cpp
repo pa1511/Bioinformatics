@@ -110,6 +110,8 @@ int HashTableCalculationMethod::invertibleHash(int x, int p) {
 //ALGORITHM 1
 std::set<minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k) {
 
+    //TODO: optimize implementation
+    
     std::set<minimizer> M;
     
     std::string* raw_sequence = sequence->getSequence();
