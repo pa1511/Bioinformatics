@@ -27,8 +27,8 @@ HashTableCalculationMethod::~HashTableCalculationMethod() {
 
 HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w, int k) {
 
-    //TODO: change so it follows the logic from the text
-    //The key is the minimizer hash value and the value is a set of target sequence index, the position of the minimizer and the strand
+    // TODO: change so it follows the logic from the text
+    // The key is the minimizer hash value and the value is a set of target sequence index, the position of the minimizer and the strand
     
     std::map<int,bioinformatics::Entry> *hashTable = new std::map<int,bioinformatics::Entry>();
     
@@ -93,11 +93,11 @@ int HashTableCalculationMethod::PHI_function(char b) {
     
     return (b & 0x6) >> 1;
     
-    //TODO: what if it is some other value
+    // TODO: what if it is some other value
     throw "Unknown b";
 }
 
-//ALGORITHM 2
+// ALGORITHM 2
 int HashTableCalculationMethod::invertibleHash(int x, int p) {
 
     int m = 0x1 << p -1;
@@ -112,10 +112,10 @@ int HashTableCalculationMethod::invertibleHash(int x, int p) {
     return x;
 }
 
-//ALGORITHM 1
+// ALGORITHM 1
 std::set<Minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k) {
 
-    //TODO: optimize implementation
+    // TODO: optimize implementation
     
     std::set<Minimizer> M;
     
