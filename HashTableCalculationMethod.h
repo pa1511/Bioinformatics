@@ -24,12 +24,12 @@
 
 using namespace bioinformatics;
 
-struct minimizer{
-    double m;
+struct Minimizer{
+    int m;
     int i;
     int r;
     
-    bool operator <(const minimizer& other) const{
+    bool operator <(const Minimizer& other) const{
         //TODO: this needs to be implemented properly 
         //It is needed to place the structure in a set
         return this->m < other.m;
@@ -54,7 +54,7 @@ private:
     //
     int invertibleHash(int x, int p);
     //
-    std::set<minimizer> minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k);
+    std::set<Minimizer> minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k);
 
 };
 

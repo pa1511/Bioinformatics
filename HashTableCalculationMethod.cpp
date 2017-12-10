@@ -30,12 +30,12 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
     //TODO: change so it follows the logic from the text
     //The key is the minimizer hash value and the value is a set of target sequence index, the position of the minimizer and the strand
     
-    std::map<double,bioinformatics::Entry> *hashTable = new std::map<double,bioinformatics::Entry>();
+    std::map<int,bioinformatics::Entry> *hashTable = new std::map<int,bioinformatics::Entry>();
     
     BioSequence *sequence;
     while((sequence = document->getNextSequence())!=NULL){
         
-        std::set<minimizer> minimizerSet = minimizerSketch(sequence,w,k);
+        std::set<Minimizer> minimizerSet = minimizerSketch(sequence,w,k);
         
         for(auto it = minimizerSet.begin(); it!=minimizerSet.end(); it++){
             
@@ -44,7 +44,7 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
             entry.i = it->i;
             entry.r = it->r;
             
-            hashTable->insert(std::pair<double,bioinformatics::Entry>(it->m,entry));
+            hashTable->insert(std::pair<int,bioinformatics::Entry>(it->m,entry));
         }
         
         delete sequence;
@@ -104,6 +104,8 @@ int HashTableCalculationMethod::invertibleHash(int x, int p) {
     x = (~x +(x<<21)) & m;
     x = x^x>>24;
     x = (x+(x<<3)+(x<<8)) & m;
+    x = x^x>>14;
+    x = (x+(x<<2)+(x<<4)) & m;
     x = x^x>>28;
     x = (x+(x<<31)) & m;
     
@@ -111,20 +113,20 @@ int HashTableCalculationMethod::invertibleHash(int x, int p) {
 }
 
 //ALGORITHM 1
-std::set<minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k) {
+std::set<Minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k) {
 
     //TODO: optimize implementation
     
-    std::set<minimizer> M;
+    std::set<Minimizer> M;
     
     std::string* raw_sequence = sequence->getSequence();
     std::string* raw_inv_sequence = sequence->getInvertedSequence();
     
     for(int i=1,limit = sequence->size()-w-k+1; i<limit; i++){
-        double m  = std::numeric_limits<double>::max();
+        int m = std::numeric_limits<int>::max();
         for(int j=0; j<w-1;j++){
-            double u = PHI_function(raw_sequence,i+j,k);
-            double v = PHI_function(raw_inv_sequence,i+j,k);
+            int u = PHI_function(raw_sequence,i+j,k);
+            int v = PHI_function(raw_inv_sequence,i+j,k);
             
             if(u!=v){
                 m = std::min(m,std::min(u,v)); 
@@ -132,11 +134,11 @@ std::set<minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::
         }
         
         for(int j=0; j<w-1; j++){
-            double u = PHI_function(raw_sequence,i+j,k);
-            double v = PHI_function(raw_inv_sequence,i+j,k);
+            int u = PHI_function(raw_sequence,i+j,k);
+            int v = PHI_function(raw_inv_sequence,i+j,k);
 
             if(u<v && u == m){
-                minimizer min;
+                Minimizer min;
                 min.m = m;
                 min.i = i+j;
                 min.r = 0;
@@ -144,7 +146,7 @@ std::set<minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::
                 M.insert(min);
             }
             else if(v<u && v == m){
-                minimizer min;
+                Minimizer min;
                 min.m = m;
                 min.i = i+j;
                 min.r = 1;

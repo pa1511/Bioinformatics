@@ -30,7 +30,7 @@ struct Entry{
     
 class HashTable {
     public:
-        HashTable(std::map<double,bioinformatics::Entry> *hashTableRaw);
+        HashTable(std::map<int,bioinformatics::Entry> *hashTableRaw);
         ~HashTable(); //destruktor
         void save(std::string path);
         
