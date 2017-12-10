@@ -82,14 +82,14 @@ int HashTableCalculationMethod::PHI_function(char b) {
     // G 0x47   0100 0111   3
     // mask     0000 0110
         
-//    if(b=='A')
-//        return 0;
-//    if(b=='C')
-//        return 1;
-//    if(b=='G')
-//        return 2;
-//    if(b=='T')
-//        return 3;
+    //    if(b=='A')
+    //        return 0;
+    //    if(b=='C')
+    //        return 1;
+    //    if(b=='G')
+    //        return 2;
+    //    if(b=='T')
+    //        return 3;
     
     return (b & 0x6) >> 1;
     
