@@ -36,7 +36,7 @@ class HashTable {
         
         static HashTable* load(std::string path);
     private:
-        std::map<double,bioinformatics::Entry> *hashTableRaw;
+        std::map<int,bioinformatics::Entry> *hashTableRaw;
     };
 }
 #endif /* HASHTABLE_H */
