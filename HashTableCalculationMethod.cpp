@@ -40,7 +40,7 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
         for(auto it = minimizerSet.begin(); it!=minimizerSet.end(); it++){
             
             bioinformatics::Entry entry;
-            entry.rawSequence = sequence->getSequence();
+            entry.sequencePosition = sequence->getSequencePosition();
             entry.i = it->i;
             entry.r = it->r;
             

@@ -62,7 +62,9 @@ BioSequence* FastADocument::getNextSequence() {
                     name = input;
                 }
                     
-                sequence = new BioSequence(name,comment);
+                sequence = new BioSequence(name,comment, this->sequencePosition);
+                this->sequencePosition++;
+                
             }
             else if(c==','){
                 continue;

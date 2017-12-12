@@ -14,7 +14,7 @@ using namespace bioinformatics;
 
 char BioSequence::inversion[4] = {'T','G','A','C'};
 
-BioSequence::BioSequence(std::string name,std::string comment):name(name),comment(comment) {
+BioSequence::BioSequence(std::string name,std::string comment,int sequencePosition):name(name),comment(comment),sequencePosition(sequencePosition) {
 }
 
 BioSequence::~BioSequence() {
@@ -49,6 +49,10 @@ std::string* BioSequence::getSequence(){
 
 std::string* BioSequence::getInvertedSequence() {
     return &this->inv_sequence;
+}
+
+int BioSequence::getSequencePosition() {
+    return this->sequencePosition;
 }
 
 std::string BioSequence::calculateInvertedSequence(){

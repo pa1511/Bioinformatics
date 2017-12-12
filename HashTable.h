@@ -21,7 +21,7 @@ namespace bioinformatics {
 
 struct Entry{
 
-    std::string *rawSequence;
+    int sequencePosition;
     int i;
     int r;
     

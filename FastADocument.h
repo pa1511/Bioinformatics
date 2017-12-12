@@ -31,6 +31,7 @@ namespace bioinformatics{
     private:
         std::string document;
         std::ifstream *inputStream;
+        int sequencePosition = 0;
     };
 
 }
