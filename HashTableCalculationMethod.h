@@ -30,8 +30,12 @@ struct Minimizer{
     int r;
     
     bool operator <(const Minimizer& other) const{
-        //TODO: this needs to be implemented properly 
-        //It is needed to place the structure in a set
+        if(this->m==other.m){
+            if(this->i==other.i){
+                return this->r<other.r;
+            }
+            return this->i<other.i;
+        }
         return this->m < other.m;
     }
 

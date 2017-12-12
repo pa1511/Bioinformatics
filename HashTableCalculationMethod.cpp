@@ -30,7 +30,7 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
     // TODO: change so it follows the logic from the text
     // The key is the minimizer hash value and the value is a set of target sequence index, the position of the minimizer and the strand
     
-    std::map<int,bioinformatics::Entry> *hashTable = new std::map<int,bioinformatics::Entry>();
+    std::map<int,std::set<bioinformatics::Entry>> *hashTable = new std::map<int,std::set<bioinformatics::Entry>>();
     
     BioSequence *sequence;
     while((sequence = document->getNextSequence())!=NULL){
@@ -44,7 +44,16 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
             entry.i = it->i;
             entry.r = it->r;
             
-            hashTable->insert(std::pair<int,bioinformatics::Entry>(it->m,entry));
+            std::map<int,std::set<bioinformatics::Entry>>::iterator mapIt = hashTable->find(it->m);
+            if(mapIt!=hashTable->end()){
+                std::set<bioinformatics::Entry>& entrySet = mapIt->second;
+                entrySet.insert(entry);
+            }
+            else{
+                std::set<Entry> entrySet;
+                entrySet.insert(entry);
+                hashTable->insert(std::pair<int,std::set<bioinformatics::Entry>>(it->m,entrySet));
+            }
         }
         
         delete sequence;

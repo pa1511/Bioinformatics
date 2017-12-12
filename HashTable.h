@@ -16,6 +16,7 @@
 
 #include <string>
 #include <map>
+#include <set>
 
 namespace bioinformatics {
 
@@ -25,18 +26,27 @@ struct Entry{
     int i;
     int r;
     
+        bool operator <(const Entry& other) const{
+        if(this->sequencePosition==other.sequencePosition){
+            if(this->i==other.i){
+                return this->r<other.r;
+            }
+            return this->i<other.i;
+        }
+        return this->sequencePosition < other.sequencePosition;
+    }
 };    
     
     
 class HashTable {
     public:
-        HashTable(std::map<int,bioinformatics::Entry> *hashTableRaw);
+        HashTable(std::map<int,std::set<bioinformatics::Entry>> *hashTableRaw);
         ~HashTable(); //destruktor
         void save(std::string path);
         
         static HashTable* load(std::string path);
     private:
-        std::map<int,bioinformatics::Entry> *hashTableRaw;
+        std::map<int,std::set<bioinformatics::Entry>> *hashTableRaw;
     };
 }
 #endif /* HASHTABLE_H */

@@ -15,7 +15,7 @@
 
 using namespace bioinformatics;
 
-HashTable::HashTable(std::map<int,bioinformatics::Entry> *hashTableRaw):hashTableRaw(hashTableRaw){
+HashTable::HashTable(std::map<int,std::set<bioinformatics::Entry>> *hashTableRaw):hashTableRaw(hashTableRaw){
     
 }
 
