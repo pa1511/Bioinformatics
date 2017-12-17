@@ -48,6 +48,7 @@ Contributor(s):
       <itemPath>HashTable.h</itemPath>
       <itemPath>HashTableCalculationMethod.h</itemPath>
       <itemPath>PAF.h</itemPath>
+      <itemPath>QueryMapper.h</itemPath>
       <itemPath>Stopwatch.h</itemPath>
       <itemPath>welcome.h</itemPath>
     </logicalFolder>
@@ -66,6 +67,7 @@ Contributor(s):
       <itemPath>HashTable.cpp</itemPath>
       <itemPath>HashTableCalculationMethod.cpp</itemPath>
       <itemPath>PAF.cpp</itemPath>
+      <itemPath>QueryMapper.cpp</itemPath>
       <itemPath>Stopwatch.cpp</itemPath>
       <itemPath>welcome.cc</itemPath>
     </logicalFolder>
@@ -114,6 +116,10 @@ Contributor(s):
       <item path="PAF.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="PAF.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="QueryMapper.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="QueryMapper.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stopwatch.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -169,6 +175,10 @@ Contributor(s):
       <item path="PAF.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="PAF.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="QueryMapper.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="QueryMapper.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stopwatch.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -39,6 +39,8 @@ int main(int argc, char**argv) {
     std::cout << "Please enter k: ";
     int k;
     std::cin >> k;
+    
+    // TODO: check if k is less than w
 
     //Calculate and save hash table
     FastADocument *fastADoc = new FastADocument(document);    

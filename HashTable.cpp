@@ -29,6 +29,6 @@ void HashTable::save(std::string path) {
 
 
 HashTable* HashTable::load(std::string path) {
-
+    // TODO
 }
 
