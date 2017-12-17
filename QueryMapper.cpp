@@ -13,12 +13,43 @@
 
 #include "QueryMapper.h"
 
-QueryMapper::QueryMapper() {
-}
+using namespace bioinformatics;
 
-QueryMapper::QueryMapper(const QueryMapper& orig) {
+QueryMapper::QueryMapper() {
 }
 
 QueryMapper::~QueryMapper() {
 }
 
+void QueryMapper::mapQuerySequence(HashTable *hashTable, BioSequence *q, int w, int k, int epsilon) {
+    std::vector<ATuple> A;
+    std::map<int,std::set<bioinformatics::Entry>> H = hashTable->getHashTableRaw();
+    
+    HashTableCalculationMethod method;
+    std::set<Minimizer> queryMinimizerSet = method.minimizerSketch(q,w,k);
+    
+    for (auto queryMinIt=queryMinimizerSet.begin(); queryMinIt!=queryMinimizerSet.end(); queryMinIt++) {
+        std::set<bioinformatics::Entry> hashMinimizerSet = H.find(queryMinIt->m)->second;
+        
+        for (auto hashMinIt=hashMinimizerSet.begin(); hashMinIt!=hashMinimizerSet.end(); hashMinIt++) {
+            ATuple tuple;
+            tuple.t = hashMinIt->sequencePosition;
+            tuple.i = hashMinIt->i;
+            
+            if (queryMinIt->r == hashMinIt->r) {
+                tuple.r = 0;
+                tuple.c = queryMinIt->i - hashMinIt->i;
+            }
+            else {
+                tuple.r = 1;
+                tuple.c = queryMinIt->i + hashMinIt->i;
+            }
+            
+            A.push_back(tuple);
+        }
+        
+        std::sort(A.begin(), A.end()); 
+        
+        // TODO: finish this algorithm
+    }
+}

@@ -45,6 +45,7 @@ class HashTable {
         void save(std::string path);
         
         static HashTable* load(std::string path);
+        std::map<int,std::set<bioinformatics::Entry>> getHashTableRaw();
     private:
         std::map<int,std::set<bioinformatics::Entry>> *hashTableRaw;
     };

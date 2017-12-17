@@ -32,3 +32,7 @@ HashTable* HashTable::load(std::string path) {
     // TODO
 }
 
+std::map<int,std::set<bioinformatics::Entry>> HashTable::getHashTableRaw() {
+    return *(this->hashTableRaw);
+}
+
