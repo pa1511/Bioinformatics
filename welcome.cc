@@ -17,31 +17,22 @@ int main(int argc, char**argv);
 //Method implementations
 
 int main(int argc, char**argv) {
+    
+    #if PROGRAM == 1
 
+    std::string document = argv[1];
+    std::string hashDocumentName = argv[2];
+    int w = std::stoi(argv[3]);
+    int k = std::stoi(argv[4]);
+   
+    if (k > w) {
+        return 1;
+    }
+
+    // nema smisla da pocne stopwatch prije nego korisnik unese parametre
     Stopwatch stopwatch;
     stopwatch.start();
     
-    #if PROGRAM == 1
-    
-    //Ask user for input arguments
-    std::cout << "Please enter document name: " ;
-    std::string document;
-    std::cin >> document;
-    
-    std::cout << "Please enter hash table save name: " ;
-    std::string hashDocumentName;
-    std::cin >> hashDocumentName;
-    
-    std:: cout << "Please enter w: ";
-    int w;
-    std::cin >> w;
-    
-    std::cout << "Please enter k: ";
-    int k;
-    std::cin >> k;
-    
-    // TODO: check if k is less than w
-
     //Calculate and save hash table
     FastADocument *fastADoc = new FastADocument(document);    
     HashTableCalculationMethod method;
