@@ -34,40 +34,16 @@ void HashTable::save(std::string path) {
     
     if(hashFile.is_open()) {
         std::string key;
-        std::string value;
+        std::string value1;
         for(auto it=hashTableRaw->begin(); it!=hashTableRaw->end(); it++) {
-            key = std::to_string(it->first);
+            int key = it->first;
             hashFile << "# " << key << std::endl;
             for(auto setit=it->second.begin(); setit!=it->second.end(); setit++) {
-                value.append(std::to_string(setit->sequencePosition));
-                value.append(" ");
-                value.append(std::to_string(setit->i));
-                value.append(" ");
-                value.append(std::to_string(setit->r));
-                hashFile << value;
+                hashFile << setit->sequencePosition << " " << setit->i << " " << setit->r << std::endl;
             }
         }
-        std::cout << "Done." << std::endl ;
+        std::cout << "Saved as \"" << path << "\"" << std::endl ;
     }
-  /*  hashFile.open(path, std::ios::out | std::ios::binary);
-    
-    char buff[1024];
-    if(hashFile.is_open()) {
-        std::string key;
-        for(auto it=hashTableRaw->begin(); it!=hashTableRaw->end(); it++) {
-            key = std::to_string(it->first);
-            std::strncpy(buff, key.c_str(), sizeof(buff));
-            buff[sizeof(buff) - 1] = 0;
-            hashFile.write(buff, sizeof(buff));
-            
-            std::cout << "Key: " << it->first << std::endl;
-            for(auto setit=it->second.begin(); setit!=it->second.end(); setit++) {
-//                std::cout << setit->i << std::endl;
-            }
-        }
-        std::cout << "Done." << std::endl ;
-    }*/
-    
     hashFile.close();
 }
 
