@@ -58,12 +58,10 @@ HashTable* HashTable::load(std::string path) {
     hashFile.open(path, std::ios::in);
     std::string line;
     std::string key;
-    std::string value;
     if(hashFile.is_open()) {
         while(getline(hashFile,line)) {
-            std::string pom = line.substr(0, 1);
-            // first char of the string is a # -> key
-            if(pom == "#") {
+            // if the first char of the string is a # -> it's a key
+            if(line.at(0) == '#') {
                 key = line.substr(2);
             } else {
                 std::istringstream iss(line);
