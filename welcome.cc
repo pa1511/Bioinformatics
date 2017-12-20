@@ -38,6 +38,11 @@ int main(int argc, char**argv) {
     HashTableCalculationMethod method;
     HashTable *hashTable = method.calculate(fastADoc,w,k);     
     hashTable->save(hashDocumentName);
+   
+    // test usporedbe
+//    HashTable *load_test;
+//    load_test = HashTable::load("hash_example");
+//    load_test->save("usporedba");
         
     #elif PROGRAM == 2
     

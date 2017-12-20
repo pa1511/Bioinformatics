@@ -14,6 +14,9 @@
 #include <fstream>
 #include <cstring>
 #include <iostream>
+#include <sstream>
+#include <iterator>
+#include <algorithm>
 
 #include "HashTable.h"
 
@@ -49,7 +52,43 @@ void HashTable::save(std::string path) {
 
 
 HashTable* HashTable::load(std::string path) {
-    // TODO
+    std::map<int,std::set<bioinformatics::Entry>> *hashTable = new std::map<int,std::set<bioinformatics::Entry>>();
+    std::ifstream hashFile;
+    
+    hashFile.open(path, std::ios::in);
+    std::string line;
+    std::string key;
+    std::string value;
+    if(hashFile.is_open()) {
+        while(getline(hashFile,line)) {
+            std::string pom = line.substr(0, 1);
+            // first char of the string is a # -> key
+            if(pom == "#") {
+                key = line.substr(2);
+            } else {
+                std::istringstream iss(line);
+                std::vector<std::string> results((std::istream_iterator<std::string>(iss)),
+                        std::istream_iterator<std::string>());
+                
+                bioinformatics::Entry entry;
+                entry.sequencePosition = std::stoi(results[0]);
+                entry.i = std::stoi(results[1]);
+                entry.r = std::stoi(results[2]);
+
+                std::map<int,std::set<bioinformatics::Entry>>::iterator mapIt = hashTable->find(std::stoi(key));
+                if(mapIt!=hashTable->end()){
+                    std::set<bioinformatics::Entry>& entrySet = mapIt->second;
+                    entrySet.insert(entry);
+                }
+                else{
+                    std::set<Entry> entrySet;
+                    entrySet.insert(entry);
+                    hashTable->insert(std::pair<int,std::set<bioinformatics::Entry>>(std::stoi(key),entrySet));
+                }
+            }
+        }
+    }
+    return new HashTable(hashTable);
 }
 
 std::map<int,std::set<bioinformatics::Entry>> HashTable::getHashTableRaw() {
