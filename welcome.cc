@@ -6,6 +6,7 @@
 #include "FastADocument.h"
 #include "HashTable.h"
 #include "HashTableCalculationMethod.h"
+#include "QueryMapper.h"
 
 #define PROGRAM 1
 
@@ -36,9 +37,19 @@ int main(int argc, char**argv) {
     // Calculate and save hash table
     FastADocument *fastADoc = new FastADocument(document);    
     HashTableCalculationMethod method;
-    HashTable *hashTable = method.calculate(fastADoc,w,k);     
+    HashTable *hashTable = method.calculate(fastADoc, w, k);     
     hashTable->save(hashDocumentName);
-   
+    
+    // Map query sequences to the hash table
+    int const epsilon = 500;
+    FastADocument *queryFastADoc = new FastADocument(document);
+    QueryMapper queryMapper;
+    
+    BioSequence* querySequence;
+    while ((querySequence = queryFastADoc->getNextSequence()) != NULL) {
+        queryMapper.mapQuerySequence(hashTable, querySequence, w, k, epsilon);
+    }
+    
     // test usporedbe
     // HashTable *load_test;
     // load_test = HashTable::load("hash_example");

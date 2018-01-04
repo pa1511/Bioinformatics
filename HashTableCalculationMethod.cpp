@@ -33,7 +33,7 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
     std::map<int,std::set<bioinformatics::Entry>> *hashTable = new std::map<int,std::set<bioinformatics::Entry>>();
     
     BioSequence *sequence;
-    while ((sequence = document->getNextSequence())!=NULL) {
+    while ((sequence = document->getNextSequence()) != NULL) {
         
         std::set<Minimizer> minimizerSet = minimizerSketch(sequence,w,k);
         
