@@ -17,7 +17,7 @@
 #include <limits.h>
 #include <algorithm>
 
-int HashTableCalculationMethod::PHI_VALUE[] = {0,1,3,2};
+int HashTableCalculationMethod::PHI_VALUE[] = {0, 1, 3, 2};
 
 HashTableCalculationMethod::HashTableCalculationMethod() {
 }
@@ -33,11 +33,11 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
     std::map<int,std::set<bioinformatics::Entry>> *hashTable = new std::map<int,std::set<bioinformatics::Entry>>();
     
     BioSequence *sequence;
-    while((sequence = document->getNextSequence())!=NULL){
+    while ((sequence = document->getNextSequence())!=NULL) {
         
         std::set<Minimizer> minimizerSet = minimizerSketch(sequence,w,k);
         
-        for(auto it = minimizerSet.begin(); it!=minimizerSet.end(); it++){
+        for (auto it = minimizerSet.begin(); it != minimizerSet.end(); it++) {
             
             bioinformatics::Entry entry;
             entry.sequencePosition = sequence->getSequencePosition();
@@ -45,14 +45,13 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
             entry.r = it->r;
             
             std::map<int,std::set<bioinformatics::Entry>>::iterator mapIt = hashTable->find(it->m);
-            if(mapIt!=hashTable->end()){
+            if (mapIt != hashTable->end()) {
                 std::set<bioinformatics::Entry>& entrySet = mapIt->second;
                 entrySet.insert(entry);
-            }
-            else{
+            } else {
                 std::set<Entry> entrySet;
                 entrySet.insert(entry);
-                hashTable->insert(std::pair<int,std::set<bioinformatics::Entry>>(it->m,entrySet));
+                hashTable->insert(std::pair<int, std::set<bioinformatics::Entry>>(it->m, entrySet));
             }
         }
         
@@ -63,21 +62,19 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
 }
 
 std::string* HashTableCalculationMethod::PI_function(bioinformatics::BioSequence* biosequence, int r) {
-    if(r==0)
+    if(r == 0) {
         return biosequence->getSequence();
-    
-    if(r==1)
+    } else if(r == 1) {
         return biosequence->getInvertedSequence();
-    
+    }
     throw "r was different from 0 and 1";
 }
 
 int HashTableCalculationMethod::PHI_function(std::string *seqence, int startIndex, int k) {
-
     int hashValue = 0;
     
-    for(int i=0; i<k; i++){
-        hashValue += powf(4.0,k-i-1)*PHI_function((*seqence)[startIndex+i]);
+    for (int i = 0; i < k; i++){
+        hashValue += powf(4.0, k-i-1) * PHI_function((*seqence)[startIndex + i]);
     }
     
     return hashValue;
@@ -91,14 +88,15 @@ int HashTableCalculationMethod::PHI_function(char b) {
     // G 0x47   0100 0111   3
     // mask     0000 0110
         
-    //    if(b=='A')
-    //        return 0;
-    //    if(b=='C')
-    //        return 1;
-    //    if(b=='G')
-    //        return 2;
-    //    if(b=='T')
-    //        return 3;
+    // if (b == 'A') {
+    //     return 0;
+    // } else if (b == 'C') {
+    //     return 1;
+    // } else if (b == 'G') {
+    //     return 2;
+    // } else if (b == 'T') {
+    //     return 3;
+    // }
     
     return (b & 0x6) >> 1;
     
@@ -110,13 +108,13 @@ int HashTableCalculationMethod::PHI_function(char b) {
 int HashTableCalculationMethod::invertibleHash(int x, int p) {
 
     int m = 0x1 << p -1;
-    x = (~x +(x<<21)) & m;
-    x = x^x>>24;
-    x = (x+(x<<3)+(x<<8)) & m;
-    x = x^x>>14;
-    x = (x+(x<<2)+(x<<4)) & m;
-    x = x^x>>28;
-    x = (x+(x<<31)) & m;
+    x = (~x + (x << 21)) & m;
+    x = x^x >> 24;
+    x = (x + (x << 3) + (x << 8)) & m;
+    x = x^x >> 14;
+    x = (x +(x << 2) + (x << 4)) & m;
+    x = x^x >> 28;
+    x = (x + (x << 31)) & m;
     
     return x;
 }
@@ -131,33 +129,32 @@ std::set<Minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::
     std::string* raw_sequence = sequence->getSequence();
     std::string* raw_inv_sequence = sequence->getInvertedSequence();
     
-    for(int i=1,limit = sequence->size()-w-k+1; i<limit; i++){
+    for (int i = 1, limit = sequence->size()- w-k+1; i < limit; i++) {
         int m = std::numeric_limits<int>::max();
-        for(int j=0; j<w-1;j++){
-            int u = PHI_function(raw_sequence,i+j,k);
-            int v = PHI_function(raw_inv_sequence,i+j,k);
+        for (int j = 0; j < w-1; j++) {
+            int u = PHI_function(raw_sequence, i + j, k);
+            int v = PHI_function(raw_inv_sequence, i + j, k);
             
-            if(u!=v){
-                m = std::min(m,std::min(u,v)); 
+            if (u != v) {
+                m = std::min(m,std::min(u, v)); 
             }
         }
         
-        for(int j=0; j<w-1; j++){
-            int u = PHI_function(raw_sequence,i+j,k);
-            int v = PHI_function(raw_inv_sequence,i+j,k);
+        for (int j = 0; j < w-1; j++) {
+            int u = PHI_function(raw_sequence, i + j, k);
+            int v = PHI_function(raw_inv_sequence, i + j, k);
 
-            if(u<v && u == m){
+            if (u < v && u == m) {
                 Minimizer min;
                 min.m = m;
-                min.i = i+j;
+                min.i = i + j;
                 min.r = 0;
                 
                 M.insert(min);
-            }
-            else if(v<u && v == m){
+            } else if (v < u && v == m) {
                 Minimizer min;
                 min.m = m;
-                min.i = i+j;
+                min.i = i + j;
                 min.r = 1;
                 
                 M.insert(min);

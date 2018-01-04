@@ -11,16 +11,15 @@
 
 using namespace bioinformatics;
 
+char BioSequence::inversion[4] = {'T', 'G', 'A', 'C'};
 
-char BioSequence::inversion[4] = {'T','G','A','C'};
-
-BioSequence::BioSequence(std::string name,std::string comment,int sequencePosition):name(name),comment(comment),sequencePosition(sequencePosition) {
+BioSequence::BioSequence(std::string name, std::string comment, int sequencePosition):name(name),comment(comment),sequencePosition(sequencePosition) {
 }
 
 BioSequence::~BioSequence() {
 }
 
-void BioSequence::setSequence(std::string sequence){
+void BioSequence::setSequence(std::string sequence) {
     this->sequence = sequence;
     this->inv_sequence = calculateInvertedSequence();
 }
@@ -31,11 +30,11 @@ void BioSequence::appeandSequence(std::string sequence) {
 }
 
 
-std::string BioSequence::getName(){
+std::string BioSequence::getName() {
     return this->name;
 }
 
-std::string BioSequence::getComment(){
+std::string BioSequence::getComment() {
     return this->comment;
 }
 
@@ -43,7 +42,7 @@ int BioSequence::size() {
     return this->sequence.size();
 }
 
-std::string* BioSequence::getSequence(){
+std::string* BioSequence::getSequence() {
     return &this->sequence;
 }
 
@@ -55,13 +54,13 @@ int BioSequence::getSequencePosition() {
     return this->sequencePosition;
 }
 
-std::string BioSequence::calculateInvertedSequence(){
-    //create a copy of the sequence
-    std::string inverted(this->sequence.size(),'0');
+std::string BioSequence::calculateInvertedSequence() {
+    // create a copy of the sequence
+    std::string inverted(this->sequence.size(), '0');
         
-    //change sequence bases
-    for(int i=0,size=inverted.size();i<size;i++){
-        char c = this->sequence[size-i-1];
+    // change sequence bases
+    for (int i = 0, size = inverted.size(); i < size; i++) {
+        char c = this->sequence[size - i - 1];
         inverted[i] = this->invert(c);
     }
         
@@ -69,20 +68,17 @@ std::string BioSequence::calculateInvertedSequence(){
 }
 
 inline char BioSequence::invert(char c) {
-//    if(c=='A'){
-//        c = 'T';
-//    }
-//    else if(c=='C'){
-//        c = 'G';
-//    }
-//    else if(c=='G'){
-//        c = 'C';
-//    }
-//    else if(c=='T'){
-//        c = 'A';
-//    }
-//
-//    return c;
+    // if (c == 'A') {
+    //     c = 'T';
+    // } else if (c == 'C') {
+    //     c = 'G';
+    // } else if (c == 'G') {
+    //     c = 'C';
+    // } else if (c == 'T') {
+    //     c = 'A';
+    // }
+    //
+    // return c;
 
     // Faster inversion will not work if any other character appears
     
@@ -92,14 +88,14 @@ inline char BioSequence::invert(char c) {
     // G 0x47   0100 0111   3
     // mask     0000 0110
 
-//    faster inversion 1
-//    char mask = (0x2 ^ c) & 0x2;
-//    mask = 0x4 | (mask<<3) | (mask>>1);
-//    c = c ^ mask;
-//    return c;
+    // Faster inversion 1
+    // char mask = (0x2 ^ c) & 0x2;
+    // mask = 0x4 | (mask << 3) | (mask >> 1);
+    // c = c ^ mask;
+    // return c;
 
     
-//    faster inversion 2
+    // Faster inversion 2
     int id = (c & 0x6) >> 1;
     return BioSequence::inversion[id];
 }

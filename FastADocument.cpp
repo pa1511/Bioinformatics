@@ -24,7 +24,7 @@ FastADocument::~FastADocument() {
     delete inputStream;
 }
 
-std::string FastADocument::getDocumentName(){
+std::string FastADocument::getDocumentName() {
     return this->document;
 }
 
@@ -35,45 +35,41 @@ std::string FastADocument::getDocumentName(){
 BioSequence* FastADocument::getNextSequence() {
     BioSequence *sequence = NULL;
     
-    if(inputStream->is_open()){
+    if (inputStream->is_open()) {
         
         char c;
         std::string input;
         
-        while((c =inputStream->peek())!=EOF){
+        while ((c = inputStream->peek()) != EOF) {
             
             //we see the start of the next sequence
-            if(c=='>' && sequence!=NULL)
+            if (c == '>' && sequence != NULL) {
                 break;
-            
+            }
             //read line
-            std::getline(*inputStream,input);
+            std::getline(*inputStream, input);
             
-            if(c=='>'){               
+            if (c == '>') {               
                 std::string name;
                 std::string comment;
                 
                 std::size_t firstEmptySpacePosition = input.find(" ");
-                if (firstEmptySpacePosition!=std::string::npos){
-                    name = input.substr(0,firstEmptySpacePosition);
+                if (firstEmptySpacePosition != std::string::npos) {
+                    name = input.substr(0, firstEmptySpacePosition);
                     comment = input.substr(firstEmptySpacePosition);
-                }
-                else{
+                } else {
                     name = input;
                 }
                     
-                sequence = new BioSequence(name,comment, this->sequencePosition);
+                sequence = new BioSequence(name, comment, this->sequencePosition);
                 this->sequencePosition++;
                 
-            }
-            else if(c==','){
+            } else if (c == ',') {
                 continue;
-            }
-            else{
+            } else {
                 sequence->appeandSequence(input);
             }
-        }
-                
+        }      
     }
     
     return sequence;

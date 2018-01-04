@@ -10,15 +10,15 @@
 
 #include <string>
 
-namespace bioinformatics{
+namespace bioinformatics {
 
-    class BioSequence {
+class BioSequence {
     public:
         static char inversion[4];
 
-        BioSequence(std::string name,std::string comment,int sequencePosition);
+        BioSequence(std::string name, std::string comment, int sequencePosition);
         ~BioSequence();
-        
+
         void setSequence(std::string sequence);
         void appeandSequence(std::string sequence);
 
@@ -28,20 +28,17 @@ namespace bioinformatics{
         std::string *getSequence();
         std::string *getInvertedSequence();
         int getSequencePosition();
-                
+
     private:
-    
         std::string calculateInvertedSequence();
         inline char invert(char c);
-        
-        
+
         std::string name;
         std::string comment;
         std::string sequence;
         std::string inv_sequence;   
         int sequencePosition;
-    };
-    
+}; 
 }
 
 #endif /* BIOSEQUENCE_H */

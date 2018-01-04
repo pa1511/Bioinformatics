@@ -22,8 +22,7 @@
 
 using namespace bioinformatics;
 
-HashTable::HashTable(std::map<int,std::set<bioinformatics::Entry>> *hashTableRaw):hashTableRaw(hashTableRaw){
-    
+HashTable::HashTable(std::map<int, std::set<bioinformatics::Entry>> *hashTableRaw):hashTableRaw(hashTableRaw) {
 }
 
 HashTable::~HashTable() {
@@ -35,13 +34,15 @@ void HashTable::save(std::string path) {
     
     hashFile.open(path, std::ios::out);
     
-    if(hashFile.is_open()) {
+    if (hashFile.is_open()) {
         std::string key;
         std::string value1;
-        for(auto it=hashTableRaw->begin(); it!=hashTableRaw->end(); it++) {
+        
+        for (auto it = hashTableRaw->begin(); it!=hashTableRaw->end(); it++) {
             int key = it->first;
             hashFile << "# " << key << std::endl;
-            for(auto setit=it->second.begin(); setit!=it->second.end(); setit++) {
+            
+            for (auto setit = it->second.begin(); setit != it->second.end(); setit++) {
                 hashFile << setit->sequencePosition << " " << setit->i << " " << setit->r << std::endl;
             }
         }
@@ -52,36 +53,35 @@ void HashTable::save(std::string path) {
 
 
 HashTable* HashTable::load(std::string path) {
-    std::map<int,std::set<bioinformatics::Entry>> *hashTable = new std::map<int,std::set<bioinformatics::Entry>>();
+    std::map<int, std::set<bioinformatics::Entry>> *hashTable = new std::map<int,std::set<bioinformatics::Entry>>();
     std::ifstream hashFile;
     
     hashFile.open(path, std::ios::in);
     std::string line;
     std::string key;
-    if(hashFile.is_open()) {
-        while(getline(hashFile,line)) {
+    if (hashFile.is_open()) {
+        while (getline(hashFile, line)) {
             // if the first char of the string is a # -> it's a key
-            if(line.at(0) == '#') {
+            if (line.at(0) == '#') {
                 key = line.substr(2);
             } else {
                 std::istringstream iss(line);
                 std::vector<std::string> results((std::istream_iterator<std::string>(iss)),
-                        std::istream_iterator<std::string>());
+                                                  std::istream_iterator<std::string>());
                 
                 bioinformatics::Entry entry;
                 entry.sequencePosition = std::stoi(results[0]);
                 entry.i = std::stoi(results[1]);
                 entry.r = std::stoi(results[2]);
 
-                std::map<int,std::set<bioinformatics::Entry>>::iterator mapIt = hashTable->find(std::stoi(key));
-                if(mapIt!=hashTable->end()){
+                std::map<int, std::set<bioinformatics::Entry>>::iterator mapIt = hashTable->find(std::stoi(key));
+                if (mapIt != hashTable->end()) {
                     std::set<bioinformatics::Entry>& entrySet = mapIt->second;
                     entrySet.insert(entry);
-                }
-                else{
+                } else {
                     std::set<Entry> entrySet;
                     entrySet.insert(entry);
-                    hashTable->insert(std::pair<int,std::set<bioinformatics::Entry>>(std::stoi(key),entrySet));
+                    hashTable->insert(std::pair<int, std::set<bioinformatics::Entry>>(std::stoi(key), entrySet));
                 }
             }
         }
@@ -89,7 +89,7 @@ HashTable* HashTable::load(std::string path) {
     return new HashTable(hashTable);
 }
 
-std::map<int,std::set<bioinformatics::Entry>> HashTable::getHashTableRaw() {
+std::map<int, std::set<bioinformatics::Entry>> HashTable::getHashTableRaw() {
     return *(this->hashTableRaw);
 }
 

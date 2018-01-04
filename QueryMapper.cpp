@@ -23,15 +23,15 @@ QueryMapper::~QueryMapper() {
 
 void QueryMapper::mapQuerySequence(HashTable *hashTable, BioSequence *q, int w, int k, int epsilon) {
     std::vector<ATuple> A;
-    std::map<int,std::set<bioinformatics::Entry>> H = hashTable->getHashTableRaw();
+    std::map<int, std::set<bioinformatics::Entry>> H = hashTable->getHashTableRaw();
     
     HashTableCalculationMethod method;
-    std::set<Minimizer> queryMinimizerSet = method.minimizerSketch(q,w,k);
+    std::set<Minimizer> queryMinimizerSet = method.minimizerSketch(q, w, k);
     
-    for (auto queryMinIt=queryMinimizerSet.begin(); queryMinIt!=queryMinimizerSet.end(); queryMinIt++) {
+    for (auto queryMinIt = queryMinimizerSet.begin(); queryMinIt != queryMinimizerSet.end(); queryMinIt++) {
         std::set<bioinformatics::Entry> hashMinimizerSet = H.find(queryMinIt->m)->second;
         
-        for (auto hashMinIt=hashMinimizerSet.begin(); hashMinIt!=hashMinimizerSet.end(); hashMinIt++) {
+        for (auto hashMinIt = hashMinimizerSet.begin(); hashMinIt != hashMinimizerSet.end(); hashMinIt++) {
             ATuple tuple;
             tuple.t = hashMinIt->sequencePosition;
             tuple.i = hashMinIt->i;
@@ -39,8 +39,7 @@ void QueryMapper::mapQuerySequence(HashTable *hashTable, BioSequence *q, int w, 
             if (queryMinIt->r == hashMinIt->r) {
                 tuple.r = 0;
                 tuple.c = queryMinIt->i - hashMinIt->i;
-            }
-            else {
+            } else {
                 tuple.r = 1;
                 tuple.c = queryMinIt->i + hashMinIt->i;
             }
@@ -53,14 +52,16 @@ void QueryMapper::mapQuerySequence(HashTable *hashTable, BioSequence *q, int w, 
         int b = 0;
         int ALength = A.size();
         
-        for (auto e=0; e<ALength; e++) {
-           if (e == ALength - 1
-                   or A.at(e+1).t != A.at(e).t
-                   or A.at(e+1).r != A.at(e).r
-                   or A.at(e+1).c - A.at(e).c >= epsilon) {
+        for (auto e = 0; e < ALength; e++) {
+           if (e == ALength - 1 or
+               A.at(e + 1).t != A.at(e).t or
+               A.at(e + 1).r != A.at(e).r or
+               A.at(e + 1).c - A.at(e).c >= epsilon) {
+               
                // TODO: finish this algorithm
                // C = maximal colinear subset
                // print the left-most and right-most query/target positions in C
+               
                b = e + 1;
            }
         }

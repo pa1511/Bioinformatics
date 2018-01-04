@@ -18,22 +18,21 @@
 #include <vector>
 #include "BioSequence.h"
 
-namespace bioinformatics{
+namespace bioinformatics {
 
-    class FastADocument {
+class FastADocument {
     public:
         FastADocument(std::string documentLocation);
         ~FastADocument();
-        
+
         std::string getDocumentName();
         BioSequence* getNextSequence();
-        
+
     private:
         std::string document;
         std::ifstream *inputStream;
         int sequencePosition = 0;
-    };
-
+};
 }
 
 #endif /* FASTADOCUMENT_H */

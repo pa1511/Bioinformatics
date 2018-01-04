@@ -29,20 +29,20 @@ int main(int argc, char**argv) {
         return 1;
     }
 
-    // nema smisla da pocne stopwatch prije nego korisnik unese parametre
+    // Start stopwatch after user inputs the parameters
     Stopwatch stopwatch;
     stopwatch.start();
     
-    //Calculate and save hash table
+    // Calculate and save hash table
     FastADocument *fastADoc = new FastADocument(document);    
     HashTableCalculationMethod method;
     HashTable *hashTable = method.calculate(fastADoc,w,k);     
     hashTable->save(hashDocumentName);
    
     // test usporedbe
-//    HashTable *load_test;
-//    load_test = HashTable::load("hash_example");
-//    load_test->save("usporedba");
+    // HashTable *load_test;
+    // load_test = HashTable::load("hash_example");
+    // load_test->save("usporedba");
         
     #elif PROGRAM == 2
     

@@ -24,17 +24,17 @@
 
 using namespace bioinformatics;
 
-struct Minimizer{
+struct Minimizer {
     int m;
     int i;
     int r;
     
-    bool operator <(const Minimizer& other) const{
-        if(this->m==other.m){
-            if(this->i==other.i){
-                return this->r<other.r;
+    bool operator <(const Minimizer& other) const {
+        if (this->m == other.m) {
+            if (this->i == other.i) {
+                return this->r < other.r;
             }
-            return this->i<other.i;
+            return this->i < other.i;
         }
         return this->m < other.m;
     }
@@ -42,24 +42,20 @@ struct Minimizer{
 };
 
 class HashTableCalculationMethod {
-public:
-    static int PHI_VALUE[4];
-    
-    HashTableCalculationMethod();
-    ~HashTableCalculationMethod();
+    public:
+        static int PHI_VALUE[4];
 
-    HashTable* calculate(FastADocument* document, int w, int k);
-    std::set<Minimizer> minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k);
-    
-private:
-    std::string* PI_function(bioinformatics::BioSequence *biosequence,int r);
-    //
-    int PHI_function(std::string *seqence,int startIndex, int k);
-    int PHI_function(char b);
-    //
-    int invertibleHash(int x, int p);
-    //
+        HashTableCalculationMethod();
+        ~HashTableCalculationMethod();
 
+        HashTable* calculate(FastADocument* document, int w, int k);
+        std::set<Minimizer> minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k);
+
+    private:
+        std::string* PI_function(bioinformatics::BioSequence *biosequence, int r);
+        int PHI_function(std::string *seqence, int startIndex, int k);
+        int PHI_function(char b);
+        int invertibleHash(int x, int p);
 };
 
 #endif /* HASHTABLECALCULATIONMETHOD_H */

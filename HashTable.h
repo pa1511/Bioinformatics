@@ -21,18 +21,18 @@
 
 namespace bioinformatics {
 
-struct Entry{
+struct Entry {
 
     int sequencePosition;
     int i;
     int r;
     
-        bool operator <(const Entry& other) const{
-        if(this->sequencePosition==other.sequencePosition){
-            if(this->i==other.i){
-                return this->r<other.r;
+    bool operator <(const Entry& other) const {
+        if (this->sequencePosition == other.sequencePosition) {
+            if (this->i == other.i) {
+                return this->r < other.r;
             }
-            return this->i<other.i;
+            return this->i < other.i;
         }
         return this->sequencePosition < other.sequencePosition;
     }
@@ -41,15 +41,16 @@ struct Entry{
     
 class HashTable {
     public:
-        HashTable(std::map<int,std::set<bioinformatics::Entry>> *hashTableRaw);
-        ~HashTable(); //destruktor
+        HashTable(std::map<int, std::set<bioinformatics::Entry>> *hashTableRaw);
+        ~HashTable();
         void save(std::string path);
         
         static HashTable* load(std::string path);
-        std::map<int,std::set<bioinformatics::Entry>> getHashTableRaw();
+        std::map<int, std::set<bioinformatics::Entry>> getHashTableRaw();
     private:
-        std::map<int,std::set<bioinformatics::Entry>> *hashTableRaw;
+        std::map<int, std::set<bioinformatics::Entry>> *hashTableRaw;
     };
 }
+
 #endif /* HASHTABLE_H */
 

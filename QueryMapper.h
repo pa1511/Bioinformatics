@@ -23,35 +23,34 @@
 
 using namespace bioinformatics;
 
-struct ATuple{
-
+struct ATuple {
     int t;
     int r;
     int c;
     int i;
     
-        bool operator <(const ATuple& other) const{
-        if(this->t==other.t){
-            if(this->r==other.r){
-                if (this->c==other.c){
-                    return this->i<other.i;
+    bool operator <(const ATuple& other) const {
+        if (this->t == other.t) {
+            if(this->r == other.r) {
+                if (this->c == other.c) {
+                    return this->i < other.i;
                 }
-                return this->c<other.c;
+                return this->c < other.c;
             }
-            return this->r<other.r;
+            return this->r < other.r;
         }
         return this->t < other.t;
     }
 }; 
 
 class QueryMapper {
-public:
-    QueryMapper();
-    ~QueryMapper();
-    
-    void mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, int epsilon);
-private:
+    public:
+        QueryMapper();
+        ~QueryMapper();
 
+        void mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, int epsilon);
+        
+    private:
 };
 
 #endif /* QUERYMAPPER_H */
