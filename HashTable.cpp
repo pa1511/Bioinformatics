@@ -35,6 +35,8 @@ void HashTable::save(std::string path) {
     hashFile.open(path, std::ios::out);
     
     if (hashFile.is_open()) {
+        std::cout << "Saving hash table..." << std::endl;
+        
         std::string key;
         std::string value1;
         
@@ -46,7 +48,7 @@ void HashTable::save(std::string path) {
                 hashFile << setit->sequencePosition << " " << setit->i << " " << setit->r << std::endl;
             }
         }
-        std::cout << "Saved as \"" << path << "\"" << std::endl ;
+        std::cout << "Saved as \"" << path << "\"" << std::endl;
     }
     hashFile.close();
 }
@@ -87,6 +89,53 @@ HashTable* HashTable::load(std::string path) {
         }
     }
     return new HashTable(hashTable);
+}
+
+HashTable* HashTable::loadWithM(std::string path, int m) {
+    std::map<int, std::set<bioinformatics::Entry>> *hashTable = new std::map<int,std::set<bioinformatics::Entry>>();
+    std::ifstream hashFile;
+    
+    hashFile.open(path, std::ios::in);
+    std::string line;
+    std::string key;
+    if (hashFile.is_open()) {
+        while (getline(hashFile, line)) {
+            // if the first char of the string is a # -> it's a key
+            if (line.at(0) == '#') {
+                key = line.substr(2);
+            } else {
+                std::istringstream iss(line);
+                std::vector<std::string> results((std::istream_iterator<std::string>(iss)),
+                                                  std::istream_iterator<std::string>());
+                
+                bioinformatics::Entry entry;
+                
+                if (std::stoi(results[0]) > m) break;
+                if (std::stoi(results[0]) != m) continue;
+                
+                entry.sequencePosition = std::stoi(results[0]);
+                entry.i = std::stoi(results[1]);
+                entry.r = std::stoi(results[2]);
+
+                std::map<int, std::set<bioinformatics::Entry>>::iterator mapIt = hashTable->find(std::stoi(key));
+                if (mapIt != hashTable->end()) {
+                    std::set<bioinformatics::Entry>& entrySet = mapIt->second;
+                    entrySet.insert(entry);
+                } else {
+                    std::set<Entry> entrySet;
+                    entrySet.insert(entry);
+                    hashTable->insert(std::pair<int, std::set<bioinformatics::Entry>>(std::stoi(key), entrySet));
+                }
+            }
+        }
+    }
+    return new HashTable(hashTable);
+}
+
+void HashTable::empty() {
+    std::cout << "Deleting hash table from memory..." << std::endl;
+    this->hashTableRaw->clear();
+    std::cout << "Hash table deleted from memory" << std::endl;
 }
 
 std::map<int, std::set<bioinformatics::Entry>> HashTable::getHashTableRaw() {
