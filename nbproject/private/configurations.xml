@@ -52,8 +52,6 @@ Contributor(s):
         <gdb_interceptlist>
           <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
         </gdb_interceptlist>
-        <gdb_signals>
-        </gdb_signals>
         <gdb_options>
           <DebugOptions>
           </DebugOptions>
@@ -67,8 +65,11 @@ Contributor(s):
         <runcommandpicklist>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" "arg 1" "arg 2" "arg 3" "arg 4"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" "lambda_reads.fasta" "out-hash.txt" "5" "2"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" "ecoli-reads.fasta" "out-hash.txt" "5" "2"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" "ecoli_reads.fasta" "out-hash.txt" "5" "2"</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" "arg 1" "arg 2" "arg 3" "arg 4"</runcommand>
+        <runcommand>"${OUTPUT_PATH}" "ecoli_reads.fasta" "out-hash.txt" "5" "2"</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <console-type>2</console-type>
