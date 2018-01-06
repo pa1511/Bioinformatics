@@ -41,16 +41,15 @@ struct Entry {
     
 class HashTable {
     public:
-        HashTable(std::map<int, std::set<bioinformatics::Entry>> *hashTableRaw);
+        HashTable(std::map<int, std::set<bioinformatics::Entry>*> *hashTableRaw);
         ~HashTable();
         void save(std::string path);
         void empty();
         
         static HashTable* load(std::string path);
-        static HashTable* loadWithM(std::string path, int m);
-        std::map<int, std::set<bioinformatics::Entry>> getHashTableRaw();
+        std::map<int, std::set<bioinformatics::Entry>*> getHashTableRaw();
     private:
-        std::map<int, std::set<bioinformatics::Entry>> *hashTableRaw;
+        std::map<int, std::set<bioinformatics::Entry>*> *hashTableRaw;
     };
 }
 

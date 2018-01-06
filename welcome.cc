@@ -40,8 +40,6 @@ int main(int argc, char**argv) {
     HashTable *hashTable = method.calculate(fastADoc, w, k);
     
     hashTable->save(hashDocumentName);
-    hashTable->empty();
-    
     delete fastADoc;
     
     // Map query sequences to the hash table

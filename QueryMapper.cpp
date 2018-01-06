@@ -23,18 +23,15 @@ QueryMapper::~QueryMapper() {
 
 void QueryMapper::mapQuerySequence(HashTable *hashTable, BioSequence *q, int w, int k, int epsilon) {
     std::vector<ATuple> A;
-    // std::map<int, std::set<bioinformatics::Entry>> H = hashTable->getHashTableRaw();
+    std::map<int, std::set<bioinformatics::Entry>*> H = hashTable->getHashTableRaw();
     
     HashTableCalculationMethod method;
-    std::set<Minimizer> queryMinimizerSet = method.minimizerSketch(q, w, k);
+    std::set<Minimizer>* queryMinimizerSet = method.minimizerSketch(q, w, k);
     
-    for (auto queryMinIt = queryMinimizerSet.begin(); queryMinIt != queryMinimizerSet.end(); queryMinIt++) {
-        HashTable* hashTableLoaded = HashTable::loadWithM("hash_example", queryMinIt->m);
-        std::map<int, std::set<bioinformatics::Entry>> H = hashTableLoaded->getHashTableRaw();
+    for (auto queryMinIt = queryMinimizerSet->begin(); queryMinIt != queryMinimizerSet->end(); queryMinIt++) {
+        std::set<bioinformatics::Entry>* hashMinimizerSet = H.find(queryMinIt->m)->second;
         
-        std::set<bioinformatics::Entry> hashMinimizerSet = H.find(queryMinIt->m)->second;
-        
-        for (auto hashMinIt = hashMinimizerSet.begin(); hashMinIt != hashMinimizerSet.end(); hashMinIt++) {
+        for (auto hashMinIt = hashMinimizerSet->begin(); hashMinIt != hashMinimizerSet->end(); hashMinIt++) {
             ATuple tuple;
             tuple.t = hashMinIt->sequencePosition;
             tuple.i = hashMinIt->i;

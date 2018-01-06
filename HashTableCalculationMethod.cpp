@@ -30,31 +30,32 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
     // TODO: change so it follows the logic from the text
     // The key is the minimizer hash value and the value is a set of target sequence index, the position of the minimizer and the strand
     
-    std::map<int,std::set<bioinformatics::Entry>> *hashTable = new std::map<int,std::set<bioinformatics::Entry>>();
+    std::map<int,std::set<bioinformatics::Entry>*> *hashTable = new std::map<int,std::set<bioinformatics::Entry>*>();
     
     BioSequence *sequence;
     while ((sequence = document->getNextSequence()) != NULL) {
         
-        std::set<Minimizer> minimizerSet = minimizerSketch(sequence,w,k);
+        std::set<Minimizer>* minimizerSet = minimizerSketch(sequence,w,k);
         
-        for (auto it = minimizerSet.begin(); it != minimizerSet.end(); it++) {
+        for (auto it = minimizerSet->begin(); it != minimizerSet->end(); it++) {
             
             bioinformatics::Entry entry;
             entry.sequencePosition = sequence->getSequencePosition();
             entry.i = it->i;
             entry.r = it->r;
             
-            std::map<int,std::set<bioinformatics::Entry>>::iterator mapIt = hashTable->find(it->m);
+            std::map<int,std::set<bioinformatics::Entry>*>::iterator mapIt = hashTable->find(it->m);
             if (mapIt != hashTable->end()) {
-                std::set<bioinformatics::Entry>& entrySet = mapIt->second;
-                entrySet.insert(entry);
+                std::set<bioinformatics::Entry>* entrySet = mapIt->second;
+                entrySet->insert(entry);
             } else {
-                std::set<Entry> entrySet;
-                entrySet.insert(entry);
-                hashTable->insert(std::pair<int, std::set<bioinformatics::Entry>>(it->m, entrySet));
+                std::set<Entry>* entrySet = new std::set<Entry>;
+                entrySet->insert(entry);
+                hashTable->insert(std::pair<int, std::set<bioinformatics::Entry>*>(it->m, entrySet));
             }
         }
         
+        delete minimizerSet;
         delete sequence;
     }
     
@@ -120,11 +121,11 @@ int HashTableCalculationMethod::invertibleHash(int x, int p) {
 }
 
 // ALGORITHM 1
-std::set<Minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k) {
+std::set<Minimizer>* HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k) {
 
     // TODO: optimize implementation
     
-    std::set<Minimizer> M;
+    std::set<Minimizer>* M = new std::set<Minimizer>;
     
     std::string* raw_sequence = sequence->getSequence();
     std::string* raw_inv_sequence = sequence->getInvertedSequence();
@@ -150,14 +151,14 @@ std::set<Minimizer> HashTableCalculationMethod::minimizerSketch(bioinformatics::
                 min.i = i + j;
                 min.r = 0;
                 
-                M.insert(min);
+                M->insert(min);
             } else if (v < u && v == m) {
                 Minimizer min;
                 min.m = m;
                 min.i = i + j;
                 min.r = 1;
                 
-                M.insert(min);
+                M->insert(min);
             }
         }
     }
