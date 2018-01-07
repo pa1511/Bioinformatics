@@ -52,6 +52,7 @@ int main(int argc, char**argv) {
     BioSequence* querySequence;
     while ((querySequence = queryFastADoc->getNextSequence()) != NULL) {
         queryMapper.mapQuerySequence(hashTable, querySequence, w, k, epsilon);
+        //delete querySequence;
     }
     
     delete hashTable;
