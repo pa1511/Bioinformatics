@@ -1,4 +1,13 @@
 build/*
+build/Debug/GNU-Linux/*
+build/Debug/GNU-Linux/welcome.o
+build/Debug/GNU-Linux/welcome.o.d
+
 dist/*
+
+nbproject/
+nbproject/*
+nbproject/private/configurations.xml
 nbproject/private/private.xml
+
 *.o
