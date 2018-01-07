@@ -27,8 +27,10 @@ HashTable::HashTable(std::map<int, std::set<bioinformatics::Entry>*> *hashTableR
 
 HashTable::~HashTable() {
     
-    //TODO: need to delete all the sets in the table
-    
+    for (auto it = this->hashTableRaw->begin(); it != this->hashTableRaw->end(); it++) {
+        delete it->second;
+    }
+
     delete hashTableRaw;
 }
 

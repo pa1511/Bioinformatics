@@ -45,14 +45,16 @@ int main(int argc, char**argv) {
     delete fastADoc;
     
     // Map query sequences to the hash table
-    int const epsilon = 500;
-    FastADocument *queryFastADoc = new FastADocument(document);
-    QueryMapper queryMapper;
+//    int const epsilon = 500;
+//    FastADocument *queryFastADoc = new FastADocument(document);
+//    QueryMapper queryMapper;
     
-    BioSequence* querySequence;
-    while ((querySequence = queryFastADoc->getNextSequence()) != NULL) {
-        queryMapper.mapQuerySequence(hashTable, querySequence, w, k, epsilon);
-    }
+//    BioSequence* querySequence;
+//    while ((querySequence = queryFastADoc->getNextSequence()) != NULL) {
+//        queryMapper.mapQuerySequence(hashTable, querySequence, w, k, epsilon);
+//    }
+    
+    delete hashTable;
     
     // test usporedbe
     // HashTable *load_test;
