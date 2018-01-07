@@ -30,7 +30,10 @@ void QueryMapper::mapQuerySequence(HashTable *hashTable, BioSequence *q, int w, 
     std::set<Minimizer>* queryMinimizerSet = method.minimizerSketch(q, w, k);
     
     for (auto queryMinIt = queryMinimizerSet->begin(); queryMinIt != queryMinimizerSet->end(); queryMinIt++) {
-        std::cout << "Query m: " << queryMinIt->m << std::endl;
+        std::cout << std::endl << "Query h, i, r: "
+                << queryMinIt->m << " "
+                << queryMinIt->i << " "
+                << queryMinIt->r << std::endl;
         
         // if (queryMinIt->m == 0) continue;
         
