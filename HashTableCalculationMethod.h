@@ -54,7 +54,7 @@ class HashTableCalculationMethod {
     private:
         std::string* PI_function(bioinformatics::BioSequence *biosequence, int r);
         int PHI_function(std::string *seqence, int startIndex, int k);
-        int PHI_function(char b);
+        inline int PHI_function(char b);
         int invertibleHash(int x, int p);
 };
 
