@@ -37,8 +37,12 @@ int main(int argc, char**argv) {
     // Calculate and save hash table
     FastADocument *fastADoc = new FastADocument(document);    
     HashTableCalculationMethod method;
-    HashTable *hashTable = method.calculate(fastADoc, w, k);     
+    HashTable *hashTable = method.calculate(fastADoc, w, k);
+    
     hashTable->save(hashDocumentName);
+    hashTable->empty();
+    
+    delete fastADoc;
     
     // Map query sequences to the hash table
     int const epsilon = 500;

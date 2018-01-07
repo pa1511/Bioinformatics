@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/HashTable.o \
 	${OBJECTDIR}/HashTableCalculationMethod.o \
 	${OBJECTDIR}/PAF.o \
+	${OBJECTDIR}/QueryMapper.o \
 	${OBJECTDIR}/Stopwatch.o \
 	${OBJECTDIR}/welcome.o
 
@@ -92,6 +93,11 @@ ${OBJECTDIR}/PAF.o: PAF.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PAF.o PAF.cpp
+
+${OBJECTDIR}/QueryMapper.o: QueryMapper.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/QueryMapper.o QueryMapper.cpp
 
 ${OBJECTDIR}/Stopwatch.o: Stopwatch.cpp
 	${MKDIR} -p ${OBJECTDIR}
