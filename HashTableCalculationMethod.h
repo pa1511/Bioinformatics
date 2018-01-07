@@ -27,7 +27,7 @@ using namespace bioinformatics;
 struct Minimizer {
     int m;
     int i;
-    int r;
+    short int r;
     
     bool operator <(const Minimizer& other) const {
         if (this->m == other.m) {
