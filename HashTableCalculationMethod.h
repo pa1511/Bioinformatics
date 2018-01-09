@@ -27,7 +27,7 @@ using namespace bioinformatics;
 struct Minimizer {
     int m;
     int i;
-    int r;
+    short int r;
     
     bool operator <(const Minimizer& other) const {
         if (this->m == other.m) {
@@ -54,7 +54,7 @@ class HashTableCalculationMethod {
     private:
         std::string* PI_function(bioinformatics::BioSequence *biosequence, int r);
         int PHI_function(std::string *seqence, int startIndex, int k);
-        int PHI_function(char b);
+        inline int PHI_function(char b);
         int invertibleHash(int x, int p);
 };
 

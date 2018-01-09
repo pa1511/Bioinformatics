@@ -81,7 +81,7 @@ int HashTableCalculationMethod::PHI_function(std::string *seqence, int startInde
     return hashValue;
 }
 
-int HashTableCalculationMethod::PHI_function(char b) {
+inline int HashTableCalculationMethod::PHI_function(char b) {
 
     // A 0x41   0100 0001   0
     // T 0x54   0101 0100   2
@@ -129,6 +129,8 @@ std::set<Minimizer>* HashTableCalculationMethod::minimizerSketch(bioinformatics:
     
     std::string* raw_sequence = sequence->getSequence();
     std::string* raw_inv_sequence = sequence->getInvertedSequence();
+
+    Minimizer min;
     
     for (int i = 1, limit = sequence->size()- w-k+1; i < limit; i++) {
         int m = std::numeric_limits<int>::max();
@@ -146,19 +148,17 @@ std::set<Minimizer>* HashTableCalculationMethod::minimizerSketch(bioinformatics:
             int v = PHI_function(raw_inv_sequence, i + j, k);
 
             if (u < v && u == m) {
-                Minimizer min;
                 min.m = m;
                 min.i = i + j;
                 min.r = 0;
                 
-                M->insert(min);
+                M->insert(min);//a copy is created
             } else if (v < u && v == m) {
-                Minimizer min;
                 min.m = m;
                 min.i = i + j;
                 min.r = 1;
                 
-                M->insert(min);
+                M->insert(min);//a copy is created
             }
         }
     }

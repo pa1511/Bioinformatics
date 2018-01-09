@@ -41,6 +41,7 @@ int main(int argc, char**argv) {
     
     hashTable->save(hashDocumentName);
     hashTable->empty();
+    delete hashTable;
     
     delete fastADoc;
     
@@ -51,8 +52,11 @@ int main(int argc, char**argv) {
     
     BioSequence* querySequence;
     while ((querySequence = queryFastADoc->getNextSequence()) != NULL) {
-        queryMapper.mapQuerySequence(hashTable, querySequence, w, k, epsilon);
+        queryMapper.mapQuerySequence(querySequence, w, k, epsilon);
+        delete querySequence;
     }
+    
+    delete queryFastADoc;
     
     // test usporedbe
     // HashTable *load_test;

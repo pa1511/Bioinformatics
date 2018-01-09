@@ -48,7 +48,7 @@ class QueryMapper {
         QueryMapper();
         ~QueryMapper();
 
-        void mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, int epsilon);
+        void mapQuerySequence(BioSequence *q, int w, int k, int epsilon);
         
     private:
 };

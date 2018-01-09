@@ -25,7 +25,7 @@ struct Entry {
 
     int sequencePosition;
     int i;
-    int r;
+    short int r;
     
     bool operator <(const Entry& other) const {
         if (this->sequencePosition == other.sequencePosition) {
