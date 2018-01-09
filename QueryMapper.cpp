@@ -33,10 +33,10 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
     int m = -1;
     
     for (auto queryMinIt = queryMinimizerSet->begin(); queryMinIt != queryMinimizerSet->end(); queryMinIt++) {
-        std::cout << std::endl << "Query h, i, r: "
-                << queryMinIt->m << " "
-                << queryMinIt->i << " "
-                << queryMinIt->r << std::endl;
+//        std::cout << std::endl << "Query h, i, r: "
+//                << queryMinIt->m << " "
+//                << queryMinIt->i << " "
+//                << queryMinIt->r << std::endl;
         
         if (m >= 0 and queryMinIt->m != m) {
             hashTableLoaded->empty();
@@ -106,16 +106,52 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
                // TODO: finish this algorithm
                // C = maximal colinear subset
                // print the left-most and right-most query/target positions in C
-               
+               std::vector<ATuple> sub(&A[b], &A[e]);
+               std::vector<ATuple> C = QueryMapper::LongestIncreasingSubsequence(sub);
+               for(auto g : C) {
+                   std::cout << g.c << " ";
+               }
+               std::cout << std::endl;
                b = e + 1;
            }
-        }
-        
-        
+        }    
     }
     
     if(hashTableLoaded!=NULL){
         delete hashTableLoaded;
     }
     delete queryMinimizerSet;
+}
+
+std::vector<ATuple> QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple> A) {
+    int n = sizeof(A)/sizeof(A.at(0));
+    std::vector<int> tail(n, 0);
+    std::vector<int> prev(n, -1);
+    
+    int len = 1;
+    
+    for(int i=1; i<n; i++) {
+        if (A.at(0).c < A.at(tail[0]).c) {
+            tail[0] = i;
+            // TODO napisati A>B
+        } else if (A.at(tail[len-1]) < A.at(i)) {
+            prev[i] = tail[len-1];
+            tail[len++] = i;
+        } else {
+            int pos = 0;
+            for (int j=1; j<n; j++) {
+                if (A.at(pos).c < A.at(j).c) {
+                    pos = j;
+                }
+            }
+            prev[i] = tail[pos-1];
+            tail[pos] = i;
+        }
+    }
+    
+    std::vector<ATuple> ret;
+    for (int i=tail[len-1]; i>=0; i=prev[i]) {
+        ret.insert(ret.begin(), A.at(i));
+    }
+    return ret;
 }

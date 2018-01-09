@@ -49,7 +49,7 @@ class QueryMapper {
         ~QueryMapper();
 
         void mapQuerySequence(BioSequence *q, int w, int k, int epsilon);
-        
+        std::vector<ATuple> LongestIncreasingSubsequence(std::vector<ATuple> A);
     private:
 };
 
