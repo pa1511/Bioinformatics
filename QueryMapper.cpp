@@ -108,10 +108,6 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
                // print the left-most and right-most query/target positions in C
                std::vector<ATuple> sub(&A[b], &A[e]);
                std::vector<ATuple> C = QueryMapper::LongestIncreasingSubsequence(sub);
-               for(auto g : C) {
-                   std::cout << g.c << " ";
-               }
-               std::cout << std::endl;
                b = e + 1;
            }
         }    
