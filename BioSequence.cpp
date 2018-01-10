@@ -25,8 +25,7 @@ void BioSequence::setSequence(std::string sequence) {
 }
 
 void BioSequence::appeandSequence(std::string sequence) {
-    //TODO: this implementation might need to be changed!
-    this->setSequence(sequence);
+    this->setSequence(this->sequence.append(sequence));
 }
 
 
