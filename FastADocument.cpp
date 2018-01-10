@@ -72,5 +72,8 @@ BioSequence* FastADocument::getNextSequence() {
         }      
     }
     
+    if(sequence!=NULL)
+        sequence->initialize();
+    
     return sequence;
 }

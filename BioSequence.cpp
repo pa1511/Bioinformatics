@@ -19,15 +19,19 @@ BioSequence::BioSequence(std::string name, std::string comment, int sequencePosi
 BioSequence::~BioSequence() {
 }
 
-void BioSequence::setSequence(std::string sequence) {
-    this->sequence = sequence;
+void BioSequence::initialize(){
+    this->sequence = this->sequenceBuilder.str();
     this->inv_sequence = calculateInvertedSequence();
 }
 
-void BioSequence::appeandSequence(std::string sequence) {
-    this->setSequence(this->sequence.append(sequence));
+void BioSequence::setSequence(std::string sequence) {
+    this->sequenceBuilder.clear();
+    this->sequenceBuilder << sequence;
 }
 
+void BioSequence::appeandSequence(std::string sequence) {
+    this->sequenceBuilder << sequence;
+}
 
 std::string BioSequence::getName() {
     return this->name;

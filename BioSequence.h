@@ -9,7 +9,7 @@
 #define BIOSEQUENCE_H
 
 #include <string>
-
+#include <sstream>
 namespace bioinformatics {
 
 class BioSequence {
@@ -19,6 +19,8 @@ class BioSequence {
         BioSequence(std::string name, std::string comment, int sequencePosition);
         ~BioSequence();
 
+        void initialize();
+        
         void setSequence(std::string sequence);
         void appeandSequence(std::string sequence);
 
@@ -35,6 +37,7 @@ class BioSequence {
 
         std::string name;
         std::string comment;
+        std::stringstream sequenceBuilder;
         std::string sequence;
         std::string inv_sequence;   
         int sequencePosition;
