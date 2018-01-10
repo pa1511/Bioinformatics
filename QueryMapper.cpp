@@ -82,7 +82,7 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
 
                 
                 std::printf("Query h, i, r: %d, %d, %d\tt, r, c, i': %d, %d, %d, %d\n",
-                       queryMinIt->m, queryMinIt->i, queryMinIt->r,
+                       queryMinIt->m, queryMinIt->i, unsigned(queryMinIt->r),
                         tuple.t, tuple.r, tuple.c, tuple.i
                 );
 
@@ -118,7 +118,7 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
            */
            
            for (auto c = C.begin(); c != C.end(); c++) {
-               std::printf("t: %d, r: %d, c: %d, i\': %d \n", c->t, c->r, c->c, c->i);
+               std::printf("t: %d, r: %d, c: %d, i\': %d \n", c->t, unsigned(c->r), c->c, c->i);
            }
            printf("\n");
            

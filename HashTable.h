@@ -21,11 +21,12 @@
 
 namespace bioinformatics {
 
+#pragma pack(push, 1)
 struct Entry {
 
     int sequencePosition;
     int i;
-    short int r;
+    std::uint8_t r;
     
     bool operator <(const Entry& other) const {
         if (this->sequencePosition == other.sequencePosition) {
@@ -37,6 +38,7 @@ struct Entry {
         return this->sequencePosition < other.sequencePosition;
     }
 };    
+#pragma pack(pop)
     
     
 class HashTable {

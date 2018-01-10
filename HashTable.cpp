@@ -50,7 +50,7 @@ void HashTable::save(std::string path) {
             hashFile << "# " << key << std::endl;
             
             for (auto setit = it->second->begin(); setit != it->second->end(); setit++) {
-                hashFile << setit->sequencePosition << " " << setit->i << " " << setit->r << std::endl;
+                hashFile << setit->sequencePosition << " " << setit->i << " " << unsigned(setit->r) << std::endl;
             }
         }
         std::cout << "Saved as \"" << path << "\"" << std::endl;
@@ -141,6 +141,7 @@ void HashTable::empty() {
     std::cout << "Deleting hash table from memory..." << std::endl;
     
     for (auto it = this->hashTableRaw->begin(); it != this->hashTableRaw->end(); it++) {
+        
         delete it->second;
     }
     this->hashTableRaw->clear();

@@ -24,10 +24,11 @@
 
 using namespace bioinformatics;
 
+#pragma pack(push, 1)
 struct Minimizer {
     int m;
     int i;
-    short int r;
+    std::uint8_t r;
     
     bool operator <(const Minimizer& other) const {
         if (this->m == other.m) {
@@ -40,6 +41,7 @@ struct Minimizer {
     }
 
 };
+#pragma pack(pop)
 
 class HashTableCalculationMethod {
     public:
