@@ -39,7 +39,7 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
         }
         
         // Just for testing (until the performance problem is solved)
-        if (queryMinIt->i >= 25) {
+      if (queryMinIt->i >= 25) {
             std::printf("Breaking...\n");
             break;
         }
@@ -82,7 +82,7 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
 
                 
                 std::printf("Query h, i, r: %d, %d, %d\tt, r, c, i': %d, %d, %d, %d\n",
-                        queryMinIt->m, queryMinIt->i, queryMinIt->r,
+                       queryMinIt->m, queryMinIt->i, queryMinIt->r,
                         tuple.t, tuple.r, tuple.c, tuple.i
                 );
 
@@ -107,7 +107,7 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
            A.at(e + 1).r != A.at(e).r or
            A.at(e + 1).c - A.at(e).c >= epsilon) {
 
-           std::vector<ATuple> sub(&A[b], &A[e]);
+           std::vector<ATuple> sub(A.begin()+b, A.begin()+e);
            std::vector<ATuple> C = QueryMapper::LongestIncreasingSubsequence(sub);
            
            // TODO: print the left-most and right-most query/target positions in C
@@ -128,17 +128,20 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
 }
 
 std::vector<ATuple> QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple> A) {
-    int n = sizeof(A) / sizeof(A.at(0));
+    int n=0;
+    for (auto c : A) {
+        n++;
+    }
     std::vector<int> tail(n, 0);
     std::vector<int> prev(n, -1);
     
     int len = 1;
     
     for (int i = 1; i < n; i++) {
-        if (A.at(0).c < A.at(tail[0]).c) {
+        if (A.at(i).c < A.at(tail[0]).c) {
             tail[0] = i;
             // TODO napisati A>B
-        } else if (A.at(tail[len - 1]) < A.at(i)) {
+        } else if (A.at(tail[len - 1]).c < A.at(i).c) {
             prev[i] = tail[len - 1];
             tail[len++] = i;
         } else {
