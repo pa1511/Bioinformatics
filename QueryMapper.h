@@ -23,9 +23,10 @@
 
 using namespace bioinformatics;
 
+#pragma pack(push, 1)
 struct ATuple {
     int t;
-    int r;
+    std::uint8_t r;
     int c;
     int i;
     
@@ -42,12 +43,14 @@ struct ATuple {
         return this->t < other.t;
     }
 }; 
+#pragma pack(pop)
 
 class QueryMapper {
     public:
         QueryMapper();
         ~QueryMapper();
 
+        void mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, int epsilon);
         void mapQuerySequence(BioSequence *q, int w, int k, int epsilon);
         std::vector<ATuple> LongestIncreasingSubsequence(std::vector<ATuple> A);
     private:

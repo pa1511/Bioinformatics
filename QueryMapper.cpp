@@ -22,6 +22,72 @@ QueryMapper::QueryMapper() {
 QueryMapper::~QueryMapper() {
 }
 
+void QueryMapper::mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, int epsilon){
+    
+    std::vector<ATuple> A;
+    
+    HashTableCalculationMethod method;
+    std::set<Minimizer>* queryMinimizerSet = method.minimizerSketch(q, w, k);
+    
+    auto hashTable = H->getHashTableRaw();
+
+    for(auto qMsIt=queryMinimizerSet->begin(); qMsIt!=queryMinimizerSet->end(); qMsIt++){
+        std::cout << "Iteration finished" << std::endl;
+        auto hashEntry = hashTable->find(qMsIt->m);
+        if(hashEntry==hashTable->end())
+            continue;
+        
+        auto entrySet = hashEntry->second;
+        
+        
+        for(auto entryIt=entrySet->begin(); entryIt!=entrySet->end(); entryIt++){
+            if(qMsIt->r==entryIt->r){
+                ATuple tuple;
+                tuple.t = entryIt->sequencePosition;
+                tuple.r = 0;
+                tuple.c = qMsIt->i-entryIt->i;
+                tuple.i = entryIt->i;
+                A.push_back(tuple);
+            }
+            else{
+                ATuple tuple;
+                tuple.t = entryIt->sequencePosition;
+                tuple.r = 1;
+                tuple.c = qMsIt->i+entryIt->i;
+                tuple.i = entryIt->i;
+                A.push_back(tuple);
+            }
+        }
+    }
+    
+    std::cout << "Finished building A" << std::endl;
+    
+    std::sort(A.begin(), A.end()); 
+
+    int b = 1;
+    for(int e=0, size=A.size(); e<size;e++){
+        if(e==size-1 || A[e+1].t!=A[e].t ||  
+           A[e+1].r!=A[e].r || A[e+1].c-A[e].c>=epsilon){
+        
+            //TODO: we should remove the need to create a subset
+            
+            //init subset 
+            std::vector<ATuple> Abe;
+            for(int i=b; i<e; i++){
+                Abe.push_back(A[i]);
+            }
+            
+            auto lisC = LongestIncreasingSubsequence(Abe);
+            
+            std::cout << "Left: " << lisC[0].t << "Right: " << lisC[lisC.size()-1].t << std::endl;
+            
+            b = e+1;
+        }
+    }
+    
+}
+
+
 void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
     std::vector<ATuple> A;
     
