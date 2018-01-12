@@ -98,12 +98,6 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
             delete hashMinimizerSet;
         }
         
-        // Just for testing (until the performance problem is solved)
-      if (queryMinIt->i >= 25) {
-            std::printf("Breaking...\n");
-            break;
-        }
-        
         if (queryMinIt->m != m) {
             
             if(hashTableLoaded!=NULL){
