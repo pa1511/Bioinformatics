@@ -19,19 +19,28 @@
 #include "BioSequence.h"
 
 namespace bioinformatics {
+    
+struct SequenceInfo {
+    std::string name;
+    int length;
+};   
 
 class FastADocument {
     public:
         FastADocument(std::string documentLocation);
+        FastADocument(std::string documentLocation, bool saveSequenceDetails);
         ~FastADocument();
 
         std::string getDocumentName();
         BioSequence* getNextSequence();
+        std::vector<bioinformatics::SequenceInfo>* getSequenceDetails();
 
     private:
         std::string document;
         std::ifstream *inputStream;
         int sequencePosition = 0;
+        bool saveSequenceDetails;
+        std::vector<bioinformatics::SequenceInfo> sequenceDetails;
 };
 }
 

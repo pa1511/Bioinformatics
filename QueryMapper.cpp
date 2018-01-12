@@ -12,7 +12,7 @@
  */
 
 #include "QueryMapper.h"
-#include <iostream>
+#include "PAF.h"
 
 using namespace bioinformatics;
 
@@ -22,7 +22,7 @@ QueryMapper::QueryMapper() {
 QueryMapper::~QueryMapper() {
 }
 
-void QueryMapper::mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, int epsilon){
+void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, BioSequence *q, PAF *output, int w, int k, int epsilon){
     
     std::vector<ATuple> A;
     
@@ -36,30 +36,33 @@ void QueryMapper::mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, i
 
     ATuple tuple;
     
-    for(auto qMsIt=queryMinimizerSet->begin(); qMsIt!=queryMinimizerSet->end(); qMsIt++){
-        std::cout << ++i << "/" << size << std::endl;
+    for (auto qMsIt = queryMinimizerSet->begin(); qMsIt != queryMinimizerSet->end(); qMsIt++){
+        std::printf("%d/%d\n", ++i, size);
+        
         auto hashEntry = hashTable->find(qMsIt->m);
-        if(hashEntry==hashTable->end())
+        if (hashEntry == hashTable->end())
             continue;
         
         auto entrySet = hashEntry->second;
         
-        
-        for(auto entryIt=entrySet->begin(); entryIt!=entrySet->end(); entryIt++){
-            if(qMsIt->r==entryIt->r){
+        for (auto entryIt = entrySet->begin(); entryIt != entrySet->end(); entryIt++) {
+            if (qMsIt->r == entryIt->r) {
                 tuple.t = entryIt->sequencePosition;
                 tuple.r = 0;
-                tuple.c = qMsIt->i-entryIt->i;
+                tuple.c = qMsIt->i - entryIt->i;
                 tuple.i = entryIt->i;
                 A.push_back(tuple);
             }
-            else{
+            else {
                 tuple.t = entryIt->sequencePosition;
                 tuple.r = 1;
                 tuple.c = qMsIt->i+entryIt->i;
                 tuple.i = entryIt->i;
                 A.push_back(tuple);
             }
+
+            //std::printf("Query h, i, r: %d, %d, %d\tt, r, c, i': %d, %d, %d, %d\n",
+            //    qMsIt->m, qMsIt->i, unsigned(qMsIt->r), tuple.t, tuple.r, tuple.c, tuple.i);
         }
     }
     
@@ -70,22 +73,22 @@ void QueryMapper::mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, i
     std::sort(A.begin(), A.end()); 
 
     int b = 1;
-    for(int e=0, size=A.size(); e<size;e++){
-        if(e==size-1 || A[e+1].t!=A[e].t ||  
-           A[e+1].r!=A[e].r || A[e+1].c-A[e].c>=epsilon){
+    for (int e = 0, size = A.size(); e < size; e++){
+        if (e == size - 1 || A[e + 1].t != A[e].t ||  
+           A[e + 1].r != A[e].r || A[e + 1].c-A[e].c >= epsilon) {
         
             auto lisC = LongestIncreasingSubsequence(A, b, e);
             
+            output->print(q, targetFastADoc, lisC[0].t);
             std::cout << "Left: " << lisC[0].t << "Right: " << lisC[lisC.size()-1].t << std::endl;
             
             b = e+1;
         }
     }
-    
 }
 
 
-void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
+void QueryMapper::mapQuerySequence(FastADocument *targetFastADoc, BioSequence *q, PAF *output, int w, int k, int epsilon) {
     std::vector<ATuple> A;
     
     HashTableCalculationMethod method;
@@ -103,7 +106,7 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
         
         if (queryMinIt->m != m) {
             
-            if(hashTableLoaded!=NULL){
+            if (hashTableLoaded != NULL){
                 delete hashTableLoaded;
             }
             
@@ -139,9 +142,7 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
 
                 
                 std::printf("Query h, i, r: %d, %d, %d\tt, r, c, i': %d, %d, %d, %d\n",
-                       queryMinIt->m, queryMinIt->i, unsigned(queryMinIt->r),
-                        tuple.t, tuple.r, tuple.c, tuple.i
-                );
+                   queryMinIt->m, queryMinIt->i, unsigned(queryMinIt->r), tuple.t, tuple.r, tuple.c, tuple.i);
 
                 A.push_back(tuple);
             }
@@ -168,16 +169,19 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
            std::vector<ATuple> C = QueryMapper::LongestIncreasingSubsequence(A, b, e);
            
            // TODO: print the left-most and right-most query/target positions in C
+           output->print(q, targetFastADoc, C[0].t);
            /*
            int last = C.size()-1;
            std::printf("t: %d, r: %d, c: %d, i\': %d | ", C[0].t, C[0].r, C[0].c, C[0].i);
            std::printf("t: %d, r: %d, c: %d, i\': %d\n", C[last].t, C[last].r, C[last].c, C[last].i);
            */
            
+           /*
            for (auto c = C.begin(); c != C.end(); c++) {
                std::printf("t: %d, r: %d, c: %d, i\': %d \n", c->t, unsigned(c->r), c->c, c->i);
            }
            printf("\n");
+           */
            
            b = e + 1;
        }

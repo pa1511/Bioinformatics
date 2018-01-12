@@ -16,10 +16,13 @@
 
 #include "BioSequence.h"
 #include "HashTable.h"
+#include "FastADocument.h"
+#include "PAF.h"
 #include "HashTableCalculationMethod.h"
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <iostream>
 
 using namespace bioinformatics;
 
@@ -50,8 +53,8 @@ class QueryMapper {
         QueryMapper();
         ~QueryMapper();
 
-        void mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, int epsilon);
-        void mapQuerySequence(BioSequence *q, int w, int k, int epsilon);
+        void mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, BioSequence *q, PAF *output, int w, int k, int epsilon);
+        void mapQuerySequence(FastADocument *targetFastADoc, BioSequence *q, PAF *output, int w, int k, int epsilon);
         std::vector<ATuple> LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e);
     private:
 };

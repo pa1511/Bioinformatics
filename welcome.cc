@@ -7,6 +7,7 @@
 #include "HashTable.h"
 #include "HashTableCalculationMethod.h"
 #include "QueryMapper.h"
+#include "PAF.h"
 
 #define PROGRAM 1
 
@@ -36,23 +37,27 @@ int main(int argc, char**argv) {
     stopwatch.start();
     
     // Calculate and save hash table
-    FastADocument *fastADoc = new FastADocument(document);    
+    FastADocument *targetFastADoc = new FastADocument(document, true);    
     HashTableCalculationMethod method;
-    HashTable *hashTable = method.calculate(fastADoc, w, k);
+    HashTable *hashTable = method.calculate(targetFastADoc, w, k);
     
-    hashTable->save(hashDocumentName);
-    delete hashTable;
-    delete fastADoc;
+    //hashTable->save(hashDocumentName);
+    //std::cout << "Deleting hash table from memory..." << std::endl;
+    //delete hashTable;
+    //std::cout << "Hash table deleted from memory" << std::endl;
+    // delete targetFastADoc;
     
     // Map query sequences to the hash table
     int const epsilon = 500;
     FastADocument *queryFastADoc = new FastADocument(queryDocument);
     QueryMapper queryMapper;
+    PAF *output = new PAF();
     
+    std::cout << "Started quering..." << std::endl;
     BioSequence* querySequence;
     while ((querySequence = queryFastADoc->getNextSequence()) != NULL) {
-        queryMapper.mapQuerySequence(querySequence, w, k, epsilon);
-        //queryMapper.mapQuerySequence(hashTable,querySequence, w, k, epsilon);
+        queryMapper.mapQuerySequence(hashTable, targetFastADoc, querySequence, output, w, k, epsilon);
+        //queryMapper.mapQuerySequence(targetFastADoc, querySequence, output, w, k, epsilon);
         delete querySequence;
     }
     

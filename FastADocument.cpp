@@ -14,7 +14,13 @@
 
 using namespace bioinformatics;
 
-FastADocument::FastADocument(std::string documentLocation):document(documentLocation) {
+FastADocument::FastADocument(std::string documentLocation):document(documentLocation), saveSequenceDetails(false) {
+    inputStream = new std::ifstream();
+    inputStream->open(this->document);
+}
+
+FastADocument::FastADocument(std::string documentLocation, bool saveSequenceDetails)
+                            :document(documentLocation), saveSequenceDetails(saveSequenceDetails) {
     inputStream = new std::ifstream();
     inputStream->open(this->document);
 }
@@ -28,12 +34,18 @@ std::string FastADocument::getDocumentName() {
     return this->document;
 }
 
+std::vector<bioinformatics::SequenceInfo>* FastADocument::getSequenceDetails() {
+    return &this->sequenceDetails;
+}
+
 /**
  * 
  * @return Pointer to BioSequence if it can be read or NULL
  */
 BioSequence* FastADocument::getNextSequence() {
     BioSequence *sequence = NULL;
+    std::string name;
+    std::string comment;
     
     if (inputStream->is_open()) {
         
@@ -50,9 +62,6 @@ BioSequence* FastADocument::getNextSequence() {
             std::getline(*inputStream, input);
             
             if (c == '>') {               
-                std::string name;
-                std::string comment;
-                
                 std::size_t firstEmptySpacePosition = input.find(" ");
                 if (firstEmptySpacePosition != std::string::npos) {
                     name = input.substr(0, firstEmptySpacePosition);
@@ -62,6 +71,7 @@ BioSequence* FastADocument::getNextSequence() {
                 }
                     
                 sequence = new BioSequence(name, comment, this->sequencePosition);
+                        
                 this->sequencePosition++;
                 
             } else if (c == ',') {
@@ -72,8 +82,15 @@ BioSequence* FastADocument::getNextSequence() {
         }      
     }
     
-    if(sequence!=NULL)
+    if (sequence != NULL) {
         sequence->initialize();
+        if (this->saveSequenceDetails) {
+            SequenceInfo sequenceInfo;
+            sequenceInfo.name = name;
+            sequenceInfo.length = sequence->size();
+            this->sequenceDetails.push_back(sequenceInfo);
+        }
+    }
     
     return sequence;
 }

@@ -14,11 +14,18 @@
 #ifndef PAF_H
 #define PAF_H
 
+#include "BioSequence.h"
+#include "FastADocument.h"
+#include <iostream>
+
+using namespace bioinformatics;
+
 class PAF {
 public:
     PAF();
     PAF(const PAF& orig);
     virtual ~PAF();
+    void print(BioSequence *query, FastADocument *target, int targetSeqPos);
 private:
 
 };

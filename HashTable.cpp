@@ -135,15 +135,11 @@ HashTable* HashTable::loadWithM(std::string path, int m) {
 }
 
 void HashTable::empty() {
-    std::cout << "Deleting hash table from memory..." << std::endl;
-    
     for (auto it = this->hashTableRaw->begin(); it != this->hashTableRaw->end(); it++) {
         
         delete it->second;
     }
     this->hashTableRaw->clear();
-    
-    std::cout << "Hash table deleted from memory" << std::endl;
 }
 
 std::unordered_map<int, std::vector<bioinformatics::Entry>*>* HashTable::getHashTableRaw() {
