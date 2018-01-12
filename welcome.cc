@@ -41,7 +41,6 @@ int main(int argc, char**argv) {
     HashTable *hashTable = method.calculate(fastADoc, w, k);
     
     hashTable->save(hashDocumentName);
-    hashTable->empty();
     delete hashTable;
     delete fastADoc;
     
