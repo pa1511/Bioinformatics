@@ -48,6 +48,7 @@ int main(int argc, char**argv) {
     // delete targetFastADoc;
     
     // Map query sequences to the hash table
+/*    
     int const epsilon = 500;
     FastADocument *queryFastADoc = new FastADocument(queryDocument);
     QueryMapper queryMapper;
@@ -61,17 +62,34 @@ int main(int argc, char**argv) {
         delete querySequence;
     }
     
-   // delete hashTable; //TODO: remove this line
     delete queryFastADoc;
+*/
+    delete hashTable;
+    delete targetFastADoc;
     
-    // test usporedbe
-    // HashTable *load_test;
-    // load_test = HashTable::load("hash_example");
-    // load_test->save("usporedba");
+    stopwatch.end();
+    std::cout << "Time: " << stopwatch.getTime() << " ms" << std::endl;
         
-    #elif PROGRAM == 2
+    #elif PROGRAM == 2    
+    std::string document = argv[1];
+    FastADocument *fastADoc = new FastADocument(document);    
+    BioSequence* sequence;
     
-        std::cout << " TODO " << std::endl;
+    std::ofstream hashFile;
+    
+    hashFile.open("copy.txt", std::ios::out);
+    
+    if (hashFile.is_open()) {
+
+        while ((sequence = fastADoc->getNextSequence()) != NULL) {
+            hashFile << ">" << (sequence->getSequencePosition()+1) << std::endl;
+            hashFile << (*sequence->getSequence()) << std::endl;
+            delete sequence;
+        }
+    
+        hashFile.close();
+    }
+    delete fastADoc;
     #else
 
     std::string document("fasta-example");//"Lambda_reads.fasta"
@@ -89,9 +107,6 @@ int main(int argc, char**argv) {
     }    
     
     #endif
-            
-    stopwatch.end();
-    std::cout << "Time: " << stopwatch.getTime() << " ms" << std::endl;
-    
+                
     return 0;
 }

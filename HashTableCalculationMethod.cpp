@@ -61,6 +61,12 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
     
     //Fit vectors to the minimum memory size they need
     for(auto it=hashTable->begin(); it!=hashTable->end(); it++){
+	std::set<bioinformatics::Entry> s( it->second->begin(), it->second->end());
+	it->second->clear();
+	for(auto setIt = s.begin(); setIt!=s.end(); setIt++){
+	    it->second->push_back(*setIt);
+	}
+  
         it->second->shrink_to_fit();
     }
     
@@ -128,8 +134,6 @@ int HashTableCalculationMethod::invertibleHash(int x, int p) {
 // ALGORITHM 1
 std::vector<Minimizer>* HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k) {
 
-    // TODO: optimize implementation
-    
     std::vector<Minimizer>* M = new std::vector<Minimizer>;
     
     std::string* raw_sequence = sequence->getSequence();
@@ -167,6 +171,14 @@ std::vector<Minimizer>* HashTableCalculationMethod::minimizerSketch(bioinformati
             }
         }
     }
+    
+    std::set<Minimizer> s(M->begin(), M->end());
+    M->clear();
+    for(auto setIt = s.begin(); setIt!=s.end(); setIt++){
+        M->push_back(*setIt);
+    }
+
+    M->shrink_to_fit();    
     
     return M;
 }
