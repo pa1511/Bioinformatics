@@ -15,8 +15,7 @@
 #define HASHTABLE_H
 
 #include <string>
-#include <map>
-#include <set>
+#include <unordered_map>
 #include <vector>
 
 namespace bioinformatics {
@@ -43,16 +42,16 @@ struct Entry {
     
 class HashTable {
     public:
-        HashTable(std::map<int, std::set<bioinformatics::Entry>*> *hashTableRaw);
+        HashTable(std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw);
         ~HashTable();
         void save(std::string path);
         void empty();
         
         static HashTable* load(std::string path);
         static HashTable* loadWithM(std::string path, int m);
-        std::map<int, std::set<bioinformatics::Entry>*>* getHashTableRaw();
+        std::unordered_map<int, std::vector<bioinformatics::Entry>*>* getHashTableRaw();
     private:
-        std::map<int, std::set<bioinformatics::Entry>*> *hashTableRaw;
+        std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw;
     };
 }
 

@@ -27,7 +27,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, i
     std::vector<ATuple> A;
     
     HashTableCalculationMethod method;
-    std::set<Minimizer>* queryMinimizerSet = method.minimizerSketch(q, w, k);
+    std::vector<Minimizer>* queryMinimizerSet = method.minimizerSketch(q, w, k);
     
     auto hashTable = H->getHashTableRaw();
 
@@ -77,7 +77,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, i
                 Abe.push_back(A[i]);
             }
             
-            auto lisC = LongestIncreasingSubsequence(Abe);
+            auto lisC = LongestIncreasingSubsequence(Abe, 5, 2);
             
             std::cout << "Left: " << lisC[0].t << "Right: " << lisC[lisC.size()-1].t << std::endl;
             
@@ -92,10 +92,10 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
     std::vector<ATuple> A;
     
     HashTableCalculationMethod method;
-    std::set<Minimizer>* queryMinimizerSet = method.minimizerSketch(q, w, k);
+    std::vector<Minimizer>* queryMinimizerSet = method.minimizerSketch(q, w, k);
     
     HashTable* hashTableLoaded = NULL;
-    std::set<bioinformatics::Entry> *hashMinimizerSet;
+    std::vector<bioinformatics::Entry> *hashMinimizerSet;
     int m = -1;
     
     for (auto queryMinIt = queryMinimizerSet->begin(); queryMinIt != queryMinimizerSet->end(); queryMinIt++) {
@@ -117,9 +117,9 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
             }
             
             hashTableLoaded = HashTable::loadWithM("hash_example", queryMinIt->m);
-            std::map<int, std::set<bioinformatics::Entry>*> *H = hashTableLoaded->getHashTableRaw();
+            std::unordered_map<int, std::vector<bioinformatics::Entry>*> *H = hashTableLoaded->getHashTableRaw();
             
-            std::map<int,std::set<bioinformatics::Entry>*>::iterator found = H->find(queryMinIt->m);
+            std::unordered_map<int,std::vector<bioinformatics::Entry>*>::iterator found = H->find(queryMinIt->m);
             
             //TODO: is the old value deleted
             if (found != H->end()) {
@@ -167,14 +167,14 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
     int b = 0;
     int ALength = A.size();
 
-    for (auto e = 0; e < ALength; e++) {
+    for (int e = 0; e < ALength; e++) {
        if (e == ALength - 1 or
            A.at(e + 1).t != A.at(e).t or
            A.at(e + 1).r != A.at(e).r or
            A.at(e + 1).c - A.at(e).c >= epsilon) {
 
-           std::vector<ATuple> sub(A.begin()+b, A.begin()+e);
-           std::vector<ATuple> C = QueryMapper::LongestIncreasingSubsequence(sub);
+           //std::vector<ATuple> sub(A.begin()+b, A.begin()+e);
+           std::vector<ATuple> C = QueryMapper::LongestIncreasingSubsequence(A, b, e);
            
            // TODO: print the left-most and right-most query/target positions in C
            /*
@@ -193,27 +193,25 @@ void QueryMapper::mapQuerySequence(BioSequence *q, int w, int k, int epsilon) {
     }   
 }
 
-std::vector<ATuple> QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple> A) {
-    int n=0;
-    for (auto c : A) {
-        n++;
-    }
+std::vector<ATuple> QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e) {
+    int n=e-b;
+    
     std::vector<int> tail(n, 0);
     std::vector<int> prev(n, -1);
     
     int len = 1;
     
     for (int i = 1; i < n; i++) {
-        if (A.at(i).c < A.at(tail[0]).c) {
+        if (A.at(i+b).c < A.at(tail[0]+b).c) {
             tail[0] = i;
             // TODO napisati A>B
-        } else if (A.at(tail[len - 1]).c < A.at(i).c) {
+        } else if (A.at(tail[len - 1]+b).c < A.at(i+b).c) {
             prev[i] = tail[len - 1];
             tail[len++] = i;
         } else {
             int pos = 0;
             for (int j = 1; j < n; j++) {
-                if (A.at(pos).c < A.at(j).c) {
+                if (A.at(pos+b).c < A.at(j+b).c) {
                     pos = j;
                 }
             }

@@ -52,7 +52,7 @@ class QueryMapper {
 
         void mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, int epsilon);
         void mapQuerySequence(BioSequence *q, int w, int k, int epsilon);
-        std::vector<ATuple> LongestIncreasingSubsequence(std::vector<ATuple> A);
+        std::vector<ATuple> LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e);
     private:
 };
 

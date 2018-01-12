@@ -51,7 +51,7 @@ class HashTableCalculationMethod {
         ~HashTableCalculationMethod();
 
         HashTable* calculate(FastADocument* document, int w, int k);
-        std::set<Minimizer>* minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k);
+        std::vector<Minimizer>* minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k);
 
     private:
         std::string* PI_function(bioinformatics::BioSequence *biosequence, int r);

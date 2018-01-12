@@ -22,7 +22,7 @@
 
 using namespace bioinformatics;
 
-HashTable::HashTable(std::map<int, std::set<bioinformatics::Entry>*> *hashTableRaw):hashTableRaw(hashTableRaw) {
+HashTable::HashTable(std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw):hashTableRaw(hashTableRaw) {
 }
 
 HashTable::~HashTable() {
@@ -60,7 +60,7 @@ void HashTable::save(std::string path) {
 
 
 HashTable* HashTable::load(std::string path) {
-    std::map<int, std::set<bioinformatics::Entry>*> *hashTable = new std::map<int,std::set<bioinformatics::Entry>*>();
+    std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTable = new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
     std::ifstream hashFile;
     
     hashFile.open(path, std::ios::in);
@@ -81,14 +81,14 @@ HashTable* HashTable::load(std::string path) {
                 entry.i = std::stoi(results[1]);
                 entry.r = std::stoi(results[2]);
 
-                std::map<int, std::set<bioinformatics::Entry>*>::iterator mapIt = hashTable->find(std::stoi(key));
+                std::unordered_map<int, std::vector<bioinformatics::Entry>*>::iterator mapIt = hashTable->find(std::stoi(key));
                 if (mapIt != hashTable->end()) {
-                    std::set<bioinformatics::Entry>* entrySet = mapIt->second;
-                    entrySet->insert(entry);
+                    std::vector<bioinformatics::Entry>* entrySet = mapIt->second;
+                    entrySet->push_back(entry);
                 } else {
-                    std::set<Entry>* entrySet = new std::set<Entry>;
-                    entrySet->insert(entry);
-                    hashTable->insert(std::pair<int, std::set<bioinformatics::Entry>*>(std::stoi(key), entrySet));
+                    std::vector<Entry>* entrySet = new std::vector<Entry>;
+                    entrySet->push_back(entry);
+                    hashTable->insert(std::pair<int, std::vector<bioinformatics::Entry>*>(std::stoi(key), entrySet));
                 }
             }
         }
@@ -97,7 +97,7 @@ HashTable* HashTable::load(std::string path) {
 }
 
 HashTable* HashTable::loadWithM(std::string path, int m) {
-    std::map<int, std::set<bioinformatics::Entry>*> *hashTable = new std::map<int,std::set<bioinformatics::Entry>*>();
+    std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTable = new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
     std::ifstream hashFile;
     
    hashFile.open(path, std::ios::in);
@@ -122,14 +122,14 @@ HashTable* HashTable::loadWithM(std::string path, int m) {
                 entry.i = std::stoi(results[1]);
                 entry.r = std::stoi(results[2]);
 
-                std::map<int, std::set<bioinformatics::Entry>*>::iterator mapIt = hashTable->find(key);
+                std::unordered_map<int, std::vector<bioinformatics::Entry>*>::iterator mapIt = hashTable->find(key);
                 if (mapIt != hashTable->end()) {
-                    std::set<bioinformatics::Entry>* entrySet = mapIt->second;
-                    entrySet->insert(entry);
+                    std::vector<bioinformatics::Entry>* entrySet = mapIt->second;
+                    entrySet->push_back(entry);
                 } else {
-                    std::set<Entry>* entrySet = new std::set<Entry>;
-                    entrySet->insert(entry);
-                    hashTable->insert(std::pair<int, std::set<bioinformatics::Entry>*>(key, entrySet));
+                    std::vector<Entry>* entrySet = new std::vector<Entry>;
+                    entrySet->push_back(entry);
+                    hashTable->insert(std::pair<int, std::vector<bioinformatics::Entry>*>(key, entrySet));
                 }
             }
         }
@@ -149,7 +149,7 @@ void HashTable::empty() {
     std::cout << "Hash table deleted from memory" << std::endl;
 }
 
-std::map<int, std::set<bioinformatics::Entry>*>* HashTable::getHashTableRaw() {
+std::unordered_map<int, std::vector<bioinformatics::Entry>*>* HashTable::getHashTableRaw() {
     return this->hashTableRaw;
 }
 
