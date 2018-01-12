@@ -136,29 +136,29 @@ std::vector<Minimizer>* HashTableCalculationMethod::minimizerSketch(bioinformati
     std::string* raw_inv_sequence = sequence->getInvertedSequence();
 
     Minimizer min;
+    int u[w-1];
+    int v[w-1];
     
     for (int i = 1, limit = sequence->size()- w-k+1; i < limit; i++) {
         int m = std::numeric_limits<int>::max();
         for (int j = 0; j < w-1; j++) {
-            int u = PHI_function(raw_sequence, i + j, k);
-            int v = PHI_function(raw_inv_sequence, i + j, k);
+            u[j] = PHI_function(raw_sequence, i + j, k);
+            v[j] = PHI_function(raw_inv_sequence, i + j, k);
             
-            if (u != v) {
-                m = std::min(m,std::min(u, v)); 
+            if (u[j] != v[j]) {
+                m = std::min(m,std::min(u[j], v[j])); 
             }
         }
         
         for (int j = 0; j < w-1; j++) {
-            int u = PHI_function(raw_sequence, i + j, k);
-            int v = PHI_function(raw_inv_sequence, i + j, k);
 
-            if (u < v && u == m) {
+            if (u[j] < v[j] && u[j] == m) {
                 min.m = m;
                 min.i = i + j;
                 min.r = 0;
                 
                 M->push_back(min);//a copy is created
-            } else if (v < u && v == m) {
+            } else if (v[j] < u[j] && v[j] == m) {
                 min.m = m;
                 min.i = i + j;
                 min.r = 1;

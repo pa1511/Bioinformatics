@@ -30,9 +30,14 @@ void QueryMapper::mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, i
     std::vector<Minimizer>* queryMinimizerSet = method.minimizerSketch(q, w, k);
     
     auto hashTable = H->getHashTableRaw();
+    
+    int i=0;
+    int size = queryMinimizerSet->size();
 
+    ATuple tuple;
+    
     for(auto qMsIt=queryMinimizerSet->begin(); qMsIt!=queryMinimizerSet->end(); qMsIt++){
-        std::cout << "Iteration finished" << std::endl;
+        std::cout << ++i << "/" << size << std::endl;
         auto hashEntry = hashTable->find(qMsIt->m);
         if(hashEntry==hashTable->end())
             continue;
@@ -42,7 +47,6 @@ void QueryMapper::mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, i
         
         for(auto entryIt=entrySet->begin(); entryIt!=entrySet->end(); entryIt++){
             if(qMsIt->r==entryIt->r){
-                ATuple tuple;
                 tuple.t = entryIt->sequencePosition;
                 tuple.r = 0;
                 tuple.c = qMsIt->i-entryIt->i;
@@ -50,7 +54,6 @@ void QueryMapper::mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, i
                 A.push_back(tuple);
             }
             else{
-                ATuple tuple;
                 tuple.t = entryIt->sequencePosition;
                 tuple.r = 1;
                 tuple.c = qMsIt->i+entryIt->i;
