@@ -60,6 +60,8 @@ void QueryMapper::mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, i
         }
     }
     
+    delete queryMinimizerSet;
+    
     std::cout << "Finished building A" << std::endl;
     
     std::sort(A.begin(), A.end()); 
@@ -69,15 +71,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, BioSequence *q, int w, int k, i
         if(e==size-1 || A[e+1].t!=A[e].t ||  
            A[e+1].r!=A[e].r || A[e+1].c-A[e].c>=epsilon){
         
-            //TODO: we should remove the need to create a subset
-            
-            //init subset 
-            std::vector<ATuple> Abe;
-            for(int i=b; i<e; i++){
-                Abe.push_back(A[i]);
-            }
-            
-            auto lisC = LongestIncreasingSubsequence(Abe, 5, 2);
+            auto lisC = LongestIncreasingSubsequence(A, b, e);
             
             std::cout << "Left: " << lisC[0].t << "Right: " << lisC[lisC.size()-1].t << std::endl;
             

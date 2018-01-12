@@ -59,6 +59,11 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
         delete sequence;
     }
     
+    //Fit vectors to the minimum memory size they need
+    for(auto it=hashTable->begin(); it!=hashTable->end(); it++){
+        it->second->shrink_to_fit();
+    }
+    
     return new HashTable(hashTable);
 }
 
