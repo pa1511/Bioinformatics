@@ -42,9 +42,6 @@ void HashTable::save(std::string path) {
     if (hashFile.is_open()) {
         std::cout << "Saving hash table..." << std::endl;
         
-        std::string key;
-        std::string value1;
-        
         for (auto it = hashTableRaw->begin(); it!=hashTableRaw->end(); it++) {
             int key = it->first;
             hashFile << "# " << key << std::endl;
