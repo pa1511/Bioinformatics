@@ -61,12 +61,13 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
     
     //Fit vectors to the minimum memory size they need
     for(auto it=hashTable->begin(); it!=hashTable->end(); it++){
-	std::set<bioinformatics::Entry> s( it->second->begin(), it->second->end());
+        std::set<bioinformatics::Entry> s( it->second->begin(), it->second->end());
 	it->second->clear();
 	for(auto setIt = s.begin(); setIt!=s.end(); setIt++){
 	    it->second->push_back(*setIt);
 	}
-  
+        
+        
         it->second->shrink_to_fit();
     }
     
@@ -177,7 +178,6 @@ std::vector<Minimizer>* HashTableCalculationMethod::minimizerSketch(bioinformati
     for(auto setIt = s.begin(); setIt!=s.end(); setIt++){
         M->push_back(*setIt);
     }
-    
     
     
     M->shrink_to_fit();    

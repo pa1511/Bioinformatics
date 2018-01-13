@@ -71,13 +71,15 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, 
     std::cout << "Finished building A" << std::endl;
     
     std::sort(A.begin(), A.end()); 
+    
+    std::vector<ATuple> lisC;
 
     int b = 1;
     for (int e = 0, size = A.size(); e < size; e++){
         if (e == size - 1 || A[e + 1].t != A[e].t ||  
            A[e + 1].r != A[e].r || A[e + 1].c-A[e].c >= epsilon) {
-        
-	    std::vector<ATuple> lisC;
+    
+            lisC.clear();
             LongestIncreasingSubsequence(A, b, e, lisC);
             
             output->print(q, targetFastADoc, lisC[0].t);
@@ -190,6 +192,12 @@ void QueryMapper::mapQuerySequence(FastADocument *targetFastADoc, BioSequence *q
 }
 
 void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret) {
+    
+    if (b == e) { 
+        ret.push_back(A[b]);
+        return;
+    }
+    
     int n=e-b;
     
     std::vector<int> tail(n+1, 0);
