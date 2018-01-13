@@ -23,7 +23,7 @@ namespace bioinformatics {
 #pragma pack(push, 1)
 struct Entry {
 
-    int sequencePosition;
+    std::uint16_t sequencePosition;
     int i;
     std::uint8_t r;
     

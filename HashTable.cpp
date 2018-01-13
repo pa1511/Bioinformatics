@@ -47,7 +47,7 @@ void HashTable::save(std::string path) {
             hashFile << "# " << key << std::endl;
             
             for (auto setit = it->second->begin(); setit != it->second->end(); setit++) {
-                hashFile << setit->sequencePosition << " " << setit->i << " " << unsigned(setit->r) << std::endl;
+                hashFile << ((int)setit->sequencePosition) << " " << setit->i << " " << unsigned(setit->r) << std::endl;
             }
         }
         std::cout << "Saved as \"" << path << "\"" << std::endl;

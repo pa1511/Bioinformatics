@@ -28,7 +28,7 @@ using namespace bioinformatics;
 
 #pragma pack(push, 1)
 struct ATuple {
-    int t;
+    std::uint16_t t;
     std::uint8_t r;
     int c;
     int i;

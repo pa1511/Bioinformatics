@@ -177,7 +177,9 @@ std::vector<Minimizer>* HashTableCalculationMethod::minimizerSketch(bioinformati
     for(auto setIt = s.begin(); setIt!=s.end(); setIt++){
         M->push_back(*setIt);
     }
-
+    
+    
+    
     M->shrink_to_fit();    
     
     return M;

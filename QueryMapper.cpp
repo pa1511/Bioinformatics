@@ -80,7 +80,6 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, 
             auto lisC = LongestIncreasingSubsequence(A, b, e);
             
             output->print(q, targetFastADoc, lisC[0].t);
-            std::cout << "Left: " << lisC[0].t << "Right: " << lisC[lisC.size()-1].t << std::endl;
             
             b = e+1;
         }
