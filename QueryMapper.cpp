@@ -77,7 +77,8 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, 
         if (e == size - 1 || A[e + 1].t != A[e].t ||  
            A[e + 1].r != A[e].r || A[e + 1].c-A[e].c >= epsilon) {
         
-            auto lisC = LongestIncreasingSubsequence(A, b, e);
+	    std::vector<ATuple> lisC;
+            LongestIncreasingSubsequence(A, b, e, lisC);
             
             output->print(q, targetFastADoc, lisC[0].t);
             
@@ -165,7 +166,8 @@ void QueryMapper::mapQuerySequence(FastADocument *targetFastADoc, BioSequence *q
            A.at(e + 1).c - A.at(e).c >= epsilon) {
 
            //std::vector<ATuple> sub(A.begin()+b, A.begin()+e);
-           std::vector<ATuple> C = QueryMapper::LongestIncreasingSubsequence(A, b, e);
+           std::vector<ATuple> C;
+	   QueryMapper::LongestIncreasingSubsequence(A, b, e, C);
            
            // TODO: print the left-most and right-most query/target positions in C
            output->print(q, targetFastADoc, C[0].t);
@@ -187,7 +189,7 @@ void QueryMapper::mapQuerySequence(FastADocument *targetFastADoc, BioSequence *q
     }   
 }
 
-std::vector<ATuple> QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e) { //, std::vector<ATuple>& ret) {
+void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret) {
     int n=e-b;
     
     std::vector<int> tail(n+1, 0);
@@ -214,9 +216,7 @@ std::vector<ATuple> QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple
         }
     }
     
-    std::vector<ATuple> ret;
     for (int i = tail[len - 1]; i >= 0; i = prev[i]) {
         ret.insert(ret.begin(), A.at(i+b));
     }
-    return ret;
 }
