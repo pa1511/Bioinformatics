@@ -54,7 +54,6 @@ class QueryMapper {
         ~QueryMapper();
 
         void mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, BioSequence *q, PAF *output, int w, int k, int epsilon);
-        void mapQuerySequence(FastADocument *targetFastADoc, BioSequence *q, PAF *output, int w, int k, int epsilon);
         void LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret);
     private:
 };
