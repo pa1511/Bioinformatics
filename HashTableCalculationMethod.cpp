@@ -32,12 +32,15 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
     
     std::unordered_map<int,std::vector<bioinformatics::Entry>*> *hashTable = new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
     
+    std::vector<Minimizer> minimizerSet;
+    
     BioSequence *sequence;
     while ((sequence = document->getNextSequence()) != NULL) {
+                
+        minimizerSet.clear();
+        minimizerSketch(sequence,w,k,minimizerSet);
         
-        std::vector<Minimizer>* minimizerSet = minimizerSketch(sequence,w,k);
-        
-        for (auto it = minimizerSet->begin(); it != minimizerSet->end(); it++) {
+        for (auto it = minimizerSet.begin(); it != minimizerSet.end(); it++) {
             
             bioinformatics::Entry entry;
             entry.sequencePosition = sequence->getSequencePosition();
@@ -55,7 +58,6 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
             }
         }
         
-        delete minimizerSet;
         delete sequence;
     }
     
@@ -133,9 +135,7 @@ int HashTableCalculationMethod::invertibleHash(int x, int p) {
 }
 
 // ALGORITHM 1
-std::vector<Minimizer>* HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k) {
-
-    std::vector<Minimizer>* M = new std::vector<Minimizer>;
+void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k, std::vector<Minimizer>& M) {
     
     std::string* raw_sequence = sequence->getSequence();
     std::string* raw_inv_sequence = sequence->getInvertedSequence();
@@ -162,25 +162,21 @@ std::vector<Minimizer>* HashTableCalculationMethod::minimizerSketch(bioinformati
                 min.i = i + j;
                 min.r = 0;
                 
-                M->push_back(min);//a copy is created
+                M.push_back(min);//a copy is created
             } else if (v[j] < u[j] && v[j] == m) {
                 min.m = m;
                 min.i = i + j;
                 min.r = 1;
                 
-                M->push_back(min);//a copy is created
+                M.push_back(min);//a copy is created
             }
         }
     }
     
-    std::set<Minimizer> s(M->begin(), M->end());
-    M->clear();
+    std::set<Minimizer> s(M.begin(), M.end());
+    M.clear();
     for(auto setIt = s.begin(); setIt!=s.end(); setIt++){
-        M->push_back(*setIt);
+        M.push_back(*setIt);
     }
-    
-    
-    M->shrink_to_fit();    
-    
-    return M;
+    M.shrink_to_fit();    
 }

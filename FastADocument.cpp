@@ -8,6 +8,7 @@
 
 #include <string>
 #include <cctype>
+#include <iostream>
 
 #include "FastADocument.h"
 #include "BioSequence.h"
@@ -90,6 +91,7 @@ BioSequence* FastADocument::getNextSequence() {
             sequenceInfo.length = sequence->size();
             this->sequenceDetails.push_back(sequenceInfo);
         }
+        //std::cout << sequence->getSequencePosition() << std::endl;
     }
     
     return sequence;

@@ -27,16 +27,17 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, 
     std::vector<ATuple> A;
     
     HashTableCalculationMethod method;
-    std::vector<Minimizer>* queryMinimizerSet = method.minimizerSketch(q, w, k);
+    std::vector<Minimizer> queryMinimizerSet;
+    method.minimizerSketch(q, w, k,queryMinimizerSet);
     
     auto hashTable = H->getHashTableRaw();
     
     int i=0;
-    int size = queryMinimizerSet->size();
+    int size = queryMinimizerSet.size();
 
     ATuple tuple;
     
-    for (auto qMsIt = queryMinimizerSet->begin(); qMsIt != queryMinimizerSet->end(); qMsIt++){
+    for (auto qMsIt = queryMinimizerSet.begin(); qMsIt != queryMinimizerSet.end(); qMsIt++){
         std::printf("%d/%d\n", ++i, size);
         
         auto hashEntry = hashTable->find(qMsIt->m);
@@ -66,8 +67,6 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, 
         }
     }
     
-    delete queryMinimizerSet;
-    
     std::cout << "Finished building A" << std::endl;
     
     std::sort(A.begin(), A.end()); 
@@ -94,13 +93,14 @@ void QueryMapper::mapQuerySequence(FastADocument *targetFastADoc, BioSequence *q
     std::vector<ATuple> A;
     
     HashTableCalculationMethod method;
-    std::vector<Minimizer>* queryMinimizerSet = method.minimizerSketch(q, w, k);
+    std::vector<Minimizer> queryMinimizerSet;
+    method.minimizerSketch(q, w, k,queryMinimizerSet);
     
     HashTable* hashTableLoaded = NULL;
     std::vector<bioinformatics::Entry> *hashMinimizerSet;
     int m = -1;
     
-    for (auto queryMinIt = queryMinimizerSet->begin(); queryMinIt != queryMinimizerSet->end(); queryMinIt++) {
+    for (auto queryMinIt = queryMinimizerSet.begin(); queryMinIt != queryMinimizerSet.end(); queryMinIt++) {
         if (m >= 0 and queryMinIt->m != m) {
             hashTableLoaded->empty();
             delete hashMinimizerSet;
@@ -154,7 +154,6 @@ void QueryMapper::mapQuerySequence(FastADocument *targetFastADoc, BioSequence *q
     if (hashTableLoaded != NULL) {
         delete hashTableLoaded;
     }
-    delete queryMinimizerSet;
     
     std::sort(A.begin(), A.end()); 
 
