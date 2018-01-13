@@ -187,11 +187,11 @@ void QueryMapper::mapQuerySequence(FastADocument *targetFastADoc, BioSequence *q
     }   
 }
 
-std::vector<ATuple> QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e) {
+std::vector<ATuple> QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e) { //, std::vector<ATuple>& ret) {
     int n=e-b;
     
-    std::vector<int> tail(n, 0);
-    std::vector<int> prev(n, -1);
+    std::vector<int> tail(n+1, 0);
+    std::vector<int> prev(n+1, -1);
     
     int len = 1;
     
@@ -216,7 +216,7 @@ std::vector<ATuple> QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple
     
     std::vector<ATuple> ret;
     for (int i = tail[len - 1]; i >= 0; i = prev[i]) {
-        ret.insert(ret.begin(), A.at(i));
+        ret.insert(ret.begin(), A.at(i+b));
     }
     return ret;
 }
