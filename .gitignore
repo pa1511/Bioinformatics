@@ -11,3 +11,6 @@ nbproject/private/configurations.xml
 nbproject/private/private.xml
 
 *.o
+
+BioInformatics
+res/*
