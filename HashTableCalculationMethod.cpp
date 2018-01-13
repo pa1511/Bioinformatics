@@ -13,7 +13,6 @@
 
 #include "HashTableCalculationMethod.h"
 
-#include <math.h>
 #include <limits.h>
 #include <algorithm>
 
@@ -89,7 +88,8 @@ int HashTableCalculationMethod::PHI_function(std::string *seqence, int startInde
     int hashValue = 0;
     
     for (int i = 0; i < k; i++){
-        hashValue += powf(4.0, k-i-1) * PHI_function((*seqence)[startIndex + i]);
+        //powf(4.0, k-i-1)
+        hashValue +=  (0x1 << (2*(k-i-1))) * PHI_function((*seqence)[startIndex + i]);
     }
     
     return hashValue;
