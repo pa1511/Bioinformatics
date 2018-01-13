@@ -27,10 +27,7 @@ int main(int argc, char**argv) {
     std::string queryDocument = argv[3];
     int w = std::stoi(argv[4]);
     int k = std::stoi(argv[5]);
-   
-    if (k > w) {
-        return 1;
-    }
+  
 
     // Start stopwatch after user inputs the parameters
     Stopwatch stopwatch;
