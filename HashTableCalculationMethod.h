@@ -46,6 +46,7 @@ struct Minimizer {
 class HashTableCalculationMethod {
     public:
         static int PHI_VALUE[4];
+        static int POW_4_VALUE[16];
 
         HashTableCalculationMethod();
         ~HashTableCalculationMethod();

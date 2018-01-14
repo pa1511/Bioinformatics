@@ -18,6 +18,10 @@
 
 int HashTableCalculationMethod::PHI_VALUE[] = {0, 1, 3, 2};
 
+int HashTableCalculationMethod::POW_4_VALUE[] = {1, 4, 16, 64, 256,
+                        1024, 4096, 16384, 65536, 262144, 1048576,
+                        4194304, 16777216, 67108864, 268435456, 1073741824};
+
 HashTableCalculationMethod::HashTableCalculationMethod() {
 }
 
@@ -92,7 +96,9 @@ int HashTableCalculationMethod::PHI_function(std::string *seqence, int startInde
     
     for (int i = 0; i < k; i++){
         //powf(4.0, k-i-1)
-        hashValue +=  (0x1 << (2*(k-i-1))) * PHI_function((*seqence)[startIndex + i]);
+        //(0x1 << (2*(k-i-1)))
+        //POW_4_VALUE[k-i-1]
+        hashValue +=  POW_4_VALUE[k-i-1]* PHI_function((*seqence)[startIndex + i]);
     }
     
     return hashValue;
