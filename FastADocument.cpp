@@ -62,7 +62,8 @@ BioSequence* FastADocument::getNextSequence() {
             //read line
             std::getline(*inputStream, input);
             
-            if (c == '>') {               
+            if (c == '>') {      
+                input.erase(input.begin());
                 std::size_t firstEmptySpacePosition = input.find(" ");
                 if (firstEmptySpacePosition != std::string::npos) {
                     name = input.substr(0, firstEmptySpacePosition);
