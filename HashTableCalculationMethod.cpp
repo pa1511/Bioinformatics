@@ -68,14 +68,14 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
             entry.r = it->r;
             
             std::unordered_map<int,std::vector<bioinformatics::Entry>*>::iterator mapIt = hashTable->find(it->m);
+            std::vector<bioinformatics::Entry>* entrySet;
             if (mapIt != hashTable->end()) {
-                std::vector<bioinformatics::Entry>* entrySet = mapIt->second;
-                entrySet->push_back(entry);
+                entrySet = mapIt->second;
             } else {
-                std::vector<Entry>* entrySet = new std::vector<Entry>;
-                entrySet->push_back(entry);
+                entrySet = new std::vector<Entry>;
                 hashTable->insert(std::pair<int, std::vector<bioinformatics::Entry>*>(it->m, entrySet));
             }
+            entrySet->push_back(entry);
         }
         
         delete sequence;
