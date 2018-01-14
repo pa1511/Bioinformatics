@@ -117,9 +117,6 @@ inline int HashTableCalculationMethod::PHI_function(char b) {
     // }
     
     return PHI_VALUE[(b & 0x6) >> 1];
-    
-    // TODO: what if it is some other value
-    throw "Unknown b";
 }
 
 // ALGORITHM 2
