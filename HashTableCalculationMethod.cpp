@@ -16,7 +16,7 @@
 #include <limits.h>
 #include <algorithm>
 
-int HashTableCalculationMethod::PHI_VALUE[] = {0, 1, 3, 2};
+int HashTableCalculationMethod::PHI_VALUE[] = {0, -1, 1, -1, 3, -1, 2, -1};
 
 int HashTableCalculationMethod::POW_4_VALUE[] = {1, 4, 16, 64, 256,
                         1024, 4096, 16384, 65536, 262144, 1048576,
@@ -111,18 +111,20 @@ inline int HashTableCalculationMethod::PHI_function(char b) {
     // C 0x43   0100 0011   1
     // G 0x47   0100 0111   3
     // mask     0000 0110
-        
-    // if (b == 'A') {
-    //     return 0;
-    // } else if (b == 'C') {
-    //     return 1;
-    // } else if (b == 'G') {
-    //     return 2;
-    // } else if (b == 'T') {
-    //     return 3;
-    // }
+ /*   
+    int res;    
+    if (b == 'A') {
+        res = 0;
+    } else if (b == 'C') {
+        res = 1;
+    } else if (b == 'G') {
+        res = 2;
+    } else if (b == 'T') {
+        res = 3;
+    }
+*/        
     
-    return PHI_VALUE[(b & 0x6) >> 1];
+    return PHI_VALUE[b & 0x6];
 }
 
 // ALGORITHM 2
