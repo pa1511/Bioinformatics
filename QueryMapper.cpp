@@ -99,11 +99,6 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
 
 void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret) {
     
-    if (b == e) { 
-        ret.push_back(A[b]);
-        return;
-    }
-    
     int n=e-b;
     
     std::vector<int> tail(n+1, 0);
@@ -112,15 +107,15 @@ void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, in
     int len = 1;
     
     for (int i = 1; i < n; i++) {
-        if (A.at(i+b).c < A.at(tail[0]+b).c) {
+        if (A[i+b].i < A[tail[0]+b].i) {
             tail[0] = i;
-        } else if (A.at(tail[len - 1]+b).c < A.at(i+b).c) {
+        } else if (A[tail[len - 1]+b].i < A[i+b].i) {
             prev[i] = tail[len - 1];
             tail[len++] = i;
         } else {
             int pos = 0;
             for (int j = 1; j < n; j++) {
-                if (A.at(pos+b).c < A.at(j+b).c) {
+                if (A[pos+b].i < A[j+b].i) {
                     pos = j;
                 }
             }
@@ -130,6 +125,6 @@ void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, in
     }
     
     for (int i = tail[len - 1]; i >= 0; i = prev[i]) {
-        ret.insert(ret.begin(), A.at(i+b));
+        ret.insert(ret.begin(), A[i+b]);
     }
 }
