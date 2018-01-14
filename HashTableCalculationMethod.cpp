@@ -170,8 +170,10 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
     int minuv[w-1];
     int pos[w-1];
     
+    const int max = std::numeric_limits<int>::max();
+    
     {
-        int m = std::numeric_limits<int>::max();
+        int m = max;
         for (int j = 0; j < w-1; j++) {
             u[j] = PHI_function(raw_sequence, 1 + j, k);
             v[j] = PHI_function(raw_inv_sequence, 1 + j, k);
@@ -181,7 +183,7 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
                 m = std::min(m,minuv[j]); 
             }
             else{
-                minuv[j] = std::numeric_limits<int>::max();
+                minuv[j] = max;
             }
             
             pos[j] = 1 + j;
@@ -217,11 +219,11 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
             minuv[current_id] = std::min(u[current_id], v[current_id]);
         }
         else{
-            minuv[current_id] = std::numeric_limits<int>::max();
+            minuv[current_id] = max;
         }
 
         
-        int m = std::numeric_limits<int>::max();
+        int m = max;
         for (int j = 0; j < w-1; j++) {
             m = std::min(m,minuv[j]); 
         }
