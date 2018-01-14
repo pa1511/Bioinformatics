@@ -16,11 +16,27 @@
 #include <limits.h>
 #include <algorithm>
 
-int HashTableCalculationMethod::PHI_VALUE[] = {0, -1, 1, -1, 3, -1, 2, -1};
+//int HashTableCalculationMethod::PHI_VALUE[] = {0, -1, 1, -1, 3, -1, 2, -1}; //TODO: depends when invertible hash is called this might still be needed
+
+int HashTableCalculationMethod::PHI_VALUE[][16] = {
+    /*A: */{0, 3, 3, 3, 67, 579, 2627, 10819, 59908, 256600, 1042024, 4183720, 16761256, 67045087, 268180411, 1072721685}, 
+    {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+    /*C:*/ {0, 2, 6, 6, 134, 134, 1158, 5254, 54385, 250741, 1036837, 2084069, 10472677, 60782821, 127891685, 932509926}, 
+    {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+    /*T: */{0, 0, 12, 12, 12, 268, 2316, 10508, 43339, 239695, 1026463, 2073695, 14651231, 48184159, 115293023, 651475805},
+    {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+    /*G:*/ {0, 1, 9, 9, 201, 713, 3785, 16073, 48862, 245554, 1031650, 4173346, 4173346, 54461986, 255788578, 792659488},
+    {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}};
+
 
 int HashTableCalculationMethod::POW_4_VALUE[] = {1, 4, 16, 64, 256,
                         1024, 4096, 16384, 65536, 262144, 1048576,
                         4194304, 16777216, 67108864, 268435456, 1073741824};
+
+int HashTableCalculationMethod::INV_HASH_MASK[] = {0x0, 0x3, 0xf, 0x3f, 0xff, 
+                        0x3ff, 0xfff, 0x3fff, 0xffff, 0x3ffff, 0xfffff, 0x3fffff, 
+                        0xffffff, 0x3ffffff, 0xfffffff, 0x3fffffff};
+
 
 HashTableCalculationMethod::HashTableCalculationMethod() {
 }
@@ -87,16 +103,22 @@ int HashTableCalculationMethod::PHI_function(std::string *seqence, int startInde
     int hashValue = 0;
     
     for (int i = 0; i < k; i++){
+        //char c = (*seqence)[startIndex + i];
+//        int cHash = PHI_function((*seqence)[startIndex + i]);//TODO: old
+        int cHash = PHI_function((*seqence)[startIndex + i],k);
+        
         //powf(4.0, k-i-1)
         //(0x1 << (2*(k-i-1)))
         //POW_4_VALUE[k-i-1]
-        hashValue +=  POW_4_VALUE[k-i-1]* PHI_function((*seqence)[startIndex + i]);
+        hashValue +=  POW_4_VALUE[k-i-1]*cHash;
     }
+    
+//    hashValue = invertibleHash(hashValue,INV_HASH_MASK[k]); //TODO: if 1D
     
     return hashValue;
 }
 
-inline int HashTableCalculationMethod::PHI_function(char b) {
+inline int HashTableCalculationMethod::PHI_function(char b, int k) {
 
     // A 0x41   0100 0001   0
     // T 0x54   0101 0100   2
@@ -116,13 +138,14 @@ inline int HashTableCalculationMethod::PHI_function(char b) {
     }
 */        
     
-    return PHI_VALUE[b & 0x6];
+    //return PHI_VALUE[b & 0x6];//TODO: if only 1D
+    return PHI_VALUE[b & 0x6][k];
 }
 
 // ALGORITHM 2
-int HashTableCalculationMethod::invertibleHash(int x, int p) {
+int HashTableCalculationMethod::invertibleHash(int x, int m) {
 
-    int m = 0x1 << p - 1;
+    //int m = (0x1 << p) - 1; //says p=2k
     x = (~x + (x << 21)) & m;
     x = x^x >> 24;
     x = (x + (x << 3) + (x << 8)) & m;
