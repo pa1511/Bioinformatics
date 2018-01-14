@@ -55,7 +55,6 @@ class HashTableCalculationMethod {
         void minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k,std::vector<Minimizer>& minimizerSet);
 
     private:
-        std::string* PI_function(bioinformatics::BioSequence *biosequence, int r);
         int PHI_function(std::string *seqence, int startIndex, int k);
         inline int PHI_function(char b);
         int invertibleHash(int x, int p);
