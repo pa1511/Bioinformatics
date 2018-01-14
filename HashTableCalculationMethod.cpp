@@ -246,10 +246,7 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
         current_id = (current_id+1)%(w-1);
     }
     
-    std::set<Minimizer> s(M.begin(), M.end());
-    M.clear();
-    for(auto setIt = s.begin(); setIt!=s.end(); setIt++){
-        M.push_back(*setIt);
-    }
+    std::sort( M.begin(), M.end() );
+    M.erase(std::unique(M.begin(), M.end()),M.end());
     M.shrink_to_fit();    
 }

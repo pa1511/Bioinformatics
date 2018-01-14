@@ -39,6 +39,10 @@ struct Minimizer {
         }
         return this->m < other.m;
     }
+    
+    bool operator ==(const Minimizer& other) const {
+        return this->m==other.m && this->i==other.i && this->r==other.r;
+    }
 
 };
 #pragma pack(pop)
