@@ -46,7 +46,7 @@ int main(int argc, char**argv) {
     int const epsilon = 500;
     FastADocument *queryFastADoc = new FastADocument(queryDocument);
     QueryMapper queryMapper;
-    PAF *output = new PAF();
+    PAF *output = new PAF(k);
     
     // std::cout << "Started quering..." << std::endl;
     BioSequence* querySequence;

@@ -80,7 +80,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
             lisC.clear();
             
             LongestIncreasingSubsequence(A, b, e, lisC);
-            output->print(q, targetFastADoc, &lisC[0], &lisC[lisC.size()-1]);
+            output->print(q, targetFastADoc, &lisC[0], &lisC[lisC.size()-1], lisC.size());
             
             /*
             if (lisC[0].i > lisC[lisC.size()-1].i) {
