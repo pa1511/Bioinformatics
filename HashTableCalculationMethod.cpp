@@ -15,6 +15,7 @@
 
 #include <limits.h>
 #include <algorithm>
+#include <limits>
 
 //int HashTableCalculationMethod::PHI_VALUE[] = {0, -1, 1, -1, 3, -1, 2, -1}; //TODO: depends when invertible hash is called this might still be needed
 
@@ -166,34 +167,83 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
     Minimizer min;
     int u[w-1];
     int v[w-1];
+    int minuv[w-1];
+    int pos[w-1];
     
-    for (int i = 1, limit = sequence->size()- w-k+1; i < limit; i++) {
+    {
         int m = std::numeric_limits<int>::max();
         for (int j = 0; j < w-1; j++) {
-            u[j] = PHI_function(raw_sequence, i + j, k);
-            v[j] = PHI_function(raw_inv_sequence, i + j, k);
+            u[j] = PHI_function(raw_sequence, 1 + j, k);
+            v[j] = PHI_function(raw_inv_sequence, 1 + j, k);
             
             if (u[j] != v[j]) {
-                m = std::min(m,std::min(u[j], v[j])); 
+                minuv[j] = std::min(u[j], v[j]);
+                m = std::min(m,minuv[j]); 
             }
+            else{
+                minuv[j] = std::numeric_limits<int>::max();
+            }
+            
+            pos[j] = 1 + j;
         }
         
         for (int j = 0; j < w-1; j++) {
 
             if (u[j] == m && u[j] < v[j]) {
                 min.m = m;
-                min.i = i + j;
+                min.i = pos[j];
                 min.r = 0;
                 
                 M.push_back(min);//a copy is created
             } else if (v[j] == m && v[j] < u[j]) {
                 min.m = m;
-                min.i = i + j;
+                min.i = pos[j];
+                min.r = 1;
+                
+                M.push_back(min);//a copy is created
+            }
+        }    
+    }
+    
+    int current_id = 0;
+    
+    for (int i = 2, limit = sequence->size()- w-k+1; i < limit; i++) {
+        
+        u[current_id] = PHI_function(raw_sequence, i + w-1-1, k);
+        v[current_id] = PHI_function(raw_inv_sequence, i + w-1-1, k);
+        pos[current_id] = i + w-1-1;
+
+        if (u[current_id] != v[current_id]) {
+            minuv[current_id] = std::min(u[current_id], v[current_id]);
+        }
+        else{
+            minuv[current_id] = std::numeric_limits<int>::max();
+        }
+
+        
+        int m = std::numeric_limits<int>::max();
+        for (int j = 0; j < w-1; j++) {
+            m = std::min(m,minuv[j]); 
+        }
+        
+        for (int j = 0; j < w-1; j++) {
+
+            if (u[j] == m && u[j] < v[j]) {
+                min.m = m;
+                min.i = pos[j];
+                min.r = 0;
+                
+                M.push_back(min);//a copy is created
+            } else if (v[j] == m && v[j] < u[j]) {
+                min.m = m;
+                min.i = pos[j];
                 min.r = 1;
                 
                 M.push_back(min);//a copy is created
             }
         }
+        
+        current_id = (current_id+1)%(w-1);
     }
     
     std::set<Minimizer> s(M.begin(), M.end());
