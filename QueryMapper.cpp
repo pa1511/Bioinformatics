@@ -37,7 +37,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
     ATuple tuple;
     
     for (auto qMsIt = queryMinimizerSet.begin(); qMsIt != queryMinimizerSet.end(); qMsIt++) {
-        std::printf("%d/%d\n", ++i, size);
+        // std::printf("%d/%d\n", ++i, size);
         
         auto hashEntry = hashTable->find(qMsIt->m);
         if (hashEntry == hashTable->end())
@@ -65,7 +65,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
         }
     }
     
-    std::printf("Finished building A\n");
+    // std::printf("Finished building A\n");
     
     std::sort(A.begin(), A.end()); 
     

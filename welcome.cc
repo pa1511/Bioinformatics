@@ -48,7 +48,7 @@ int main(int argc, char**argv) {
     QueryMapper queryMapper;
     PAF *output = new PAF();
     
-    std::cout << "Started quering..." << std::endl;
+    // std::cout << "Started quering..." << std::endl;
     BioSequence* querySequence;
     while ((querySequence = queryFastADoc->getNextSequence()) != NULL) {
         queryMapper.mapQuerySequence(hashTable, targetFastADoc, querySequence, output, w, k, epsilon);
