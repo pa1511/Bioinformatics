@@ -37,7 +37,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, 
 
     ATuple tuple;
     
-    for (auto qMsIt = queryMinimizerSet.begin(); qMsIt != queryMinimizerSet.end(); qMsIt++){
+    for (auto qMsIt = queryMinimizerSet.begin(); qMsIt != queryMinimizerSet.end(); qMsIt++) {
         std::printf("%d/%d\n", ++i, size);
         
         auto hashEntry = hashTable->find(qMsIt->m);
@@ -53,11 +53,10 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, 
                 tuple.c = qMsIt->i - entryIt->i;
                 tuple.i = entryIt->i;
                 A.push_back(tuple);
-            }
-            else {
+            } else {
                 tuple.t = entryIt->sequencePosition;
                 tuple.r = 1;
-                tuple.c = qMsIt->i+entryIt->i;
+                tuple.c = qMsIt->i + entryIt->i;
                 tuple.i = entryIt->i;
                 A.push_back(tuple);
             }
@@ -73,17 +72,18 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, 
     
     std::vector<ATuple> lisC;
 
-    int b = 1;
+    int b = 0;
     for (int e = 0, size = A.size(); e < size; e++){
-        if (e == size - 1 || A[e + 1].t != A[e].t ||  
-           A[e + 1].r != A[e].r || A[e + 1].c-A[e].c >= epsilon) {
+        if ((e == size - 1) ||
+                (A[e + 1].t != A[e].t) || (A[e + 1].r != A[e].r) ||
+                (A[e + 1].c - A[e].c >= epsilon)) {
     
             lisC.clear();
             LongestIncreasingSubsequence(A, b, e, lisC);
             
-            output->print(q, targetFastADoc, lisC[0].t);
+            output->print(q, targetFastADoc, &lisC[0], &lisC[lisC.size()-1]);
             
-            b = e+1;
+            b = e + 1;
         }
     }
 }

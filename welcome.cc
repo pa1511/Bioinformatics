@@ -46,7 +46,7 @@ int main(int argc, char**argv) {
     
     // Map query sequences to the hash table
     
-/*    int const epsilon = 500;
+    int const epsilon = 500;
     FastADocument *queryFastADoc = new FastADocument(queryDocument);
     QueryMapper queryMapper;
     PAF *output = new PAF();
@@ -60,7 +60,7 @@ int main(int argc, char**argv) {
     }
     
     delete queryFastADoc;
-*/
+
     delete hashTable;
     delete targetFastADoc;
     

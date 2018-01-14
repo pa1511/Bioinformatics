@@ -16,6 +16,7 @@
 
 #include "BioSequence.h"
 #include "FastADocument.h"
+#include "ATuple.h"
 #include <iostream>
 
 using namespace bioinformatics;
@@ -25,9 +26,9 @@ public:
     PAF();
     PAF(const PAF& orig);
     virtual ~PAF();
-    void print(BioSequence *query, FastADocument *target, int targetSeqPos);
+    void print(BioSequence *query, FastADocument *target, ATuple *startATuple, ATuple *endATuple);
 private:
-
+    
 };
 
 #endif /* PAF_H */
