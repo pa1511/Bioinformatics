@@ -19,6 +19,7 @@
 #include "FastADocument.h"
 #include "BioSequence.h"
 #include "PAF.h"
+#include "PAF.h"
 #include "ATuple.h"
 #include <vector>
 #include <set>

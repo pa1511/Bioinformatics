@@ -13,10 +13,6 @@
 
 #include "HashTableCalculationMethod.h"
 
-#include <limits.h>
-#include <algorithm>
-#include <limits>
-
 //int HashTableCalculationMethod::PHI_VALUE[] = {0, -1, 1, -1, 3, -1, 2, -1}; //TODO: depends when invertible hash is called this might still be needed
 
 int HashTableCalculationMethod::PHI_VALUE[][16] = {
@@ -30,13 +26,13 @@ int HashTableCalculationMethod::PHI_VALUE[][16] = {
     {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}};
 
 
-int HashTableCalculationMethod::POW_4_VALUE[] = {1, 4, 16, 64, 256,
+int HashTableCalculationMethod::POW_4_VALUE[] = { 1, 4, 16, 64, 256,
                         1024, 4096, 16384, 65536, 262144, 1048576,
-                        4194304, 16777216, 67108864, 268435456, 1073741824};
+                        4194304, 16777216, 67108864, 268435456, 1073741824 };
 
-int HashTableCalculationMethod::INV_HASH_MASK[] = {0x0, 0x3, 0xf, 0x3f, 0xff, 
+int HashTableCalculationMethod::INV_HASH_MASK[] = { 0x0, 0x3, 0xf, 0x3f, 0xff, 
                         0x3ff, 0xfff, 0x3fff, 0xffff, 0x3ffff, 0xfffff, 0x3fffff, 
-                        0xffffff, 0x3ffffff, 0xfffffff, 0x3fffffff};
+                        0xffffff, 0x3ffffff, 0xfffffff, 0x3fffffff };
 
 
 HashTableCalculationMethod::HashTableCalculationMethod() {
@@ -46,22 +42,18 @@ HashTableCalculationMethod::~HashTableCalculationMethod() {
 }
 
 HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w, int k) {
-
-    // TODO: change so it follows the logic from the text
-    // The key is the minimizer hash value and the value is a set of target sequence index, the position of the minimizer and the strand
     
-    std::unordered_map<int,std::vector<bioinformatics::Entry>*> *hashTable = new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
+    std::unordered_map<int,std::vector<bioinformatics::Entry>*> *hashTable =
+                new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
     
     std::vector<Minimizer> minimizerSet;
     
     BioSequence *sequence;
     while ((sequence = document->getNextSequence()) != NULL) {
-                
         minimizerSet.clear();
-        minimizerSketch(sequence,w,k,minimizerSet);
+        minimizerSketch(sequence, w, k, minimizerSet);
         
         for (auto it = minimizerSet.begin(); it != minimizerSet.end(); it++) {
-            
             bioinformatics::Entry entry;
             entry.sequencePosition = sequence->getSequencePosition();
             entry.i = it->i;
@@ -69,6 +61,7 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
             
             std::unordered_map<int,std::vector<bioinformatics::Entry>*>::iterator mapIt = hashTable->find(it->m);
             std::vector<bioinformatics::Entry>* entrySet;
+            
             if (mapIt != hashTable->end()) {
                 entrySet = mapIt->second;
             } else {
@@ -103,10 +96,10 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
 int HashTableCalculationMethod::PHI_function(std::string *seqence, int startIndex, int k) {
     int hashValue = 0;
     
-    for (int i = 0; i < k; i++){
+    for (int i = 0; i < k; i++) {
         //char c = (*seqence)[startIndex + i];
 //        int cHash = PHI_function((*seqence)[startIndex + i]);//TODO: old
-        int cHash = PHI_function((*seqence)[startIndex + i],k);
+        int cHash = PHI_function((*seqence)[startIndex + i], k);
         
         //powf(4.0, k-i-1)
         //(0x1 << (2*(k-i-1)))
@@ -165,10 +158,10 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
     std::string* raw_inv_sequence = sequence->getInvertedSequence();
 
     Minimizer min;
-    int u[w-1];
-    int v[w-1];
-    int minuv[w-1];
-    int pos[w-1];
+    int u[w - 1];
+    int v[w - 1];
+    int minuv[w - 1];
+    int pos[w - 1];
     
     const int max = std::numeric_limits<int>::max();
     
@@ -181,8 +174,7 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
             if (u[j] != v[j]) {
                 minuv[j] = std::min(u[j], v[j]);
                 m = std::min(m,minuv[j]); 
-            }
-            else{
+            } else {
                 minuv[j] = max;
             }
             
@@ -196,13 +188,13 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
                 min.i = pos[j];
                 min.r = 0;
                 
-                M.push_back(min);//a copy is created
+                M.push_back(min); // a copy is created
             } else if (v[j] == m && v[j] < u[j]) {
                 min.m = m;
                 min.i = pos[j];
                 min.r = 1;
                 
-                M.push_back(min);//a copy is created
+                M.push_back(min); // a copy is created
             }
         }    
     }
@@ -217,8 +209,7 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
 
         if (u[current_id] != v[current_id]) {
             minuv[current_id] = std::min(u[current_id], v[current_id]);
-        }
-        else{
+        } else {
             minuv[current_id] = max;
         }
 
@@ -229,26 +220,25 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
         }
         
         for (int j = 0; j < w-1; j++) {
-
             if (u[j] == m && u[j] < v[j]) {
                 min.m = m;
                 min.i = pos[j];
                 min.r = 0;
                 
-                M.push_back(min);//a copy is created
+                M.push_back(min); // a copy is created
             } else if (v[j] == m && v[j] < u[j]) {
                 min.m = m;
                 min.i = pos[j];
                 min.r = 1;
                 
-                M.push_back(min);//a copy is created
+                M.push_back(min); // a copy is created
             }
         }
         
-        current_id = (current_id+1)%(w-1);
+        current_id = (current_id + 1) % (w - 1);
     }
     
-    std::sort( M.begin(), M.end() );
-    M.erase(std::unique(M.begin(), M.end()),M.end());
+    std::sort(M.begin(), M.end());
+    M.erase(std::unique(M.begin(), M.end()), M.end());
     M.shrink_to_fit();    
 }

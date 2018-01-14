@@ -5,8 +5,6 @@
  * Created on October 15, 2017, 10:35 PM
  */
 
-#include <algorithm>
-
 #include "BioSequence.h"
 
 using namespace bioinformatics;

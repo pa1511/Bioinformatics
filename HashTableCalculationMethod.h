@@ -21,6 +21,9 @@
 #include <string>
 #include <set>
 #include <map>
+#include <limits.h>
+#include <limits>
+#include <algorithm>
 
 using namespace bioinformatics;
 

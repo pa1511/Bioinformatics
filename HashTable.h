@@ -14,9 +14,15 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
+#include <cstring>
 #include <unordered_map>
 #include <vector>
+#include <iterator>
+#include <algorithm>
 
 namespace bioinformatics {
 

@@ -10,6 +10,8 @@
 
 #include <string>
 #include <sstream>
+#include <algorithm>
+
 namespace bioinformatics {
 
 class BioSequence {

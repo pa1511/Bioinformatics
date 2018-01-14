@@ -15,13 +15,16 @@
 
 using namespace bioinformatics;
 
-FastADocument::FastADocument(std::string documentLocation):document(documentLocation), saveSequenceDetails(false) {
+FastADocument::FastADocument(std::string documentLocation)
+                            :document(documentLocation), saveSequenceDetails(false) {
+    
     inputStream = new std::ifstream();
     inputStream->open(this->document);
 }
 
 FastADocument::FastADocument(std::string documentLocation, bool saveSequenceDetails)
                             :document(documentLocation), saveSequenceDetails(saveSequenceDetails) {
+    
     inputStream = new std::ifstream();
     inputStream->open(this->document);
 }
@@ -55,11 +58,11 @@ BioSequence* FastADocument::getNextSequence() {
         
         while ((c = inputStream->peek()) != EOF) {
             
-            //we see the start of the next sequence
+            // we see the start of the next sequence
             if (c == '>' && sequence != NULL) {
                 break;
             }
-            //read line
+            // read line
             std::getline(*inputStream, input);
             
             if (c == '>') {      
@@ -92,7 +95,6 @@ BioSequence* FastADocument::getNextSequence() {
             sequenceInfo.length = sequence->size();
             this->sequenceDetails.push_back(sequenceInfo);
         }
-        //std::cout << sequence->getSequencePosition() << std::endl;
     }
     
     return sequence;

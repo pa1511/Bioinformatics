@@ -13,11 +13,10 @@
 
 using namespace bioinformatics;
 
-//List of methods defined in this file
+// List of methods defined in this file
 int main(int argc, char**argv);
 
-//Method implementations
-
+// Method implementations
 int main(int argc, char**argv) {
     
     #if PROGRAM == 1
@@ -28,7 +27,6 @@ int main(int argc, char**argv) {
     int w = std::stoi(argv[4]);
     int k = std::stoi(argv[5]);
   
-
     // Start stopwatch after user inputs the parameters
     Stopwatch stopwatch;
     stopwatch.start();
@@ -45,7 +43,6 @@ int main(int argc, char**argv) {
     // delete targetFastADoc;
     
     // Map query sequences to the hash table
-    
     int const epsilon = 500;
     FastADocument *queryFastADoc = new FastADocument(queryDocument);
     QueryMapper queryMapper;
@@ -55,7 +52,6 @@ int main(int argc, char**argv) {
     BioSequence* querySequence;
     while ((querySequence = queryFastADoc->getNextSequence()) != NULL) {
         queryMapper.mapQuerySequence(hashTable, targetFastADoc, querySequence, output, w, k, epsilon);
-        //queryMapper.mapQuerySequence(targetFastADoc, querySequence, output, w, k, epsilon);
         delete querySequence;
     }
     

@@ -11,13 +11,6 @@
  * Created on November 5, 2017, 12:13 PM
  */
 
-#include <fstream>
-#include <cstring>
-#include <iostream>
-#include <sstream>
-#include <iterator>
-#include <algorithm>
-
 #include "HashTable.h"
 
 using namespace bioinformatics;

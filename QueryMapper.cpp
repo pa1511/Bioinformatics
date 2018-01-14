@@ -12,7 +12,6 @@
  */
 
 #include "QueryMapper.h"
-#include "PAF.h"
 
 using namespace bioinformatics;
 
@@ -22,9 +21,8 @@ QueryMapper::QueryMapper() {
 QueryMapper::~QueryMapper() {
 }
 
-void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, BioSequence *q, PAF *output, int w, int k, int epsilon){
-    
-    std::vector<ATuple> A;
+void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
+        BioSequence *q, PAF *output, int w, int k, int epsilon){
     
     HashTableCalculationMethod method;
     std::vector<Minimizer> queryMinimizerSet;
@@ -32,9 +30,10 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, 
     
     auto hashTable = H->getHashTableRaw();
     
-    int i=0;
+    int i = 0;
     int size = queryMinimizerSet.size();
 
+    std::vector<ATuple> A;
     ATuple tuple;
     
     for (auto qMsIt = queryMinimizerSet.begin(); qMsIt != queryMinimizerSet.end(); qMsIt++) {
@@ -61,12 +60,12 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, 
                 A.push_back(tuple);
             }
 
-            //std::printf("Query h, i, r: %d, %d, %d\tt, r, c, i': %d, %d, %d, %d\n",
-            //    qMsIt->m, qMsIt->i, unsigned(qMsIt->r), tuple.t, tuple.r, tuple.c, tuple.i);
+            // std::printf("Query h, i, r: %d, %d, %d\tt, r, c, i': %d, %d, %d, %d\n",
+            // qMsIt->m, qMsIt->i, unsigned(qMsIt->r), tuple.t, tuple.r, tuple.c, tuple.i);
         }
     }
     
-    std::cout << "Finished building A" << std::endl;
+    std::printf("Finished building A\n");
     
     std::sort(A.begin(), A.end()); 
     
@@ -79,9 +78,19 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, 
                 (A[e + 1].c - A[e].c >= epsilon)) {
     
             lisC.clear();
-            LongestIncreasingSubsequence(A, b, e, lisC);
             
+            LongestIncreasingSubsequence(A, b, e, lisC);
             output->print(q, targetFastADoc, &lisC[0], &lisC[lisC.size()-1]);
+            
+            /*
+            if (lisC[0].i > lisC[lisC.size()-1].i) {
+                for (int g = 0; g < lisC.size(); g++) {
+                    printf("(i=%d, c=%d)  ", lisC[g].i, lisC[g].c);
+                }
+                
+                printf("\n\n");
+            }
+            */
             
             b = e + 1;
         }
