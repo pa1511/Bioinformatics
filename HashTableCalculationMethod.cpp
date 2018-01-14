@@ -85,10 +85,8 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
 std::string* HashTableCalculationMethod::PI_function(bioinformatics::BioSequence* biosequence, int r) {
     if(r == 0) {
         return biosequence->getSequence();
-    } else if(r == 1) {
-        return biosequence->getInvertedSequence();
     }
-    throw "r was different from 0 and 1";
+    return biosequence->getInvertedSequence();
 }
 
 int HashTableCalculationMethod::PHI_function(std::string *seqence, int startIndex, int k) {
