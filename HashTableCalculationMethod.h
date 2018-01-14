@@ -52,8 +52,7 @@ struct Minimizer {
 
 class HashTableCalculationMethod {
     public:
-        //static int PHI_VALUE[8]; //TODO: if 1D
-        static int PHI_VALUE[][16];
+        static int PHI_VALUE[8];
         static int POW_4_VALUE[16];
         static int INV_HASH_MASK[16];
 
@@ -65,7 +64,7 @@ class HashTableCalculationMethod {
 
     private:
         int PHI_function(std::string *seqence, int startIndex, int k);
-        inline int PHI_function(char b, int k);
+        inline int PHI_function(char b);
         int invertibleHash(int x, int m);
 };
 
