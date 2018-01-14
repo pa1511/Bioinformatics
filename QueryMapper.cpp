@@ -114,7 +114,6 @@ void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, in
     for (int i = 1; i < n; i++) {
         if (A.at(i+b).c < A.at(tail[0]+b).c) {
             tail[0] = i;
-            // TODO napisati A>B
         } else if (A.at(tail[len - 1]+b).c < A.at(i+b).c) {
             prev[i] = tail[len - 1];
             tail[len++] = i;
