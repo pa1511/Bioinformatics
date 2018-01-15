@@ -35,8 +35,6 @@ class QueryMapper {
         ~QueryMapper();
 
         void mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, BioSequence *q, PAF *output, int w, int k, int epsilon);
-
-        //void LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret);
         std::vector<ATuple>* lis(std::vector<ATuple>& array, int b, int e);
     private:
         void fillASame(std::vector<Minimizer>& queryMinimizerSet, std::unordered_map<int, std::vector<bioinformatics::Entry>*> * hashTable, std::vector<ATuple>& A, ATuple& tuple);
