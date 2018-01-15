@@ -56,13 +56,13 @@ class HashTableCalculationMethod {
         ~HashTableCalculationMethod();
 
         HashTable* calculate(FastADocument* document, int w, int k);
-
         void minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k,std::vector<Minimizer>& minimizerSet0, std::vector<Minimizer>& minimizerSet1);
 
 
     private:
         void fillMap(std::unordered_map<int,std::vector<bioinformatics::Entry>*>* hashTable, std::vector<Minimizer>& minimizerSet, BioSequence* sequence);
-        void removeDuplicates(std::vector<Minimizer>& M);
+        inline void shrinkVectors(std::unordered_map<int,std::vector<bioinformatics::Entry>*>* hashTable0);
+        inline void removeDuplicates(std::vector<Minimizer>& M);
         int PHI_function(std::string *seqence, int startIndex, int k);
         inline int PHI_function(char b);
         int invertibleHash(int x, int m);

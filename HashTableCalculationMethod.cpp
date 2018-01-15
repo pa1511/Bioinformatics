@@ -53,12 +53,8 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
     }
     
     //Fit vectors to the minimum memory size they need
-    for(auto it=hashTable0->begin(); it!=hashTable0->end(); it++){
-        it->second->shrink_to_fit();
-    }
-    for(auto it=hashTable1->begin(); it!=hashTable1->end(); it++){
-        it->second->shrink_to_fit();
-    }
+    shrinkVectors(hashTable0);
+    shrinkVectors(hashTable1);
     
     return new HashTable(hashTable0,hashTable1);
 }
@@ -79,6 +75,12 @@ void HashTableCalculationMethod::fillMap(std::unordered_map<int,std::vector<bioi
             hashTable->insert(std::pair<int, std::vector<bioinformatics::Entry>*>(it->m, entrySet));
         }
         entrySet->push_back(entry);
+    }
+}
+
+inline void HashTableCalculationMethod::shrinkVectors(std::unordered_map<int,std::vector<bioinformatics::Entry>*>* hashTable){
+    for(auto it=hashTable->begin(); it!=hashTable->end(); it++){
+        it->second->shrink_to_fit();
     }
 }
 
@@ -222,7 +224,7 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
     removeDuplicates(M1);
 }
 
-void HashTableCalculationMethod::removeDuplicates(std::vector<Minimizer>& M){
+inline void HashTableCalculationMethod::removeDuplicates(std::vector<Minimizer>& M){
     std::sort(M.begin(), M.end());
     M.erase(std::unique(M.begin(), M.end()), M.end());
     M.shrink_to_fit();    
