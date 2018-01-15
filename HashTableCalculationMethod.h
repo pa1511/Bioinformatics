@@ -31,20 +31,16 @@ using namespace bioinformatics;
 struct Minimizer {
     int m;
     int i;
-    std::uint8_t r;
     
     bool operator <(const Minimizer& other) const {
         if (this->m == other.m) {
-            if (this->i == other.i) {
-                return this->r < other.r;
-            }
             return this->i < other.i;
         }
         return this->m < other.m;
     }
     
     bool operator ==(const Minimizer& other) const {
-        return this->m==other.m && this->i==other.i && this->r==other.r;
+        return this->m==other.m && this->i==other.i;
     }
 
 };
@@ -60,9 +56,13 @@ class HashTableCalculationMethod {
         ~HashTableCalculationMethod();
 
         HashTable* calculate(FastADocument* document, int w, int k);
-        void minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k,std::vector<Minimizer>& minimizerSet);
+
+        void minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k,std::vector<Minimizer>& minimizerSet0, std::vector<Minimizer>& minimizerSet1);
+
 
     private:
+        void fillMap(std::unordered_map<int,std::vector<bioinformatics::Entry>*>* hashTable, int r, std::vector<Minimizer>& minimizerSet, BioSequence* sequence);
+        void removeDuplicates(std::vector<Minimizer>& M);
         int PHI_function(std::string *seqence, int startIndex, int k);
         inline int PHI_function(char b);
         int invertibleHash(int x, int m);

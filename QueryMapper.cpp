@@ -28,40 +28,17 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
     int MIN_MAPPING_SUBSET_SIZE = 4;
     
     HashTableCalculationMethod method;
-    std::vector<Minimizer> queryMinimizerSet;
-    method.minimizerSketch(q, w, k,queryMinimizerSet);
+    std::vector<Minimizer> queryMinimizerSet0;
+    std::vector<Minimizer> queryMinimizerSet1;
+    method.minimizerSketch(q, w, k,queryMinimizerSet0,queryMinimizerSet1);
     
     auto hashTable = H->getHashTableRaw();
 
     std::vector<ATuple> A;
     ATuple tuple;
     
-    for (auto qMsIt = queryMinimizerSet.begin(); qMsIt != queryMinimizerSet.end(); qMsIt++) { 
-        auto hashEntry = hashTable->find(qMsIt->m);
-        if (hashEntry == hashTable->end())
-            continue;
-        
-        auto entrySet = hashEntry->second;
-        
-        for (auto entryIt = entrySet->begin(); entryIt != entrySet->end(); entryIt++) {
-            if (qMsIt->r == entryIt->r) {
-                tuple.t = entryIt->sequencePosition;
-                tuple.r = 0;
-                tuple.c = qMsIt->i - entryIt->i;
-                tuple.i = entryIt->i;
-                A.push_back(tuple);
-            } else {
-                tuple.t = entryIt->sequencePosition;
-                tuple.r = 1;
-                tuple.c = qMsIt->i + entryIt->i;
-                tuple.i = entryIt->i;
-                A.push_back(tuple);
-            }
-
-            // std::printf("Query h, i, r: %d, %d, %d\tt, r, c, i': %d, %d, %d, %d\n",
-            // qMsIt->m, qMsIt->i, unsigned(qMsIt->r), tuple.t, tuple.r, tuple.c, tuple.i);
-        }
-    }
+    fillA(0,queryMinimizerSet0, hashTable, A, tuple);
+    fillA(1,queryMinimizerSet1, hashTable, A, tuple);
     
     // std::printf("Finished building A\n");
     
@@ -99,6 +76,35 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
             
             
             b = e + 1;
+        }
+    }
+}
+
+void QueryMapper::fillA(int r, std::vector<Minimizer>& queryMinimizerSet, std::unordered_map<int, std::vector<bioinformatics::Entry>*> * hashTable, std::vector<ATuple>& A, ATuple& tuple){
+    for (auto qMsIt = queryMinimizerSet.begin(); qMsIt != queryMinimizerSet.end(); qMsIt++) { 
+        auto hashEntry = hashTable->find(qMsIt->m);
+        if (hashEntry == hashTable->end())
+            continue;
+        
+        auto entrySet = hashEntry->second;
+        
+        for (auto entryIt = entrySet->begin(); entryIt != entrySet->end(); entryIt++) {
+            if (r == entryIt->r) {
+                tuple.t = entryIt->sequencePosition;
+                tuple.r = 0;
+                tuple.c = qMsIt->i - entryIt->i;
+                tuple.i = entryIt->i;
+                A.push_back(tuple);
+            } else {
+                tuple.t = entryIt->sequencePosition;
+                tuple.r = 1;
+                tuple.c = qMsIt->i + entryIt->i;
+                tuple.i = entryIt->i;
+                A.push_back(tuple);
+            }
+            
+            // std::printf("Query h, i, r: %d, %d, %d\tt, r, c, i': %d, %d, %d, %d\n",
+            // qMsIt->m, qMsIt->i, unsigned(qMsIt->r), tuple.t, tuple.r, tuple.c, tuple.i);
         }
     }
 }

@@ -35,52 +35,48 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
     std::unordered_map<int,std::vector<bioinformatics::Entry>*> *hashTable =
                 new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
     
-    std::vector<Minimizer> minimizerSet;
+    std::vector<Minimizer> minimizerSet0;
+    std::vector<Minimizer> minimizerSet1;
     
     BioSequence *sequence;
     while ((sequence = document->getNextSequence()) != NULL) {
-        minimizerSet.clear();
-        minimizerSketch(sequence, w, k, minimizerSet);
+        minimizerSet0.clear();
+        minimizerSet1.clear();
+        minimizerSketch(sequence, w, k, minimizerSet0, minimizerSet1);
         
-        for (auto it = minimizerSet.begin(); it != minimizerSet.end(); it++) {
-            bioinformatics::Entry entry;
-            entry.sequencePosition = sequence->getSequencePosition();
-            entry.i = it->i;
-            entry.r = it->r;
-            
-            std::unordered_map<int,std::vector<bioinformatics::Entry>*>::iterator mapIt = hashTable->find(it->m);
-            std::vector<bioinformatics::Entry>* entrySet;
-            
-            if (mapIt != hashTable->end()) {
-                entrySet = mapIt->second;
-            } else {
-                entrySet = new std::vector<Entry>;
-                hashTable->insert(std::pair<int, std::vector<bioinformatics::Entry>*>(it->m, entrySet));
-            }
-            entrySet->push_back(entry);
-        }
+        fillMap(hashTable, 0, minimizerSet0, sequence);
+        fillMap(hashTable, 1, minimizerSet1, sequence);
         
         delete sequence;
     }
     
     //Fit vectors to the minimum memory size they need
     for(auto it=hashTable->begin(); it!=hashTable->end(); it++){
-        
-        //TODO: it seems we maybe don't need this part
-        /*
-        std::set<bioinformatics::Entry> s( it->second->begin(), it->second->end());
-	it->second->clear();
-	for(auto setIt = s.begin(); setIt!=s.end(); setIt++){
-	    it->second->push_back(*setIt);
-	}
-        */
-        
         it->second->shrink_to_fit();
     }
     
     return new HashTable(hashTable);
 }
 
+void HashTableCalculationMethod::fillMap(std::unordered_map<int,std::vector<bioinformatics::Entry>*>* hashTable, int r, std::vector<Minimizer>& minimizerSet, BioSequence* sequence){
+    for (auto it = minimizerSet.begin(); it != minimizerSet.end(); it++) {
+        bioinformatics::Entry entry;
+        entry.sequencePosition = sequence->getSequencePosition();
+        entry.i = it->i;
+        entry.r = r;
+        
+        std::unordered_map<int,std::vector<bioinformatics::Entry>*>::iterator mapIt = hashTable->find(it->m);
+        std::vector<bioinformatics::Entry>* entrySet;
+        
+        if (mapIt != hashTable->end()) {
+            entrySet = mapIt->second;
+        } else {
+            entrySet = new std::vector<Entry>;
+            hashTable->insert(std::pair<int, std::vector<bioinformatics::Entry>*>(it->m, entrySet));
+        }
+        entrySet->push_back(entry);
+    }
+}
 
 int HashTableCalculationMethod::PHI_function(std::string *seqence, int startIndex, int k) {
     int hashValue = 0;
@@ -136,7 +132,7 @@ int HashTableCalculationMethod::invertibleHash(int x, int m) {
 }
 
 // ALGORITHM 1
-void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k, std::vector<Minimizer>& M) {
+void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *sequence, int w, int k, std::vector<Minimizer>& M0, std::vector<Minimizer>& M1) {
     
     std::string* raw_sequence = sequence->getSequence();
     std::string* raw_inv_sequence = sequence->getInvertedSequence();
@@ -170,15 +166,13 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
             if (u[j] == m && u[j] < v[j]) {
                 min.m = m;
                 min.i = pos[j];
-                min.r = 0;
                 
-                M.push_back(min); // a copy is created
+                M0.push_back(min); // a copy is created
             } else if (v[j] == m && v[j] < u[j]) {
                 min.m = m;
                 min.i = pos[j];
-                min.r = 1;
                 
-                M.push_back(min); // a copy is created
+                M1.push_back(min); // a copy is created
             }
         }    
     }
@@ -207,22 +201,26 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
             if (u[j] == m && u[j] < v[j]) {
                 min.m = m;
                 min.i = pos[j];
-                min.r = 0;
                 
-                M.push_back(min); // a copy is created
+                M0.push_back(min); // a copy is created
             } else if (v[j] == m && v[j] < u[j]) {
                 min.m = m;
                 min.i = pos[j];
-                min.r = 1;
                 
-                M.push_back(min); // a copy is created
+                M1.push_back(min); // a copy is created
             }
         }
         
         current_id = (current_id + 1) % (w - 1);
     }
     
+    removeDuplicates(M0);
+    removeDuplicates(M1);
+}
+
+void HashTableCalculationMethod::removeDuplicates(std::vector<Minimizer>& M){
     std::sort(M.begin(), M.end());
     M.erase(std::unique(M.begin(), M.end()), M.end());
     M.shrink_to_fit();    
 }
+
