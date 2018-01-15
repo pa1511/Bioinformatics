@@ -196,14 +196,14 @@ std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array, int b, int e) 
     solutions.push_back(s0);
 
 
-    for (int i = b+1; i < e; i++) {
+    for (int i = b+1; i <= e; i++) {
 
         ATuple elem = array[i];
 
         std::vector<ATuple>* longest_solution = solutions.back();
         ATuple last_max = longest_solution->back();
 
-        if (last_max.i < elem.i) {//TODO: was <=
+        if (last_max.i <= elem.i) {
             std::vector<ATuple>* new_longest_solution = new std::vector<ATuple>(*longest_solution);
             new_longest_solution->push_back(elem);
             solutions.push_back(new_longest_solution);
@@ -221,7 +221,7 @@ std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array, int b, int e) 
                 } else {
                     ATuple second_last = (*solution)->at(sol_size - 2);
 
-                    if (elem.i > second_last.i && elem.i < last.i) {//TODO: was >=
+                    if (elem.i >= second_last.i && elem.i < last.i) {
                         (*solution)->clear();
                         (*solution)->insert((*solution)->end(), (*(solution - 1))->begin(), (*(solution - 1))->end());
                         (*solution)->push_back(elem);
