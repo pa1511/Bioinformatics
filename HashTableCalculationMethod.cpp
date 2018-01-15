@@ -164,7 +164,7 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
                 minuv[j] = max;
             }
             
-            pos[j] = 1 + j;
+            pos[j] = j;
         }
         
         for (int j = 0; j < w-1; j++) {
