@@ -18,6 +18,7 @@
 #include "HashTable.h"
 #include "FastADocument.h"
 #include "BioSequence.h"
+#include "Minimizer.h"
 #include "PAF.h"
 #include "PAF.h"
 #include "ATuple.h"

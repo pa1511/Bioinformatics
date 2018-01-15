@@ -17,13 +17,9 @@
 #include <fstream>
 #include <vector>
 #include "BioSequence.h"
+#include "SequenceInfo.h"
 
 namespace bioinformatics {
-    
-struct SequenceInfo {
-    std::string name;
-    int length;
-};   
 
 class FastADocument {
     public:

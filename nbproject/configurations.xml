@@ -43,12 +43,15 @@ Contributor(s):
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>ATuple.h</itemPath>
       <itemPath>BioSequence.h</itemPath>
       <itemPath>FastADocument.h</itemPath>
       <itemPath>HashTable.h</itemPath>
       <itemPath>HashTableCalculationMethod.h</itemPath>
+      <itemPath>Minimizer.h</itemPath>
       <itemPath>PAF.h</itemPath>
       <itemPath>QueryMapper.h</itemPath>
+      <itemPath>SequenceInfo.h</itemPath>
       <itemPath>Stopwatch.h</itemPath>
       <itemPath>welcome.h</itemPath>
     </logicalFolder>
@@ -95,6 +98,8 @@ Contributor(s):
           <commandLine>-std=c++11</commandLine>
         </ccTool>
       </compileType>
+      <item path="ATuple.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="BioSequence.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="BioSequence.h" ex="false" tool="3" flavor2="0">
@@ -113,6 +118,8 @@ Contributor(s):
       </item>
       <item path="Lambda_reads.fasta" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Minimizer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="PAF.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="PAF.h" ex="false" tool="3" flavor2="0">
@@ -120,6 +127,8 @@ Contributor(s):
       <item path="QueryMapper.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="QueryMapper.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SequenceInfo.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stopwatch.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -154,6 +163,8 @@ Contributor(s):
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="ATuple.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="BioSequence.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="BioSequence.h" ex="false" tool="3" flavor2="0">
@@ -172,6 +183,8 @@ Contributor(s):
       </item>
       <item path="Lambda_reads.fasta" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Minimizer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="PAF.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="PAF.h" ex="false" tool="3" flavor2="0">
@@ -179,6 +192,8 @@ Contributor(s):
       <item path="QueryMapper.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="QueryMapper.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SequenceInfo.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stopwatch.cpp" ex="false" tool="1" flavor2="0">
       </item>

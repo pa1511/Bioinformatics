@@ -16,6 +16,7 @@
 
 #include "BioSequence.h"
 #include "FastADocument.h"
+#include "SequenceInfo.h"
 #include "ATuple.h"
 #include <iostream>
 

@@ -17,6 +17,7 @@
 #include "BioSequence.h"
 #include "FastADocument.h"
 #include "HashTable.h"
+#include "Minimizer.h"
 
 #include <string>
 #include <set>
@@ -26,25 +27,6 @@
 #include <algorithm>
 
 using namespace bioinformatics;
-
-#pragma pack(push, 1)
-struct Minimizer {
-    int m;
-    int i;
-    
-    bool operator <(const Minimizer& other) const {
-        if (this->m == other.m) {
-            return this->i < other.i;
-        }
-        return this->m < other.m;
-    }
-    
-    bool operator ==(const Minimizer& other) const {
-        return this->m==other.m && this->i==other.i;
-    }
-
-};
-#pragma pack(pop)
 
 class HashTableCalculationMethod {
     public:
