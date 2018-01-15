@@ -36,14 +36,14 @@ int main(int argc, char**argv) {
     HashTableCalculationMethod method;
     HashTable *hashTable = method.calculate(targetFastADoc, w, k);
     
-    //hashTable->save(hashDocumentName);
+    //hashTable->save("hash-out.txt");
     //std::cout << "Deleting hash table from memory..." << std::endl;
     //delete hashTable;
     //std::cout << "Hash table deleted from memory" << std::endl;
     // delete targetFastADoc;
     
     // Map query sequences to the hash table
-    
+    /*    
     int const epsilon = 500;
     FastADocument *queryFastADoc = new FastADocument(queryDocument);
     QueryMapper queryMapper;
@@ -57,7 +57,7 @@ int main(int argc, char**argv) {
     }
     
     delete queryFastADoc;
-    
+    */
     delete hashTable;
     delete targetFastADoc;
     

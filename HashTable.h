@@ -51,7 +51,7 @@ class HashTable {
         std::unordered_map<int, std::vector<bioinformatics::Entry>*>* getHashTableRaw0();
         std::unordered_map<int, std::vector<bioinformatics::Entry>*>* getHashTableRaw1();
         
-//        void save(std::string path);
+        void save(std::string path);
 //        static HashTable* load(std::string path);
 //        static HashTable* loadWithM(std::string path, int m);
     private:

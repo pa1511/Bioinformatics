@@ -12,6 +12,7 @@
  */
 
 #include "HashTable.h"
+#include <set>
 
 using namespace bioinformatics;
 
@@ -52,7 +53,6 @@ std::unordered_map<int, std::vector<bioinformatics::Entry>*>* HashTable::getHash
     return this->hashTableRaw1;
 }
 
-/*
 void HashTable::save(std::string path) {
     std::ofstream hashFile;
     
@@ -61,19 +61,40 @@ void HashTable::save(std::string path) {
     if (hashFile.is_open()) {
         std::cout << "Saving hash table..." << std::endl;
         
-        for (auto it = hashTableRaw->begin(); it!=hashTableRaw->end(); it++) {
-            int key = it->first;
+        std::set<int> keys;
+        for (auto it = hashTableRaw0->begin(); it!=hashTableRaw0->end(); it++) {
+            keys.insert(it->first);
+        }       
+        for (auto it = hashTableRaw1->begin(); it!=hashTableRaw1->end(); it++) {
+            keys.insert(it->first);
+        }       
+        
+        
+        for (auto it = keys.begin(); it!=keys.end(); it++) {
+            int key = *it;
             hashFile << "# " << key << std::endl;
             
-            for (auto setit = it->second->begin(); setit != it->second->end(); setit++) {
-                hashFile << ((int)setit->sequencePosition) << " " << setit->i << " " << unsigned(setit->r) << std::endl;
+            auto h0It = this->hashTableRaw0->find(key);
+            if(h0It!=this->hashTableRaw0->end()){
+                for (auto setit = h0It->second->begin(); setit != h0It->second->end(); setit++) {
+                    hashFile << ((int)setit->sequencePosition) << " " << setit->i << " " << 0 << std::endl;
+                }
             }
+
+            auto h1It = this->hashTableRaw1->find(key);
+            if(h1It!=this->hashTableRaw1->end()){
+                for (auto setit = h1It->second->begin(); setit != h1It->second->end(); setit++) {
+                    hashFile << ((int)setit->sequencePosition) << " " << setit->i << " " << 1 << std::endl;
+                }
+            }
+            
         }
         std::cout << "Saved as \"" << path << "\"" << std::endl;
     }
     hashFile.close();
 }
 
+/*
 
 HashTable* HashTable::load(std::string path) {
     std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTable = new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
