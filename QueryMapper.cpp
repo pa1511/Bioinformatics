@@ -24,21 +24,19 @@ QueryMapper::~QueryMapper() {
 void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
         BioSequence *q, PAF *output, int w, int k, int epsilon){
     
+    int MATCHING_BASES_MIN_COUNT = 100;
+    int MIN_MAPPING_SUBSET_SIZE = 4;
+    
     HashTableCalculationMethod method;
     std::vector<Minimizer> queryMinimizerSet;
     method.minimizerSketch(q, w, k,queryMinimizerSet);
     
     auto hashTable = H->getHashTableRaw();
-    
-    int i = 0;
-    int size = queryMinimizerSet.size();
 
     std::vector<ATuple> A;
     ATuple tuple;
     
-    for (auto qMsIt = queryMinimizerSet.begin(); qMsIt != queryMinimizerSet.end(); qMsIt++) {
-        // std::printf("%d/%d\n", ++i, size);
-        
+    for (auto qMsIt = queryMinimizerSet.begin(); qMsIt != queryMinimizerSet.end(); qMsIt++) { 
         auto hashEntry = hashTable->find(qMsIt->m);
         if (hashEntry == hashTable->end())
             continue;
@@ -80,9 +78,13 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
             lisC.clear();
             
             LongestIncreasingSubsequence(A, b, e, lisC);
-            int N = lisC.size();
             
-            output->print(q, targetFastADoc, &lisC[0], &lisC[N-1], N);
+            int N = lisC.size();
+            int matchingBases = N * k;
+            
+            if (N >= MIN_MAPPING_SUBSET_SIZE && matchingBases >= MATCHING_BASES_MIN_COUNT) {
+                output->print(q, targetFastADoc, &lisC[0], &lisC[N-1], N);
+            }
             
             
             /*
