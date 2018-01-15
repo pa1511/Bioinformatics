@@ -33,6 +33,31 @@ struct ATuple {
         }
         return this->t < other.t;
     }
+          
+    bool operator >(const ATuple& other) const {
+        if (this->t == other.t) {
+            if(this->r == other.r) {
+                if (this->c == other.c) {
+                    return this->i > other.i;
+                }
+                return this->c > other.c;
+            }
+            return this->r > other.r;
+        }
+        return this->t > other.t;
+    }
+
+    bool operator ==(const ATuple& other) const {
+        return this->t == other.t && this->r == other.r && this->c == other.c && this->i==other.i;         
+    }
+    
+    bool operator <=(const ATuple& other) const {
+        return *this<other || *this==other;
+    }
+
+    bool operator >=(const ATuple& other) const {
+        return *this>other || *this==other;
+    }
 }; 
 #pragma pack(pop)
 
