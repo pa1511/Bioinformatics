@@ -13,7 +13,8 @@
 
 #include "QueryMapper.h"
 #include <stdlib.h>   
-#include <time.h>     
+#include <time.h>   
+#include <iostream>
 
 using namespace bioinformatics;
 
@@ -51,7 +52,6 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
     // std::printf("Finished building A\n");
     
     std::sort(A.begin(), A.end()); 
-    
     std::vector<ATuple>* lisC;
 
      srand (time(NULL));
@@ -71,9 +71,25 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
                 int N = lisC->size();
                 int matchingBases = N * k;
 
+                /*
+                std::cout << "Lis group" << std::endl;
+                for(int k=b; k<=e; k++){
+                    std::cout << "T: " << A[k].t << " R: " << unsigned(A[k].r) 
+                            << " C: " << A[k].c << " I: " << A[k].i << std::endl;
+                }
+                std::cout << std::endl;
+                std::cout << "Lis result" << std::endl;
+                
+                for(auto lisIter = lisC->begin(); lisIter!=lisC->end(); lisIter++){
+                    std::cout << "T: " << lisIter->t << " R: " << unsigned(lisIter->r) 
+                            << " C: " << lisIter->c << " I: " << lisIter->i << std::endl;
+                }
+                std::cout << std::endl;
+                std::cout << std::endl;
+                */
                 
                 if (N >= MIN_MAPPING_SUBSET_SIZE && matchingBases >= MATCHING_BASES_MIN_COUNT) {
-                    output->print(q, targetFastADoc, &(*lisC)[0], &(*lisC)[N-1], N);
+                    output->print(q, targetFastADoc, &((*lisC)[0]), &((*lisC)[N-1]), N);
                 }
                 
                 /*if ((*lisC)[0].i > (*lisC)[lisC->size()-1].i ||  rand() % 1000 == 0) {
@@ -174,7 +190,7 @@ void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, in
 std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array, int b, int e) {
 
     std::vector<ATuple>* s0 = new std::vector<ATuple>();
-    s0->push_back(array[0]);
+    s0->push_back(array[b]);
 
     std::vector<std::vector<ATuple>*> solutions;
     solutions.push_back(s0);
@@ -187,7 +203,7 @@ std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array, int b, int e) 
         std::vector<ATuple>* longest_solution = solutions.back();
         ATuple last_max = longest_solution->back();
 
-        if (last_max.i <= elem.i) {
+        if (last_max.i < elem.i) {//TODO: was <=
             std::vector<ATuple>* new_longest_solution = new std::vector<ATuple>(*longest_solution);
             new_longest_solution->push_back(elem);
             solutions.push_back(new_longest_solution);
@@ -205,7 +221,7 @@ std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array, int b, int e) 
                 } else {
                     ATuple second_last = (*solution)->at(sol_size - 2);
 
-                    if (elem.i >= second_last.i && elem.i < last.i) {
+                    if (elem.i > second_last.i && elem.i < last.i) {//TODO: was >=
                         (*solution)->clear();
                         (*solution)->insert((*solution)->end(), (*(solution - 1))->begin(), (*(solution - 1))->end());
                         (*solution)->push_back(elem);

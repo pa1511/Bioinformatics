@@ -48,8 +48,6 @@ std::vector<bioinformatics::SequenceInfo>* FastADocument::getSequenceDetails() {
  */
 BioSequence* FastADocument::getNextSequence() {
     BioSequence *sequence = NULL;
-    std::string name;
-    std::string comment;
     
     if (inputStream->is_open()) {
         
@@ -66,6 +64,9 @@ BioSequence* FastADocument::getNextSequence() {
             std::getline(*inputStream, input);
             
             if (c == '>') {      
+                std::string name;
+                std::string comment;
+                
                 input.erase(input.begin());
                 std::size_t firstEmptySpacePosition = input.find(" ");
                 if (firstEmptySpacePosition != std::string::npos) {
@@ -91,7 +92,7 @@ BioSequence* FastADocument::getNextSequence() {
         sequence->initialize();
         if (this->saveSequenceDetails) {
             SequenceInfo sequenceInfo;
-            sequenceInfo.name = name;
+            sequenceInfo.name = sequence->getName();
             sequenceInfo.length = sequence->size();
             this->sequenceDetails.push_back(sequenceInfo);
         }
