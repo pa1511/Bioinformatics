@@ -26,23 +26,26 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
     
     int MATCHING_BASES_MIN_COUNT = 100;
     int MIN_MAPPING_SUBSET_SIZE = 4;
-    
-    HashTableCalculationMethod method;
-    std::vector<Minimizer> queryMinimizerSet0;
-    std::vector<Minimizer> queryMinimizerSet1;
-    method.minimizerSketch(q, w, k,queryMinimizerSet0,queryMinimizerSet1);
-    
-    auto hashTable0 = H->getHashTableRaw0();
-    auto hashTable1 = H->getHashTableRaw1();
 
     std::vector<ATuple> A;
-    ATuple tuple;
+
     
-    fillASame(queryMinimizerSet0, hashTable0, A, tuple);
-    fillADiff(queryMinimizerSet0, hashTable1, A, tuple);
-    fillASame(queryMinimizerSet1, hashTable1, A, tuple);
-    fillADiff(queryMinimizerSet1, hashTable0, A, tuple);
-    
+    {//added block so Minimizers sets get removed from memory as soon as they are no longer needed
+        HashTableCalculationMethod method;
+        std::vector<Minimizer> queryMinimizerSet0;
+        std::vector<Minimizer> queryMinimizerSet1;
+        method.minimizerSketch(q, w, k,queryMinimizerSet0,queryMinimizerSet1);
+
+        auto hashTable0 = H->getHashTableRaw0();
+        auto hashTable1 = H->getHashTableRaw1();
+
+        ATuple tuple;
+
+        fillASame(queryMinimizerSet0, hashTable0, A, tuple);
+        fillADiff(queryMinimizerSet0, hashTable1, A, tuple);
+        fillASame(queryMinimizerSet1, hashTable1, A, tuple);
+        fillADiff(queryMinimizerSet1, hashTable0, A, tuple);
+    }    
     // std::printf("Finished building A\n");
     
     std::sort(A.begin(), A.end()); 
@@ -55,28 +58,27 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
                 (A[e + 1].t != A[e].t) || (A[e + 1].r != A[e].r) ||
                 (A[e + 1].c - A[e].c >= epsilon)) {
     
-            lisC.clear();
-            
-            LongestIncreasingSubsequence(A, b, e, lisC);
-            
-            int N = lisC.size();
-            int matchingBases = N * k;
-            
-            if (N >= MIN_MAPPING_SUBSET_SIZE && matchingBases >= MATCHING_BASES_MIN_COUNT) {
-                output->print(q, targetFastADoc, &lisC[0], &lisC[N-1], N);
-            }
-            
-            
-            /*
-            if (lisC[0].i > lisC[lisC.size()-1].i) {
-                for (int g = 0; g < lisC.size(); g++) {
-                    printf("(i=%d, c=%d)  ", lisC[g].i, lisC[g].c);
-                }
+            if(e-b>=MIN_MAPPING_SUBSET_SIZE){
                 
-                printf("\n\n");
+                lisC.clear();            
+                LongestIncreasingSubsequence(A, b, e, lisC);
+
+                int N = lisC.size();
+                int matchingBases = N * k;
+
+                if (N >= MIN_MAPPING_SUBSET_SIZE && matchingBases >= MATCHING_BASES_MIN_COUNT) {
+                    output->print(q, targetFastADoc, &lisC[0], &lisC[N-1], N);
+                }
+                /*
+                if (lisC[0].i > lisC[lisC.size()-1].i) {
+                    for (int g = 0; g < lisC.size(); g++) {
+                        printf("(i=%d, c=%d)  ", lisC[g].i, lisC[g].c);
+                    }
+
+                    printf("\n\n");
+                }
+                */
             }
-            */
-            
             
             b = e + 1;
         }
