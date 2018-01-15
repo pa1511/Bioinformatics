@@ -63,7 +63,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
                 (A[e + 1].t != A[e].t) || (A[e + 1].r != A[e].r) ||
                 (A[e + 1].c - A[e].c >= epsilon)) {
     
-            if(e-b>=MIN_MAPPING_SUBSET_SIZE){
+            if(e-b+1>=MIN_MAPPING_SUBSET_SIZE){
                 
                 //LongestIncreasingSubsequence(A, b, e, lisC);
                 lisC = lis(A,b,e);
