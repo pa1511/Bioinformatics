@@ -31,13 +31,9 @@ struct Entry {
 
     std::uint16_t sequencePosition;
     int i;
-    std::uint8_t r;
     
     bool operator <(const Entry& other) const {
         if (this->sequencePosition == other.sequencePosition) {
-            if (this->i == other.i) {
-                return this->r < other.r;
-            }
             return this->i < other.i;
         }
         return this->sequencePosition < other.sequencePosition;
@@ -48,16 +44,19 @@ struct Entry {
     
 class HashTable {
     public:
-        HashTable(std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw);
+        HashTable(std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw0,
+                std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw1);
         ~HashTable();
-        void save(std::string path);
         void empty();
+        std::unordered_map<int, std::vector<bioinformatics::Entry>*>* getHashTableRaw0();
+        std::unordered_map<int, std::vector<bioinformatics::Entry>*>* getHashTableRaw1();
         
-        static HashTable* load(std::string path);
-        static HashTable* loadWithM(std::string path, int m);
-        std::unordered_map<int, std::vector<bioinformatics::Entry>*>* getHashTableRaw();
+//        void save(std::string path);
+//        static HashTable* load(std::string path);
+//        static HashTable* loadWithM(std::string path, int m);
     private:
-        std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw;
+        std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw0;
+        std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw1;
     };
 }
 

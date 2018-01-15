@@ -61,7 +61,7 @@ class HashTableCalculationMethod {
 
 
     private:
-        void fillMap(std::unordered_map<int,std::vector<bioinformatics::Entry>*>* hashTable, int r, std::vector<Minimizer>& minimizerSet, BioSequence* sequence);
+        void fillMap(std::unordered_map<int,std::vector<bioinformatics::Entry>*>* hashTable, std::vector<Minimizer>& minimizerSet, BioSequence* sequence);
         void removeDuplicates(std::vector<Minimizer>& M);
         int PHI_function(std::string *seqence, int startIndex, int k);
         inline int PHI_function(char b);

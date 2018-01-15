@@ -32,7 +32,9 @@ HashTableCalculationMethod::~HashTableCalculationMethod() {
 
 HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w, int k) {
     
-    std::unordered_map<int,std::vector<bioinformatics::Entry>*> *hashTable =
+    std::unordered_map<int,std::vector<bioinformatics::Entry>*> *hashTable0 =
+                new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
+    std::unordered_map<int,std::vector<bioinformatics::Entry>*> *hashTable1 =
                 new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
     
     std::vector<Minimizer> minimizerSet0;
@@ -44,26 +46,28 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
         minimizerSet1.clear();
         minimizerSketch(sequence, w, k, minimizerSet0, minimizerSet1);
         
-        fillMap(hashTable, 0, minimizerSet0, sequence);
-        fillMap(hashTable, 1, minimizerSet1, sequence);
+        fillMap(hashTable0, minimizerSet0, sequence);
+        fillMap(hashTable1, minimizerSet1, sequence);
         
         delete sequence;
     }
     
     //Fit vectors to the minimum memory size they need
-    for(auto it=hashTable->begin(); it!=hashTable->end(); it++){
+    for(auto it=hashTable0->begin(); it!=hashTable0->end(); it++){
+        it->second->shrink_to_fit();
+    }
+    for(auto it=hashTable1->begin(); it!=hashTable1->end(); it++){
         it->second->shrink_to_fit();
     }
     
-    return new HashTable(hashTable);
+    return new HashTable(hashTable0,hashTable1);
 }
 
-void HashTableCalculationMethod::fillMap(std::unordered_map<int,std::vector<bioinformatics::Entry>*>* hashTable, int r, std::vector<Minimizer>& minimizerSet, BioSequence* sequence){
+void HashTableCalculationMethod::fillMap(std::unordered_map<int,std::vector<bioinformatics::Entry>*>* hashTable, std::vector<Minimizer>& minimizerSet, BioSequence* sequence){
     for (auto it = minimizerSet.begin(); it != minimizerSet.end(); it++) {
         bioinformatics::Entry entry;
         entry.sequencePosition = sequence->getSequencePosition();
         entry.i = it->i;
-        entry.r = r;
         
         std::unordered_map<int,std::vector<bioinformatics::Entry>*>::iterator mapIt = hashTable->find(it->m);
         std::vector<bioinformatics::Entry>* entrySet;

@@ -15,18 +15,44 @@
 
 using namespace bioinformatics;
 
-HashTable::HashTable(std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw):hashTableRaw(hashTableRaw) {
+HashTable::HashTable(std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw0,
+        std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw1):hashTableRaw0(hashTableRaw0),hashTableRaw1(hashTableRaw1) {
 }
 
 HashTable::~HashTable() {
     
-    for (auto it = this->hashTableRaw->begin(); it != this->hashTableRaw->end(); it++) {
+    for (auto it = this->hashTableRaw0->begin(); it != this->hashTableRaw0->end(); it++) {
         delete it->second;
     }
-
-    delete hashTableRaw;
+    delete hashTableRaw0;
+    
+    for (auto it = this->hashTableRaw1->begin(); it != this->hashTableRaw1->end(); it++) {
+        delete it->second;
+    }
+    delete hashTableRaw1;
 }
 
+void HashTable::empty() {
+    for (auto it = this->hashTableRaw0->begin(); it != this->hashTableRaw0->end(); it++) {
+        delete it->second;
+    }
+    this->hashTableRaw0->clear();
+    
+    for (auto it = this->hashTableRaw1->begin(); it != this->hashTableRaw1->end(); it++) {
+        delete it->second;
+    }
+    this->hashTableRaw1->clear();
+}
+
+std::unordered_map<int, std::vector<bioinformatics::Entry>*>* HashTable::getHashTableRaw0() {
+    return this->hashTableRaw0;
+}
+
+std::unordered_map<int, std::vector<bioinformatics::Entry>*>* HashTable::getHashTableRaw1() {
+    return this->hashTableRaw1;
+}
+
+/*
 void HashTable::save(std::string path) {
     std::ofstream hashFile;
     
@@ -126,16 +152,4 @@ HashTable* HashTable::loadWithM(std::string path, int m) {
     }
     return new HashTable(hashTable);
 }
-
-void HashTable::empty() {
-    for (auto it = this->hashTableRaw->begin(); it != this->hashTableRaw->end(); it++) {
-        
-        delete it->second;
-    }
-    this->hashTableRaw->clear();
-}
-
-std::unordered_map<int, std::vector<bioinformatics::Entry>*>* HashTable::getHashTableRaw() {
-    return this->hashTableRaw;
-}
-
+*/
