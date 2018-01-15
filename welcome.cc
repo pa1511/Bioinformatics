@@ -22,10 +22,10 @@ int main(int argc, char**argv) {
     #if PROGRAM == 1
 
     std::string document = argv[1];
-    std::string hashDocumentName = argv[2];
-    std::string queryDocument = argv[3];
-    int w = std::stoi(argv[4]);
-    int k = std::stoi(argv[5]);
+    //std::string hashDocumentName = argv[2];
+    std::string queryDocument = argv[2];
+    int w = std::stoi(argv[3]);
+    int k = std::stoi(argv[4]);
   
     // Start stopwatch after user inputs the parameters
     Stopwatch stopwatch;
