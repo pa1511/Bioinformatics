@@ -93,7 +93,40 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
             delete result.minimizerSet1;
         }
     }
+    
+    std::set<int> keys;
+    for (auto it = hashTable0->begin(); it != hashTable0->end(); it++) {
+        keys.insert(it->first);    
+    }
+    
+    for (auto it = hashTable1->begin(); it != hashTable1->end(); it++) {
+        keys.insert(it->first);
+    }
+    
+    
+    int const MAX_MINIMIZER_COUNT = 14;
+    int minimizerCount;
+
+    for (auto it = keys.begin(); it != keys.end(); it++) {
+        int key = *it;
+        minimizerCount = 0;
         
+        auto h0It = hashTable0->find(key);
+        if(h0It != hashTable0->end()) {
+            minimizerCount += h0It->second->size();
+        }
+
+        auto h1It = hashTable1->find(key);
+        if(h1It != hashTable1->end()) {
+            minimizerCount += h1It->second->size();
+        }
+        
+        if (minimizerCount > MAX_MINIMIZER_COUNT) {
+            hashTable0->erase(key);
+            hashTable1->erase(key);
+        }
+    }
+       
     //Fit vectors to the minimum memory size they need
     shrinkVectors(hashTable0);
     shrinkVectors(hashTable1);

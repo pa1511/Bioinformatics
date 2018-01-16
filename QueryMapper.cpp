@@ -27,8 +27,8 @@ QueryMapper::~QueryMapper() {
 void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
         BioSequence *q, PAF *output, int w, int k, int epsilon){
     
-    int MATCHING_BASES_MIN_COUNT = 100;
-    int MIN_MAPPING_SUBSET_SIZE = 4;
+    int const MATCHING_BASES_MIN_COUNT = 100;
+    int const MIN_MAPPING_SUBSET_SIZE = 4;
 
     std::vector<ATuple> A;
 
