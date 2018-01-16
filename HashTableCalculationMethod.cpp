@@ -12,7 +12,6 @@
  */
 
 #include "HashTableCalculationMethod.h"
-#include <iostream>
 
 int HashTableCalculationMethod::PHI_VALUE[] = {0, -1, 1, -1, 3, -1, 2, -1};
 
@@ -23,6 +22,8 @@ int HashTableCalculationMethod::POW_4_VALUE[] = { 1, 4, 16, 64, 256,
 int HashTableCalculationMethod::INV_HASH_MASK[] = { 0x0, 0x3, 0xf, 0x3f, 0xff, 
                         0x3ff, 0xfff, 0x3fff, 0xffff, 0x3ffff, 0xfffff, 0x3fffff, 
                         0xffffff, 0x3ffffff, 0xfffffff, 0x3fffffff };
+
+BioSequence* HashTableCalculationMethod::poison_pill = NULL;
 
 
 HashTableCalculationMethod::HashTableCalculationMethod() {
