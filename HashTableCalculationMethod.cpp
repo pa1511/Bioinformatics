@@ -12,6 +12,7 @@
  */
 
 #include "HashTableCalculationMethod.h"
+#include <iostream>
 
 int HashTableCalculationMethod::PHI_VALUE[] = {0, -1, 1, -1, 3, -1, 2, -1};
 
@@ -274,6 +275,7 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
         }
         
         for (int j = 0; j < w; j++) {
+
             if (u[j] == m && u[j] < v[j]) {
                 min.m = m;
                 min.i = pos[j];

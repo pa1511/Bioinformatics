@@ -39,7 +39,7 @@ int main(int argc, char**argv) {
     HashTable *hashTable = method.calculate(targetFastADoc, w, k, threadCount);
         
     // Map query sequences to the hash table    
-    int const epsilon = 500;
+    int const epsilon = 1000;
     FastADocument *queryFastADoc = new FastADocument(queryDocument);
     QueryMapper queryMapper;
     PAF *output = new PAF(k);
@@ -59,7 +59,7 @@ int main(int argc, char**argv) {
     std::cout << "Time: " << stopwatch.getTime() << " ms" << std::endl;
         
     #elif PROGRAM == 2    
-    std::string document = argv[1];
+    std::string document = "lambda_reference.fasta";//argv[1];
     FastADocument *fastADoc = new FastADocument(document);    
     BioSequence* sequence;
     
@@ -71,7 +71,9 @@ int main(int argc, char**argv) {
 
         while ((sequence = fastADoc->getNextSequence()) != NULL) {
             hashFile << ">" << (sequence->getSequencePosition()+1) << std::endl;
-            hashFile << (*sequence->getSequence()) << std::endl;
+            hashFile << (sequence->getSequence()->substr(466,3592-466)) << std::endl;
+
+            hashFile << (sequence->getSequence()->substr(45787,48191-45787)) << std::endl;
             delete sequence;
         }
     
