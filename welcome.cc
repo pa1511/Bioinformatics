@@ -22,10 +22,12 @@ int main(int argc, char**argv) {
     #if PROGRAM == 1
 
     std::string document = argv[1];
-    //std::string hashDocumentName = argv[2];
     std::string queryDocument = argv[2];
     int w = std::stoi(argv[3]);
     int k = std::stoi(argv[4]);
+    int threadCount = std::stoi(argv[5]);
+    if(threadCount<0)
+        threadCount = std::thread::hardware_concurrency();
   
     // Start stopwatch after user inputs the parameters
     Stopwatch stopwatch;
@@ -34,14 +36,8 @@ int main(int argc, char**argv) {
     // Calculate and save hash table
     FastADocument *targetFastADoc = new FastADocument(document, true);    
     HashTableCalculationMethod method;
-    HashTable *hashTable = method.calculate(targetFastADoc, w, k);
-    
-    //hashTable->save("hash-out.txt");
-    //std::cout << "Deleting hash table from memory..." << std::endl;
-    //delete hashTable;
-    //std::cout << "Hash table deleted from memory" << std::endl;
-    // delete targetFastADoc;
-    
+    HashTable *hashTable = method.calculate(targetFastADoc, w, k, threadCount);
+        
     // Map query sequences to the hash table    
     int const epsilon = 500;
     FastADocument *queryFastADoc = new FastADocument(queryDocument);

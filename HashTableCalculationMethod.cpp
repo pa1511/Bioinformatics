@@ -30,28 +30,68 @@ HashTableCalculationMethod::HashTableCalculationMethod() {
 HashTableCalculationMethod::~HashTableCalculationMethod() {
 }
 
-HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w, int k) {
+HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w, int k, int threadCount) {
     
     std::unordered_map<int,std::vector<bioinformatics::Entry>*> *hashTable0 =
                 new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
     std::unordered_map<int,std::vector<bioinformatics::Entry>*> *hashTable1 =
                 new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
-    
-    std::vector<Minimizer> minimizerSet0;
-    std::vector<Minimizer> minimizerSet1;
-    
-    BioSequence *sequence;
-    while ((sequence = document->getNextSequence()) != NULL) {
-        minimizerSet0.clear();
-        minimizerSet1.clear();
-        minimizerSketch(sequence, w, k, minimizerSet0, minimizerSet1);
         
-        fillMap(hashTable0, minimizerSet0, sequence);
-        fillMap(hashTable1, minimizerSet1, sequence);
+    if(threadCount==1){
+        BioSequence *sequence;
+        while ((sequence = document->getNextSequence()) != NULL) {
+            std::vector<Minimizer> minimizerSet0;
+            std::vector<Minimizer> minimizerSet1;
+            minimizerSketch(sequence, w, k, minimizerSet0, minimizerSet1);
+
+            int sequencePosition = sequence->getSequencePosition();
+            
+            fillMap(hashTable0, minimizerSet0, sequencePosition);
+            fillMap(hashTable1, minimizerSet1, sequencePosition);
+
+            delete sequence;
+        }
+    }    
+    else{
+        SyncQueue<BioSequence*> tasks;
+        SyncQueue<CalculateTaskResult> results;
+
+        std::vector<std::thread*> workers;
+
+        //Create workers
+        for(int i=0; i<threadCount; i++){
+            std::thread* worker = new std::thread(&HashTableCalculationMethod::calculateTask, HashTableCalculationMethod(),std::ref(tasks),std::ref(results),w ,k);
+            workers.push_back(worker);
+        }
         
-        delete sequence;
+        //Submit tasks
+        BioSequence *sequence;
+        while ((sequence = document->getNextSequence()) != NULL) {
+            tasks.push(sequence);
+        }        
+        for(int i=0; i<threadCount; i++){
+            tasks.push(poison_pill);
+        }
+
+        //Destroy workers
+        for(int i=0; i<threadCount; i++){
+            std::thread* worker = workers.back();
+            workers.pop_back();
+            worker->join();
+        }
+    
+        //Process created results
+        while(!results.empty()){
+            CalculateTaskResult result = results.pop();
+            
+            fillMap(hashTable0, *result.minimizerSet0, result.sequencePosition);
+            fillMap(hashTable1, *result.minimizerSet1, result.sequencePosition);
+            
+            delete result.minimizerSet0;
+            delete result.minimizerSet1;
+        }
     }
-    
+        
     //Fit vectors to the minimum memory size they need
     shrinkVectors(hashTable0);
     shrinkVectors(hashTable1);
@@ -59,10 +99,33 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
     return new HashTable(hashTable0,hashTable1);
 }
 
-void HashTableCalculationMethod::fillMap(std::unordered_map<int,std::vector<bioinformatics::Entry>*>* hashTable, std::vector<Minimizer>& minimizerSet, BioSequence* sequence){
+void HashTableCalculationMethod::calculateTask(SyncQueue<BioSequence*>& tasks, SyncQueue<CalculateTaskResult>& results, int w, int k){
+    
+    while(true){
+        BioSequence* sequence = tasks.pop();
+        
+        if(sequence==poison_pill)
+            break;
+        
+        CalculateTaskResult taskResult;
+        taskResult.sequencePosition = sequence->getSequencePosition();
+        taskResult.minimizerSet0 = new std::vector<Minimizer>();
+        taskResult.minimizerSet1 = new std::vector<Minimizer>();
+        
+        minimizerSketch(sequence, w, k, *taskResult.minimizerSet0, *taskResult.minimizerSet1);
+        delete sequence;
+        
+        results.push(taskResult);
+    }
+    
+}
+
+
+
+void HashTableCalculationMethod::fillMap(std::unordered_map<int,std::vector<bioinformatics::Entry>*>* hashTable, std::vector<Minimizer>& minimizerSet, int sequencePosition){
     for (auto it = minimizerSet.begin(); it != minimizerSet.end(); it++) {
         bioinformatics::Entry entry;
-        entry.sequencePosition = sequence->getSequencePosition();
+        entry.sequencePosition = sequencePosition;
         entry.i = it->i;
         
         std::unordered_map<int,std::vector<bioinformatics::Entry>*>::iterator mapIt = hashTable->find(it->m);
@@ -227,6 +290,5 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
 inline void HashTableCalculationMethod::removeDuplicates(std::vector<Minimizer>& M){
     std::sort(M.begin(), M.end());
     M.erase(std::unique(M.begin(), M.end()), M.end());
-    M.shrink_to_fit();    
 }
 
