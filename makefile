@@ -8,7 +8,7 @@ CXXFLAGS = -std=c++11 -O2 -Wall -g
 OBJECTS = $(CPPSRC:.cpp=.o) $(CCSRC:.cc=.o)
 
 $(PROJECT): $(OBJECTS)
-	$(CC) -o $(PROJECT) $(OBJECTS)
+	$(CC) -o $(PROJECT) -pthread $(OBJECTS)
 
 welcome.o: welcome.cc $(HEADERS)
 BioSequence.o: BioSequence.cpp $(HEADERS)
