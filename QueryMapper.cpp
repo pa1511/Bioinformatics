@@ -15,6 +15,7 @@
 #include <stdlib.h>   
 #include <time.h>   
 #include <iostream>
+#include <math.h>
 
 using namespace bioinformatics;
 
@@ -52,7 +53,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
     // std::printf("Finished building A\n");
     
     std::sort(A.begin(), A.end()); 
-    std::vector<ATuple>* lisC;
+    std::vector<ATuple>lisC;
 
 
     
@@ -64,9 +65,19 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
      
             if(e-b+1>=MIN_MAPPING_SUBSET_SIZE){
                 
-                lisC = lis(A,b,e);
+                lis_test(A,b,e, lisC);
+
+                //std::cout << "================================================= NOVI LIS =========================================" << std::endl;
+                //for (int c=0; c<lisC.size()-1; c++) {
+//                    if (lisC[c].i < lisC[c+1].i) {
+//                        continue;
+//                    }
+//                    std::cout << "nije dobro" << std::endl;
+//                }
+                //std::cout << std::endl;
                 
-                int N = lisC->size();
+                int N = lisC.size();
+               // std::cout << "VELICINA JE " << N << std::endl;
                 int matchingBases = N * k;
 
                 /*
@@ -87,7 +98,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
                 */
                 
                 if (N >= MIN_MAPPING_SUBSET_SIZE && matchingBases >= MATCHING_BASES_MIN_COUNT) {
-                    output->print(q, targetFastADoc, &((*lisC)[0]), &((*lisC)[N-1]), N);
+                    output->print(q, targetFastADoc, &((lisC)[0]), &((lisC)[N-1]), N);
                 }
                 
                 /*if ((*lisC)[0].i > (*lisC)[lisC->size()-1].i ||  rand() % 1000 == 0) {
@@ -107,7 +118,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
                     printf("\n\n");
                 }*/
                 
-                delete lisC;
+                lisC.clear();
             }
             
             b = e + 1;
@@ -186,6 +197,55 @@ void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, in
     }
 }
 */
+
+
+void QueryMapper::lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret) {
+    int N = e-b;
+    int P[N];
+    int M[N+1];
+
+    int L = 0;
+    ret.clear();
+    //std::cout << "NOVI LIS ======================" << std::endl;
+    //for (int i = b; i<e; i++) {
+        //std::cout << A[i].i << " ";
+    //}
+    //std::cout << std::endl;
+    for(int i=0; i<N;i++){
+      // Binary search for the largest positive j ≤ L
+      // such that X[M[j]] < X[i]
+      int lo = 1;
+      int hi = L;
+      while(lo <= hi){
+        int mid = ceil((lo+hi)/2);
+        if ( A[M[mid]+b].i < A[i+b].i)
+          lo = mid+1;
+        else
+          hi = mid-1;
+      }
+
+      // After searching, lo is 1 greater than the
+      // length of the longest prefix of X[i]
+      int newL = lo;
+
+      // The predecessor of X[i] is the last index of 
+      // the subsequence of length newL-1
+      P[i] = M[newL-1];
+      M[newL] = i;
+
+      if( newL > L)
+        // If we found a subsequence longer than any we've
+        // found yet, update L
+        L = newL;
+    }
+
+    // Reconstruct the longest increasing subsequence
+    int k = M[L];
+    for(int i= L-1; i>=0; i--){
+        ret.insert(ret.begin(), A[k+b]);
+          k = P[k];
+    }
+}
 
 std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array, int b, int e) {
 
