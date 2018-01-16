@@ -26,25 +26,26 @@ void PAF::print(BioSequence *query, FastADocument *target, ATuple *startATuple, 
     int targetSeqPos = startATuple->t;
     auto targetSeq = target->getSequenceDetails()->at(targetSeqPos);
     
+    int targetStartCoord = startATuple->i;
+    int targetEndCoord = endATuple->i + this->k;
+    
     char sameOrOppositeStrand; // ‘+’ if query and target on the same strand; ‘–’ if opposite
     int queryStartCoord;
     int queryEndCoord;
     
     if (startATuple->r == 0) {
         sameOrOppositeStrand = '+';
-        queryStartCoord = startATuple->c + startATuple->i;
-        queryEndCoord = endATuple->c + endATuple->i;
+        queryStartCoord = startATuple->c + targetStartCoord;
+        queryEndCoord = endATuple->c + targetEndCoord;
     } else {
         sameOrOppositeStrand = '-';
-        queryStartCoord = startATuple->c - startATuple->i;
-        queryEndCoord = endATuple->c - endATuple->i;
+        queryStartCoord = startATuple->c - targetStartCoord;
+        queryEndCoord = endATuple->c - targetEndCoord;
     }
     
-    int targetStartCoord = startATuple->i;
-    int targetEndCoord = endATuple->i;
-    int matchingBases = minimizerCount * k;
+    int matchingBases = minimizerCount * this->k;
     int totalNumberOfBases = std::max(queryEndCoord - queryStartCoord, targetEndCoord - targetStartCoord);
-    int mappingQuality = 255; // TODO
+    int mappingQuality = 255;
     
     std::printf("%s\t%d\t%d\t%d\t%c\t%s\t%d\t%d\t%d\t%d\t%d\t%d\n",
             query->getName().c_str(), query->size(), queryStartCoord, queryEndCoord,
