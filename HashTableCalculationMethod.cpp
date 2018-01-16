@@ -247,7 +247,7 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
     }
     
     int current_id = 0;
-    
+    int m = max;
     for (int i = 1, limit = sequence->size()- w-k+1; i <= limit; i++) {
         
         pos[current_id] = i + w-1;
@@ -261,9 +261,15 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
         }
 
         
-        int m = max;
-        for (int j = 0; j < w; j++) {
-            m = std::min(m,minuv[j]); 
+        //int m = max;
+        if(m>=minuv[current_id]){
+            m = minuv[current_id];
+        }
+        else{
+            m = max;
+            for (int j = 0; j < w; j++) {
+                m = std::min(m,minuv[j]); 
+            }
         }
         
         for (int j = 0; j < w; j++) {
