@@ -78,6 +78,7 @@ HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w,
             std::thread* worker = workers.back();
             workers.pop_back();
             worker->join();
+            delete worker;
         }
     
         //Process created results
