@@ -200,7 +200,7 @@ void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, in
 
 
 void QueryMapper::lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret) {
-    int N = e-b;
+    int N = e-b+1;
     int P[N];
     int M[N+1];
 
