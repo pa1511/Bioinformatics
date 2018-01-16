@@ -20,11 +20,20 @@
 #include <mutex>
 #include <condition_variable>
 
+/**
+ * Sync queue is a thread safe implementation of a simple queue structure. <br/>
+ * 
+ */
 template <typename T>
 class SyncQueue
 {
  public:
- 
+
+  /**
+   * Returns and removes the first element from the queue if it exists, 
+   * otherwise blocks until an element is present. 
+   * @return first queue element
+   */
   T pop()
   {
     std::unique_lock<std::mutex> mlock(mutex_);
@@ -38,6 +47,11 @@ class SyncQueue
     return item;
   }
   
+  /**
+   * Pushes the given element into the queue. <br/>
+   * If someone is waiting for an element in the queue they will be notified. <br/>
+   * @param item - element to add to the queue
+   */
   void push(const T& item)
   {
     std::unique_lock<std::mutex> mlock(mutex_);
@@ -46,6 +60,10 @@ class SyncQueue
     cond_.notify_all();
   }
    
+  /**
+   * Checks is the queue empty. If it is then true is returned otherwise false. <br/>
+   * @return true if empty, false if not
+   */
   bool empty(){
     std::unique_lock<std::mutex> mlock(mutex_);
     bool result = queue_.empty();
