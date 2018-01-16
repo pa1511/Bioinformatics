@@ -16,9 +16,6 @@
 Stopwatch::Stopwatch() {
 }
 
-Stopwatch::Stopwatch(const Stopwatch& orig) {
-}
-
 Stopwatch::~Stopwatch() {
 }
 
