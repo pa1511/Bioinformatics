@@ -207,16 +207,16 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
     std::string* raw_inv_sequence = sequence->getInvertedSequence();
 
     Minimizer min;
-    int u[w - 1];
-    int v[w - 1];
-    int minuv[w - 1];
-    int pos[w - 1];
+    int u[w];
+    int v[w];
+    int minuv[w];
+    int pos[w];
     
     const int max = std::numeric_limits<int>::max();
     
     {
         int m = max;
-        for (int j = 0; j < w-1; j++) {
+        for (int j = 0; j < w; j++) {
             u[j] = PHI_function(raw_sequence, j, k);
             v[j] = PHI_function(raw_inv_sequence, j, k);
             
@@ -230,7 +230,7 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
             pos[j] = j;
         }
         
-        for (int j = 0; j < w-1; j++) {
+        for (int j = 0; j < w; j++) {
 
             if (u[j] == m && u[j] < v[j]) {
                 min.m = m;
@@ -248,9 +248,9 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
     
     int current_id = 0;
     
-    for (int i = 1, limit = sequence->size()- w-k+1; i < limit; i++) {
+    for (int i = 1, limit = sequence->size()- w-k+1; i <= limit; i++) {
         
-        pos[current_id] = i + w-1-1;
+        pos[current_id] = i + w-1;
         u[current_id] = PHI_function(raw_sequence, pos[current_id], k);
         v[current_id] = PHI_function(raw_inv_sequence, pos[current_id], k);
 
@@ -262,11 +262,11 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
 
         
         int m = max;
-        for (int j = 0; j < w-1; j++) {
+        for (int j = 0; j < w; j++) {
             m = std::min(m,minuv[j]); 
         }
         
-        for (int j = 0; j < w-1; j++) {
+        for (int j = 0; j < w; j++) {
             if (u[j] == m && u[j] < v[j]) {
                 min.m = m;
                 min.i = pos[j];
@@ -280,7 +280,7 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
             }
         }
         
-        current_id = (current_id + 1) % (w - 1);
+        current_id = (current_id + 1) % w;
     }
     
     removeDuplicates(M0);
