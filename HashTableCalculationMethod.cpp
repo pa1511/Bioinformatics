@@ -290,5 +290,6 @@ void HashTableCalculationMethod::minimizerSketch(bioinformatics::BioSequence *se
 inline void HashTableCalculationMethod::removeDuplicates(std::vector<Minimizer>& M){
     std::sort(M.begin(), M.end());
     M.erase(std::unique(M.begin(), M.end()), M.end());
+    M.shrink_to_fit();
 }
 
