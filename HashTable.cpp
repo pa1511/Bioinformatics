@@ -119,7 +119,7 @@ HashTable* HashTable::load(std::string path) {
             } else {
                 std::istringstream iss(line);
                 std::vector<std::string> results(
-                    std::istream_iterator<std::string>(iss),
+                    (std::istream_iterator<std::string>(iss)),
                     std::istream_iterator<std::string>()
                 );
 
@@ -196,7 +196,7 @@ HashTable* HashTable::loadWithM(std::string path, int m) {
 
                 std::istringstream iss(line);
                 std::vector<std::string> results(
-                        std::istream_iterator<std::string>(iss),
+                        (std::istream_iterator<std::string>(iss)),
                         std::istream_iterator<std::string>()
                 );
 
