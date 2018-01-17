@@ -84,9 +84,9 @@ inline char BioSequence::invert(char c) {
     // Faster inversion will not work if any other character appears
 
     // A 0x41   0100 0001   0
-    // T 0x54   0101 0100   2
     // C 0x43   0100 0011   1
     // G 0x47   0100 0111   3
+    // T 0x54   0101 0100   2
     // mask     0000 0110
 
     // Faster inversion 1

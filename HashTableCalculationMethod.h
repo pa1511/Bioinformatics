@@ -70,7 +70,7 @@ class HashTableCalculationMethod {
          * @param threadCount - how many threads should work on calculating the HashTable
          * @return 
          */
-        HashTable* calculate(FastADocument* document, int w, int k, int threadCount);
+        HashTable* calculate(Document* document, int w, int k, int threadCount);
         
         /**
          * Calculates the minimizer sketch for the given BioSequence. 

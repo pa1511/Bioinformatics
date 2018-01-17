@@ -5,14 +5,15 @@
  */
 
 /* 
- * File:   FastADocument.h
+ * File:   FastQDocument.h
  * Author: paf
  *
- * Created on October 15, 2017, 10:20 PM
+ * Created on January 17, 2018, 10:00 AM
  */
 
-#ifndef FASTADOCUMENT_H
-#define FASTADOCUMENT_H
+#ifndef FASTQDOCUMENT_H
+#define FASTQDOCUMENT_H
+
 
 #include "BioSequence.h"
 #include "Document.h"
@@ -20,7 +21,7 @@
 namespace bioinformatics {
 
 /**
- * This class models a stream like FastADocument. <br/>
+ * This class models a stream like FastQDocument. <br/>
  * Stream like because sequences are read one by one sequentially and it 
  * is not possible to reread the same sequence multiple times. 
  * The class stores the document relevant data:
@@ -29,26 +30,26 @@ namespace bioinformatics {
  * <li> Details about BioSequences read from the document </li>
  * </ul>
  */
-class FastADocument : public Document {
+class FastQDocument : public Document {
     public:
         /**
          * Constructor 
          * BioSequence details will not be stored
          * @param documentLocation - location of the document to be read
          */
-        FastADocument(std::string documentLocation);
+        FastQDocument(std::string documentLocation);
         
         /**
          * Constructor
          * @param documentLocation - location of the document to be read
          * @param saveSequenceDetails - should sequence details be stored
          */
-        FastADocument(std::string documentLocation, bool saveSequenceDetails);
+        FastQDocument(std::string documentLocation, bool saveSequenceDetails);
         
         /**
          * Destructor
          */
-        virtual ~FastADocument();
+        virtual ~FastQDocument();
 
         
         /**
@@ -61,5 +62,5 @@ class FastADocument : public Document {
 };
 }
 
-#endif /* FASTADOCUMENT_H */
+#endif /* FASTQDOCUMENT_H */
 

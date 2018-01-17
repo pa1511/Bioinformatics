@@ -16,7 +16,7 @@
 
 #include "HashTableCalculationMethod.h"
 #include "HashTable.h"
-#include "FastADocument.h"
+#include "Document.h"
 #include "BioSequence.h"
 #include "Minimizer.h"
 #include "PAF.h"
@@ -34,7 +34,7 @@ class QueryMapper {
         QueryMapper();
         ~QueryMapper();
 
-        void mapQuerySequence(HashTable *H, FastADocument *targetFastADoc, BioSequence *q, PAF *output, int w, int k, int epsilon);
+        void mapQuerySequence(HashTable *H, Document *targetFastADoc, BioSequence *q, PAF *output, int w, int k, int epsilon);
         std::vector<ATuple>* lis(std::vector<ATuple>& array, int b, int e);
         void lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret);
     private:

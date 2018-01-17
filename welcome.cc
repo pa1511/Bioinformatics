@@ -4,6 +4,8 @@
 #include <string>
 #include "Stopwatch.h"
 #include "FastADocument.h"
+#include "FastQDocument.h"
+#include "Document.h"
 #include "HashTable.h"
 #include "HashTableCalculationMethod.h"
 #include "QueryMapper.h"
@@ -34,33 +36,33 @@ int main(int argc, char**argv) {
     stopwatch.start();
     
     // Calculate and save hash table
-    FastADocument *targetFastADoc = new FastADocument(document, true);    
+    Document *targetDoc = new FastADocument(document, true);    
     HashTableCalculationMethod method;
-    HashTable *hashTable = method.calculate(targetFastADoc, w, k, threadCount);
+    HashTable *hashTable = method.calculate(targetDoc, w, k, threadCount);
         
     // Map query sequences to the hash table    
     int const epsilon = 1000;
-    FastADocument *queryFastADoc = new FastADocument(queryDocument);
+    Document *queryDoc = new FastADocument(queryDocument);
     QueryMapper queryMapper;
     PAF *output = new PAF(k);
     
     // std::cout << "Started quering..." << std::endl;
     BioSequence* querySequence;
-    while ((querySequence = queryFastADoc->getNextSequence()) != NULL) {
-        queryMapper.mapQuerySequence(hashTable, targetFastADoc, querySequence, output, w, k, epsilon);
+    while ((querySequence = queryDoc->getNextSequence()) != NULL) {
+        queryMapper.mapQuerySequence(hashTable, targetDoc, querySequence, output, w, k, epsilon);
         delete querySequence;
     }
     
-    delete queryFastADoc;
+    delete queryDoc;
     delete hashTable;
-    delete targetFastADoc;
+    delete targetDoc;
     
     stopwatch.end();
     std::cout << "Time: " << stopwatch.getTime() << " ms" << std::endl;
         
     #elif PROGRAM == 2    
-    std::string document = "lambda_reference.fasta";//argv[1];
-    FastADocument *fastADoc = new FastADocument(document);    
+    std::string document = "lambda_reference.fasta";
+    Document *fastADoc = new FastADocument(document);    
     BioSequence* sequence;
     
     std::ofstream hashFile;
@@ -80,11 +82,26 @@ int main(int argc, char**argv) {
         hashFile.close();
     }
     delete fastADoc;
+    #elif PROGRAM == 3    
+    std::string document = "example.fastq";
+    Document *fastQDoc = new FastQDocument(document);    
+    BioSequence* sequence;
+    
+    while ((sequence = fastQDoc->getNextSequence()) != NULL) {
+        std::cout << "Sequence: " << sequence->getName() << std::endl;
+        std::cout << *sequence->getSequence() << std::endl;
+        std::cout << *sequence->getInvertedSequence() << std::endl;
+
+        delete sequence;
+    }
+    
+    delete fastQDoc;
+
     #else
 
     std::string document("fasta-example");//"Lambda_reads.fasta"
     
-    FastADocument *fastADoc = new FastADocument(document);
+    Document *fastADoc = new FastADocument(document);
     BioSequence *sequence;
     while((sequence = fastADoc->getNextSequence())!=NULL){
 

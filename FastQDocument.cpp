@@ -1,36 +1,42 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 /* 
- * File:   FastADocument.cpp
+ * File:   FastQDocument.cpp
  * Author: paf
  * 
- * Created on October 15, 2017, 10:20 PM
+ * Created on January 17, 2018, 10:00 AM
  */
+
+#include "FastQDocument.h"
+#include "BioSequence.h"
 
 #include <string>
 #include <cctype>
 #include <iostream>
 
-#include "FastADocument.h"
-#include "BioSequence.h"
 
 using namespace bioinformatics;
 
-FastADocument::FastADocument(std::string documentLocation) : Document(documentLocation){
+FastQDocument::FastQDocument(std::string documentLocation) : Document(documentLocation){
 }
 
-FastADocument::FastADocument(std::string documentLocation, bool saveSequenceDetails)
+FastQDocument::FastQDocument(std::string documentLocation, bool saveSequenceDetails)
                             : Document(documentLocation,saveSequenceDetails) {
     
 }
 
-FastADocument::~FastADocument() {
+FastQDocument::~FastQDocument() {
 }
 
 /**
  * 
  * @return Pointer to BioSequence if it can be read or NULL
  */
-BioSequence* FastADocument::getNextSequence() {
+BioSequence* FastQDocument::getNextSequence() {
     BioSequence *sequence = NULL;
     
     if (inputStream->is_open()) {
@@ -41,13 +47,13 @@ BioSequence* FastADocument::getNextSequence() {
         while ((c = inputStream->peek()) != EOF) {
             
             // we see the start of the next sequence
-            if (c == '>' && sequence != NULL) {
+            if (c == '@' && sequence != NULL) {
                 break;
             }
             // read line
             std::getline(*inputStream, input);
             
-            if (c == '>') {      
+            if (c == '@') {      
                 std::string name;
                 std::string comment;
                 
@@ -64,10 +70,22 @@ BioSequence* FastADocument::getNextSequence() {
                         
                 this->sequencePosition++;
                 
-            } else if (c == ',') {
+            } else if (c == '+') {
                 continue;
-            } else {
-                sequence->appeandSequence(input);
+            }else {
+                
+                if (input.find("!")!=std::string::npos || 
+                        input.find("'")!=std::string::npos ||
+                        input.find("*")!=std::string::npos ||
+                        input.find("(")!=std::string::npos ||
+                        input.find("+")!=std::string::npos ||
+                        input.find("1")!=std::string::npos){
+                    //quality strings are ignored because they are not used in the application
+                }
+                else{
+                    sequence->appeandSequence(input);
+                }
+                
             }
         }      
     }
@@ -84,3 +102,4 @@ BioSequence* FastADocument::getNextSequence() {
     
     return sequence;
 }
+

@@ -25,7 +25,7 @@ QueryMapper::QueryMapper() {
 QueryMapper::~QueryMapper() {
 }
 
-void QueryMapper::mapQuerySequence(HashTable *H, FastADocument *targetFastADoc,
+void QueryMapper::mapQuerySequence(HashTable *H, Document *targetFastADoc,
         BioSequence *q, PAF *output, int w, int k, int epsilon){
     
     int const MATCHING_BASES_MIN_COUNT = 100;

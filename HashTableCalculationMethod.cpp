@@ -32,7 +32,7 @@ HashTableCalculationMethod::HashTableCalculationMethod() {
 HashTableCalculationMethod::~HashTableCalculationMethod() {
 }
 
-HashTable* HashTableCalculationMethod::calculate(FastADocument* document, int w, int k, int threadCount) {
+HashTable* HashTableCalculationMethod::calculate(Document* document, int w, int k, int threadCount) {
     
     std::unordered_map<int,std::vector<bioinformatics::Entry>*> *hashTable0 =
                 new std::unordered_map<int,std::vector<bioinformatics::Entry>*>();
@@ -201,9 +201,9 @@ int HashTableCalculationMethod::PHI_function(std::string *seqence, int startInde
 inline int HashTableCalculationMethod::PHI_function(char b) {
 
     // A 0x41   0100 0001   0
-    // T 0x54   0101 0100   2
-    // C 0x43   0100 0011   1
-    // G 0x47   0100 0111   3
+    // C 0x43   0100 0011   2
+    // G 0x47   0100 0111   6
+    // T 0x54   0101 0100   4
     // mask     0000 0110
  /*   
     int res;    

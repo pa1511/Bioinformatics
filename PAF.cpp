@@ -22,7 +22,7 @@ PAF::PAF(const PAF& orig) {
 PAF::~PAF() {
 }
 
-void PAF::print(BioSequence *query, FastADocument *target, ATuple *startATuple, ATuple *endATuple, int minimizerCount) {
+void PAF::print(BioSequence *query, Document *target, ATuple *startATuple, ATuple *endATuple, int minimizerCount) {
     int targetSeqPos = startATuple->t;
     auto targetSeq = target->getSequenceDetails()->at(targetSeqPos);
     
