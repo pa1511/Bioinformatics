@@ -1,14 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this license header,  choose License Headers in Project Properties.
+ * To change this template file,  choose Tools | Templates
  * and open the template in the editor.
  */
 
-/* 
+/*
  * File:   Document.h
  * Author: paf
  *
- * Created on January 17, 2018, 9:45 AM
+ * Created on January 17,  2018,  9:45 AM
  */
 
 #ifndef DOCUMENT_H
@@ -16,14 +16,14 @@
 
 #include <fstream>
 #include <vector>
+#include <string>
 #include "BioSequence.h"
 #include "SequenceInfo.h"
 
 class Document {
-public:
-    
+ public:
     /**
-     * Constructor 
+     * Constructor
      * BioSequence details will not be stored
      * @param documentLocation - location of the document to be read
      */
@@ -34,33 +34,33 @@ public:
      * @param documentLocation - location of the document to be read
      * @param saveSequenceDetails - should sequence details be stored
      */
-    Document(std::string documentLocation, bool saveSequenceDetails);
+    Document(std::string documentLocation,  bool saveSequenceDetails);
 
     /**
      * Destructor
      */
     virtual ~Document();
-    
+
     /**
      * Returns the document name
      */
     std::string getDocumentName();
 
     /**
-     * Returns the next BioSequnce in the document if it exists. 
+     * Returns the next BioSequnce in the document if it exists.
      * If there is no more sequences the NULL is returned.
-     * @return Next BioSequnce if it exists or <b>NULL</b> if it does not. 
+     * @return Next BioSequnce if it exists or <b>NULL</b> if it does not.
      */
     virtual bioinformatics::BioSequence* getNextSequence() = 0;
 
     /**
      * If the object was initialized to store sequence details then this will return a vector
      * containing them. If not it will return an empty vector. <br/>
-     * @return 
+     * @return
      */
     std::vector<bioinformatics::SequenceInfo>* getSequenceDetails();
 
-protected:
+ protected:
     std::string document;
     std::ifstream *inputStream;
     int sequencePosition = 0;

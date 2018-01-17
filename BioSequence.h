@@ -1,8 +1,8 @@
-/* 
+/*
  * File:   BioSequence.h
  * Author: paf
  *
- * Created on October 15, 2017, 10:35 PM
+ * Created on October 15,  2017,  10:35 PM
  */
 
 #ifndef BIOSEQUENCE_H
@@ -24,27 +24,26 @@ namespace bioinformatics {
      * <li> Sequence position in the document it was read from </li>
      * <li> The actual sequence string </li>
      * </ul>
-     * The class provides the user with the ability get the stored data and also 
+     * The class provides the user with the ability get the stored data and also
      * the inverted sequence string. <br/>
-     * 
-     * The class provides the ability to load the sequence part by part. 
-     * To achieve this the class offers: 
+     *
+     * The class provides the ability to load the sequence part by part.
+     * To achieve this the class offers:
      * <ul>
      * <li> setSequence - sets sequence to the given string </li>
      * <li> appeandSequence - appends the given sequence to the current sequence </li>
      * </ul>
-     * After fully reading the sequence initialize should be called in order to properly initialize the BioSequence data. 
+     * After fully reading the sequence initialize should be called in order to properly initialize the BioSequence data.
      */
-    class BioSequence {
-    public:
-
+class BioSequence {
+ public:
         /**
          * Constructor
          * @param name - sequence name
          * @param comment - sequence comment
          * @param sequencePosition - sequence position in the document it was read from
          */
-        BioSequence(std::string name, std::string comment, int sequencePosition);
+        BioSequence(std::string name,  std::string comment,  int sequencePosition);
 
         /**
          * Destructor
@@ -53,7 +52,7 @@ namespace bioinformatics {
 
         /**
          * Initializes the BioSequence data structures. <br/>
-         * Should be called after full setting the sequence string. 
+         * Should be called after full setting the sequence string.
          */
         void initialize();
 
@@ -81,7 +80,7 @@ namespace bioinformatics {
         std::string getComment();
 
         /**
-         * Returns the BioSequence size which is the number of characters in the sequence string. 
+         * Returns the BioSequence size which is the number of characters in the sequence string.
          */
         int size();
 
@@ -100,7 +99,7 @@ namespace bioinformatics {
          */
         int getSequencePosition();
 
-    private:
+ private:
         static char inversion[4];
         std::string calculateInvertedSequence();
         inline char invert(char c);
@@ -111,8 +110,8 @@ namespace bioinformatics {
         std::string sequence;
         std::string inv_sequence;
         int sequencePosition;
-    };
-}
+};
+}  // namespace bioinformatics
 
 #endif /* BIOSEQUENCE_H */
 

@@ -1,21 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this license header,  choose License Headers in Project Properties.
+ * To change this template file,  choose Tools | Templates
  * and open the template in the editor.
  */
 
-/* 
+/*
  * File:   QueryMapper.cpp
  * Author: papric
- * 
- * Created on December 17, 2017, 11:46 AM
+ *
+ * Created on December 17,  2017,  11:46 AM
  */
 
 #include "QueryMapper.h"
-#include <stdlib.h>   
-#include <time.h>   
-#include <iostream>
+#include <stdlib.h>
+#include <time.h>
 #include <math.h>
+#include <iostream>
 
 using namespace bioinformatics;
 
@@ -25,117 +25,114 @@ QueryMapper::QueryMapper() {
 QueryMapper::~QueryMapper() {
 }
 
-void QueryMapper::mapQuerySequence(HashTable *H, Document *targetFastADoc,
-        BioSequence *q, PAF *output, int w, int k, int epsilon){
-    
+void QueryMapper::mapQuerySequence(HashTable *H,  Document *targetFastADoc,
+        BioSequence *q,  PAF *output,  int w,  int k,  int epsilon) {
     int const MATCHING_BASES_MIN_COUNT = 100;
     int const MIN_MAPPING_SUBSET_SIZE = 4;
 
     std::vector<ATuple> A;
 
-    
-    {//added block so Minimizers sets get removed from memory as soon as they are no longer needed
+
+    {  // added block so Minimizers sets get removed from memory as soon as they are no longer needed
         HashTableCalculationMethod method;
         std::vector<Minimizer> queryMinimizerSet0;
         std::vector<Minimizer> queryMinimizerSet1;
-        method.minimizerSketch(q, w, k,queryMinimizerSet0,queryMinimizerSet1);
+        method.minimizerSketch(q,  w,  k, queryMinimizerSet0, queryMinimizerSet1);
 
         auto hashTable0 = H->getHashTableRaw0();
         auto hashTable1 = H->getHashTableRaw1();
 
-       
 
-        fillASame(queryMinimizerSet0, hashTable0, A);
-        fillADiff(queryMinimizerSet0, hashTable1, A);
-        fillASame(queryMinimizerSet1, hashTable1, A);
-        fillADiff(queryMinimizerSet1, hashTable0, A);
-    }    
-    // std::printf("Finished building A\n");
-    
-    std::sort(A.begin(), A.end()); 
+
+        fillASame(queryMinimizerSet0,  hashTable0,  A);
+        fillADiff(queryMinimizerSet0,  hashTable1,  A);
+        fillASame(queryMinimizerSet1,  hashTable1,  A);
+        fillADiff(queryMinimizerSet1,  hashTable0,  A);
+    }
+      //  std::printf("Finished building A\n");
+
+    std::sort(A.begin(),  A.end());
     std::vector<ATuple>lisC;
 
 
-    
-    int b = 0;
-    for (int e = 0, size = A.size(); e < size; e++){
-        if ((e == size - 1) ||
-                (A[e + 1].t != A[e].t) || (A[e + 1].r != A[e].r) ||
-                (A[e + 1].c - A[e].c >= epsilon)) {
-     
-            if(e-b+1>=MIN_MAPPING_SUBSET_SIZE){
-                
-                lis_test(A,b,e, lisC);
 
-                //std::cout << "================================================= NOVI LIS =========================================" << std::endl;
-                //for (int c=0; c<lisC.size()-1; c++) {
-//                    if (lisC[c].i < lisC[c+1].i) {
-//                        continue;
-//                    }
-//                    std::cout << "nije dobro" << std::endl;
-//                }
-                //std::cout << std::endl;
-                
+    int b = 0;
+    for (int e = 0,  size = A.size(); e < size; e++) {
+        if ((e  ==  size - 1) ||
+                (A[e + 1].t  !=  A[e].t) || (A[e + 1].r  !=  A[e].r) ||
+                (A[e + 1].c - A[e].c  >=  epsilon)) {
+            if (e-b+1 >= MIN_MAPPING_SUBSET_SIZE) {
+                lis_test(A, b, e,  lisC);
+
+                  // std::cout << " == == == == == == == == == == == == == == == == == == == == == == == === NOVI LIS  == == == == == == == == == == == == == == == == == == == ===" << std::endl;
+                  // for (int c=0; c<lisC.size()-1; c++) {
+  //                     if (lisC[c].i < lisC[c+1].i) {
+  //                         continue;
+  //                     }
+  //                     std::cout << "nije dobro" << std::endl;
+  //                 }
+                  // std::cout << std::endl;
+
                 int N = lisC.size();
-               // std::cout << "VELICINA JE " << N << std::endl;
+                 //  std::cout << "VELICINA JE " << N << std::endl;
                 int matchingBases = N * k;
 
                 /*
                 std::cout << "Lis group" << std::endl;
-                for(int k=b; k<=e; k++){
-                    std::cout << "T: " << A[k].t << " R: " << unsigned(A[k].r) 
+                for (int k=b; k <= e; k++) {
+                    std::cout << "T: " << A[k].t << " R: " << unsigned(A[k].r)
                             << " C: " << A[k].c << " I: " << A[k].i << std::endl;
                 }
                 std::cout << std::endl;
                 std::cout << "Lis result" << std::endl;
-                
-                for(auto lisIter = lisC->begin(); lisIter!=lisC->end(); lisIter++){
-                    std::cout << "T: " << lisIter->t << " R: " << unsigned(lisIter->r) 
+
+                for (auto lisIter = lisC->begin(); lisIter != lisC->end(); lisIter++) {
+                    std::cout << "T: " << lisIter->t << " R: " << unsigned(lisIter->r)
                             << " C: " << lisIter->c << " I: " << lisIter->i << std::endl;
                 }
                 std::cout << std::endl;
                 std::cout << std::endl;
                 */
-                
-                if (N >= MIN_MAPPING_SUBSET_SIZE && matchingBases >= MATCHING_BASES_MIN_COUNT) {
-                    output->print(q, targetFastADoc, &((lisC)[0]), &((lisC)[N-1]), N);
+
+                if (N  >=  MIN_MAPPING_SUBSET_SIZE && matchingBases  >=  MATCHING_BASES_MIN_COUNT) {
+                    output->print(q,  targetFastADoc,  &((lisC)[0]),  &((lisC)[N-1]),  N);
                 }
-                
-                /*if ((*lisC)[0].i > (*lisC)[lisC->size()-1].i ||  rand() % 1000 == 0) {
+
+                /*if ((*lisC)[0].i > (*lisC)[lisC->size()-1].i ||  rand() % 1000  ==  0) {
                     for (int g = 0; g < lisC->size(); g++) {
-                        printf("(i=%d, c=%d)  ", (*lisC)[g].i, (*lisC)[g].c);
+                        printf("(i=%d,  c=%d)  ",  (*lisC)[g].i,  (*lisC)[g].c);
                     }
 
                     printf("\n\n");
                 }
-                
-                
-                
+
+
+
                 for (int g = 1; g < lisC->size(); g++) {
-                    if ((*lisC)[g-1].i <= (*lisC)[g].i) continue;
-                    printf("(i=%d,g=%d,b=%d,e=%d)  ", (*lisC)[g-1].i, g-1, b, e);
-                    printf("(i=%d,g=%d,b=%d,e=%d)  ", (*lisC)[g].i, g, b, e);
+                    if ((*lisC)[g-1].i  <=  (*lisC)[g].i) continue;
+                    printf("(i=%d, g=%d, b=%d, e=%d)  ",  (*lisC)[g-1].i,  g-1,  b,  e);
+                    printf("(i=%d, g=%d, b=%d, e=%d)  ",  (*lisC)[g].i,  g,  b,  e);
                     printf("\n\n");
                 }*/
-                
+
                 lisC.clear();
             }
-            
+
             b = e + 1;
         }
     }
 }
 
-void QueryMapper::fillASame(std::vector<Minimizer>& queryMinimizerSet, std::unordered_map<int, std::vector<bioinformatics::Entry>*> * hashTable, std::vector<ATuple>& A){
+void QueryMapper::fillASame(std::vector<Minimizer>& queryMinimizerSet,  std::unordered_map<int,  std::vector<bioinformatics::Entry>*> * hashTable,  std::vector<ATuple>& A) {
      ATuple tuple;
-    for (auto qMsIt = queryMinimizerSet.begin(); qMsIt != queryMinimizerSet.end(); qMsIt++) { 
+    for (auto qMsIt = queryMinimizerSet.begin(); qMsIt  !=  queryMinimizerSet.end(); qMsIt++) {
         auto hashEntry = hashTable->find(qMsIt->m);
-        if (hashEntry == hashTable->end())
+        if (hashEntry  ==  hashTable->end())
             continue;
-        
+
         auto entrySet = hashEntry->second;
-        
-        for (auto entryIt = entrySet->begin(); entryIt != entrySet->end(); entryIt++) {
+
+        for (auto entryIt = entrySet->begin(); entryIt  !=  entrySet->end(); entryIt++) {
                 tuple.t = entryIt->sequencePosition;
                 tuple.r = 0;
                 tuple.c = qMsIt->i - entryIt->i;
@@ -145,16 +142,16 @@ void QueryMapper::fillASame(std::vector<Minimizer>& queryMinimizerSet, std::unor
     }
 }
 
-void QueryMapper::fillADiff(std::vector<Minimizer>& queryMinimizerSet, std::unordered_map<int, std::vector<bioinformatics::Entry>*> * hashTable, std::vector<ATuple>& A){
+void QueryMapper::fillADiff(std::vector<Minimizer>& queryMinimizerSet,  std::unordered_map<int,  std::vector<bioinformatics::Entry>*> * hashTable,  std::vector<ATuple>& A) {
     ATuple tuple;
-    for (auto qMsIt = queryMinimizerSet.begin(); qMsIt != queryMinimizerSet.end(); qMsIt++) { 
+    for (auto qMsIt = queryMinimizerSet.begin(); qMsIt  !=  queryMinimizerSet.end(); qMsIt++) {
         auto hashEntry = hashTable->find(qMsIt->m);
-        if (hashEntry == hashTable->end())
+        if (hashEntry  ==  hashTable->end())
             continue;
-        
+
         auto entrySet = hashEntry->second;
-        
-        for (auto entryIt = entrySet->begin(); entryIt != entrySet->end(); entryIt++) {
+
+        for (auto entryIt = entrySet->begin(); entryIt  !=  entrySet->end(); entryIt++) {
             tuple.t = entryIt->sequencePosition;
             tuple.r = 1;
             tuple.c = qMsIt->i + entryIt->i;
@@ -165,15 +162,15 @@ void QueryMapper::fillADiff(std::vector<Minimizer>& queryMinimizerSet, std::unor
 }
 
 /*
-void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret) {
-    
+void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A,  int b,  int e,  std::vector<ATuple>& ret) {
+
     int n=e-b;
-    
-    std::vector<int> tail(n+1, 0);
-    std::vector<int> prev(n+1, -1);
-    
+
+    std::vector<int> tail(n+1,  0);
+    std::vector<int> prev(n+1,  -1);
+
     int len = 1;
-    
+
     for (int i = 1; i < n; i++) {
         if (A[i+b].i < A[tail[0]+b].i) {
             tail[0] = i;
@@ -191,32 +188,27 @@ void QueryMapper::LongestIncreasingSubsequence(std::vector<ATuple>& A, int b, in
             tail[pos] = i;
         }
     }
-    
-    for (int i = tail[len - 1]; i >= 0; i = prev[i]) {
-        ret.insert(ret.begin(), A[i+b]);
+
+    for (int i = tail[len - 1]; i  >=  0; i = prev[i]) {
+        ret.insert(ret.begin(),  A[i+b]);
     }
 }
 */
 
 
-void QueryMapper::lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret) {
+void QueryMapper::lis_test(std::vector<ATuple>& A,  int b,  int e,  std::vector<ATuple>& ret) {
     int N = e-b+1;
     int P[N];
     int M[N+1];
 
     int L = 0;
     ret.clear();
-    //std::cout << "NOVI LIS ======================" << std::endl;
-    //for (int i = b; i<e; i++) {
-        //std::cout << A[i].i << " ";
-    //}
-    //std::cout << std::endl;
-    for(int i=0; i<N;i++){
-      // Binary search for the largest positive j ≤ L
-      // such that X[M[j]] < X[i]
+    for (int i = 0; i < N; i++) {
+        //  Binary search for the largest positive j ≤ L
+        //  such that X[M[j]] < X[i]
       int lo = 1;
       int hi = L;
-      while(lo <= hi){
+      while (lo  <=  hi) {
         int mid = ceil((lo+hi)/2);
         if ( A[M[mid]+b].i < A[i+b].i)
           lo = mid+1;
@@ -224,31 +216,30 @@ void QueryMapper::lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATu
           hi = mid-1;
       }
 
-      // After searching, lo is 1 greater than the
-      // length of the longest prefix of X[i]
+        //  After searching,  lo is 1 greater than the
+        //  length of the longest prefix of X[i]
       int newL = lo;
 
-      // The predecessor of X[i] is the last index of 
-      // the subsequence of length newL-1
+        //  The predecessor of X[i] is the last index of
+        //  the subsequence of length newL-1
       P[i] = M[newL-1];
       M[newL] = i;
 
-      if( newL > L)
-        // If we found a subsequence longer than any we've
-        // found yet, update L
+      if (newL > L)
+          //  If we found a subsequence longer than any we've
+          //  found yet,  update L
         L = newL;
     }
 
-    // Reconstruct the longest increasing subsequence
+      //  Reconstruct the longest increasing subsequence
     int k = M[L];
-    for(int i= L-1; i>=0; i--){
-        ret.insert(ret.begin(), A[k+b]);
-          k = P[k];
+    for (int i = L - 1; i >= 0; i--) {
+        ret.insert(ret.begin(),  A[k+b]);
+        k = P[k];
     }
 }
 
-std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array, int b, int e) {
-
+std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array,  int b,  int e) {
     std::vector<ATuple>* s0 = new std::vector<ATuple>();
     s0->push_back(array[b]);
 
@@ -256,8 +247,7 @@ std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array, int b, int e) 
     solutions.push_back(s0);
 
 
-    for (int i = b+1; i <= e; i++) {
-
+    for (int i = b + 1; i <= e; i++) {
         ATuple elem = array[i];
 
         std::vector<ATuple>* longest_solution = solutions.back();
@@ -267,14 +257,14 @@ std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array, int b, int e) 
             std::vector<ATuple>* new_longest_solution = new std::vector<ATuple>(*longest_solution);
             new_longest_solution->push_back(elem);
             solutions.push_back(new_longest_solution);
-        } 
-        
+        }
+
         for (auto solution = solutions.begin(); solution < solutions.end(); solution++) {
             int sol_size = (*solution)->size();
 
             ATuple last = (*solution)->at(sol_size - 1);
 
-            if (sol_size == 1) {
+            if (sol_size  ==  1) {
                 if (elem.i < last.i) {
                     (*solution)->clear();
                     (*solution)->push_back(elem);
@@ -284,18 +274,16 @@ std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array, int b, int e) 
 
                 if (elem.i > second_last.i && elem.i < last.i) {
                     (*solution)->clear();
-                    (*solution)->insert((*solution)->end(), (*(solution - 1))->begin(), (*(solution - 1))->end());
+                    (*solution)->insert((*solution)->end(),  (*(solution - 1))->begin(),  (*(solution - 1))->end());
                     (*solution)->push_back(elem);
                 }
             }
         }
-        
     }
-
     std::vector<ATuple>* solution = solutions.back();
     solutions.pop_back();
 
-    //free memory
+      // free memory
     while (!solutions.empty()) {
         std::vector<ATuple>* s = solutions.back();
         solutions.pop_back();
