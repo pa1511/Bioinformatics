@@ -18,12 +18,13 @@
 extern "C" {
 #endif
 
-namespace bioinformatics {
+  namespace bioinformatics {
+
     struct SequenceInfo {
-        std::string name;
-        int length;
+      std::string name;
+      int length;
     };
-}
+  }
 
 
 #ifdef __cplusplus

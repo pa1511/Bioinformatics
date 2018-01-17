@@ -25,38 +25,38 @@
  * </ul>
  */
 struct Minimizer {
-    int m;
-    int i;
+  int m;
+  int i;
 
-    /*
-     * Comparison operators implemented so minimizers can be easily compared
-     */
+  /*
+   * Comparison operators implemented so minimizers can be easily compared
+   */
 
-    bool operator<(const Minimizer& other) const {
-        if (this->m == other.m) {
-            return this->i < other.i;
-        }
-        return this->m < other.m;
+  bool operator<(const Minimizer& other) const {
+    if (this->m == other.m) {
+      return this->i < other.i;
     }
+    return this->m < other.m;
+  }
 
-    bool operator>(const Minimizer& other) const {
-        if (this->m == other.m) {
-            return this->i > other.i;
-        }
-        return this->m > other.m;
+  bool operator>(const Minimizer& other) const {
+    if (this->m == other.m) {
+      return this->i > other.i;
     }
+    return this->m > other.m;
+  }
 
-    bool operator == (const Minimizer& other) const {
-        return this->m == other.m && this->i == other.i;
-    }
+  bool operator==(const Minimizer& other) const {
+    return this->m == other.m && this->i == other.i;
+  }
 
-    bool operator <= (const Minimizer& other) const {
-        return *this < other || *this == other;
-    }
+  bool operator<=(const Minimizer& other) const {
+    return *this < other || *this == other;
+  }
 
-    bool operator >= (const Minimizer& other) const {
-        return *this > other || *this == other;
-    }
+  bool operator>=(const Minimizer& other) const {
+    return *this > other || *this == other;
+  }
 };
 #pragma pack(pop)
 

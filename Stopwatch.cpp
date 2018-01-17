@@ -20,25 +20,25 @@ Stopwatch::~Stopwatch() {
 }
 
 void Stopwatch::start() {
-    this->startMoment = this->now();
+  this->startMoment = this->now();
 }
 
 void Stopwatch::end() {
-    this->endMoment = this->now();
+  this->endMoment = this->now();
 }
 
 int Stopwatch::getTime() {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(
-            endMoment - startMoment).count();
+  return std::chrono::duration_cast<std::chrono::milliseconds>(
+          endMoment - startMoment).count();
 }
 
 void Stopwatch::reset() {
-    Moment now = this->now();
-    this->startMoment = now;
-    this->endMoment = now;
+  Moment now = this->now();
+  this->startMoment = now;
+  this->endMoment = now;
 }
 
 inline Moment Stopwatch::now() {
-    return std::chrono::high_resolution_clock::now();
+  return std::chrono::high_resolution_clock::now();
 }
 

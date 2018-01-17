@@ -30,22 +30,22 @@
 using namespace bioinformatics;
 
 class QueryMapper {
- public:
-        QueryMapper();
-        ~QueryMapper();
+public:
+  QueryMapper();
+  ~QueryMapper();
 
-        void mapQuerySequence(HashTable *H, Document *targetFastADoc,
-                BioSequence *q, PAF *output, int w, int k, int epsilon);
-        std::vector<ATuple>* lis(std::vector<ATuple>& array, int b, int e);
-        void lis_test(std::vector<ATuple>& A, int b, int e,
-                std::vector<ATuple>& ret);
- private:
-        void fillASame(std::vector<Minimizer>& queryMinimizerSet,
-                std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTable,
-                std::vector<ATuple>& A);
-        void fillADiff(std::vector<Minimizer>& queryMinimizerSet,
-                std::unordered_map<int,  std::vector<bioinformatics::Entry>*> *hashTable,
-                std::vector<ATuple>& A);
+  void mapQuerySequence(HashTable *H, Document *targetFastADoc,
+        BioSequence *q, PAF *output, int w, int k, int epsilon);
+  std::vector<ATuple>* lis(std::vector<ATuple>& array, int b, int e);
+  void lis_test(std::vector<ATuple>& A, int b, int e,
+        std::vector<ATuple>& ret);
+private:
+  void fillASame(std::vector<Minimizer>& queryMinimizerSet,
+        std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTable,
+        std::vector<ATuple>& A);
+  void fillADiff(std::vector<Minimizer>& queryMinimizerSet,
+        std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTable,
+        std::vector<ATuple>& A);
 };
 
 #endif /* QUERYMAPPER_H */

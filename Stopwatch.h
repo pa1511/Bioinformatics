@@ -20,48 +20,51 @@
 typedef std::chrono::high_resolution_clock::time_point Moment;
 
 /**
- * The class offers the functionality of a simple stopwatch for precise time measurements <br/>
- * The stopwatch has to be started using start, stopped using end and can be reset using reset. <br/>
- * The get the measured time (difference between stop end end time) the user can call getTime. <br/>
+ * The class offers the functionality of a simple stopwatch for precise time
+ * measurements.
+ * The stopwatch has to be started using start, stopped using end and can be
+ * reset using reset.
+ * The get the measured time (difference between stop end end time) the user
+ * can call getTime.
  */
 class Stopwatch {
- public:
-    /**
-     * Constructor
-     */
-    Stopwatch();
+public:
+  /**
+   * Constructor
+   */
+  Stopwatch();
 
-    /**
-     * Destructor
-     */
-    ~Stopwatch();
+  /**
+   * Destructor
+   */
+  ~Stopwatch();
 
-    /**
-     * Starts the stopwatch or more precisely records the start time. <br/>
-     */
-    void start();
+  /**
+   * Starts the stopwatch or more precisely records the start time. <br/>
+   */
+  void start();
 
-    /**
-     * Stops the stopwatch or more precisely records the end time. <br/>
-     */
-    void end();
+  /**
+   * Stops the stopwatch or more precisely records the end time. <br/>
+   */
+  void end();
 
-    /**
-     * Returns the measured time in milliseconds. <br/>
-     * @return time in ms
-     */
-    int getTime();
+  /**
+   * Returns the measured time in milliseconds. <br/>
+   * @return time in ms
+   */
+  int getTime();
 
-    /**
-     * Resets the measured start and end time. <br/>
-     */
-    void reset();
+  /**
+   * Resets the measured start and end time. <br/>
+   */
+  void reset();
 
 
- private:
-    inline Moment now();
-    Moment startMoment;
-    Moment endMoment;
+private:
+  inline Moment now();
+  Moment startMoment;
+  Moment endMoment;
 };
 
 #endif /* STOPWATCH_H */

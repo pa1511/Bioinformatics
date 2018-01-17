@@ -21,12 +21,12 @@
 #include <condition_variable>
 
 /**
- * Sync queue is a thread safe implementation of a simple queue structure. <br/>
+ * Sync queue is a thread safe implementation of a simple queue structure.
  *
  */
 template <typename T>
 class SyncQueue {
- public:
+public:
   /**
    * Returns and removes the first element from the queue if it exists,
    * otherwise blocks until an element is present.
@@ -44,8 +44,8 @@ class SyncQueue {
   }
 
   /**
-   * Pushes the given element into the queue. <br/>
-   * If someone is waiting for an element in the queue they will be notified. <br/>
+   * Pushes the given element into the queue.
+   * If someone is waiting for an element in the queue they will be notified.
    * @param item - element to add to the queue
    */
   void push(const T& item) {
@@ -56,7 +56,7 @@ class SyncQueue {
   }
 
   /**
-   * Checks is the queue empty. If it is then true is returned otherwise false. <br/>
+   * Checks is the queue empty. If it is then true is returned otherwise false.
    * @return true if empty, false if not
    */
   bool empty() {
@@ -66,7 +66,7 @@ class SyncQueue {
     return result;
   }
 
- private:
+private:
   std::queue<T> queue_;
   std::mutex mutex_;
   std::condition_variable cond_;

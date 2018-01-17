@@ -27,36 +27,36 @@
 namespace bioinformatics {
 
 #pragma pack(push, 1)
+
 struct Entry {
     std::uint16_t sequencePosition;
     int i;
 
-    bool operator <(const Entry& other) const {
-        if (this->sequencePosition == other.sequencePosition) {
-            return this->i < other.i;
-        }
-        return this->sequencePosition < other.sequencePosition;
+    bool operator<(const Entry& other) const {
+      if (this->sequencePosition == other.sequencePosition) {
+        return this->i < other.i;
+      }
+      return this->sequencePosition < other.sequencePosition;
     }
-};
+  };
 #pragma pack(pop)
 
+  class HashTable {
+  public:
+    HashTable(std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw0,
+            std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw1);
+    ~HashTable();
+    void empty();
+    std::unordered_map<int, std::vector<bioinformatics::Entry>*>* getHashTableRaw0();
+    std::unordered_map<int, std::vector<bioinformatics::Entry>*>* getHashTableRaw1();
 
-class HashTable {
- public:
-        HashTable(std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw0,
-                std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw1);
-        ~HashTable();
-        void empty();
-        std::unordered_map<int, std::vector<bioinformatics::Entry>*>* getHashTableRaw0();
-        std::unordered_map<int, std::vector<bioinformatics::Entry>*>* getHashTableRaw1();
-
-        void save(std::string path);
-        static HashTable* load(std::string path);
-        static HashTable* loadWithM(std::string path, int m);
- private:
-        std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw0;
-        std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw1;
-};
+    void save(std::string path);
+    static HashTable* load(std::string path);
+    static HashTable* loadWithM(std::string path, int m);
+  private:
+    std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw0;
+    std::unordered_map<int, std::vector<bioinformatics::Entry>*> *hashTableRaw1;
+  };
 } // namespace bioinformatics
 
 #endif /* HASHTABLE_H */

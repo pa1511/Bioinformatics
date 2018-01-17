@@ -28,12 +28,12 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-  //
-  // File:  welcome.h
-  //
+//
+// File:  welcome.h
+//
 
 #ifndef _welcome_H
-#define	_welcome_H
+#define _welcome_H
 
 
 #endif /* _welcome_H */

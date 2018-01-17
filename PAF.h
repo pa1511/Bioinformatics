@@ -23,14 +23,14 @@
 using namespace bioinformatics;
 
 class PAF {
- public:
-    PAF(int k);
-    PAF(const PAF& orig);
-    virtual ~PAF();
-    void print(BioSequence *query, Document *target, ATuple *startATuple,
-        ATuple *endATuple, int minimizerCount);
- private:
-    int k;
+public:
+  PAF(int k);
+  PAF(const PAF& orig);
+  virtual ~PAF();
+  void print(BioSequence *query, Document *target, ATuple *startATuple,
+          ATuple *endATuple, int minimizerCount);
+private:
+  int k;
 };
 
 #endif /* PAF_H */
