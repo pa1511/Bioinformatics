@@ -1,10 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
  * File:  PAF.h
  * Author: paf
  *
@@ -24,9 +18,23 @@ using namespace bioinformatics;
 
 class PAF {
 public:
+  /**
+   * Constructor
+   * @param k k-mer size
+   */
   PAF(int k);
-  PAF(const PAF& orig);
+  /**
+   * Destructor
+   */
   virtual ~PAF();
+  /**
+   * Prints information about mapping in PAF format.
+   * @param query - query sequence
+   * @param target - document with information about target sequences
+   * @param startATuple - ATuple from where the mapping starts
+   * @param endATuple - ATuple where mapping ends
+   * @param minimizerCount - number of target minimizers in the mapping
+   */
   void print(BioSequence *query, Document *target, ATuple *startATuple,
           ATuple *endATuple, int minimizerCount);
 private:
