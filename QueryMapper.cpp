@@ -55,7 +55,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, Document *targetFastADoc,
             (A[e + 1].t != A[e].t) || (A[e + 1].r != A[e].r) ||
             (A[e + 1].c - A[e].c >= epsilon)) {
       if (e - b + 1 >= MIN_MAPPING_SUBSET_SIZE) {
-        lis_test(A, b, e, lisC);
+        lis(A, b, e, lisC);
 
         int N = lisC.size();
         int matchingBases = N * k;
@@ -121,7 +121,7 @@ void QueryMapper::fillADiff(std::vector<Minimizer>& queryMinimizerSet,
   }
 }
 
-void QueryMapper::lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret) {
+void QueryMapper::lis(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret) {
   int N = e - b + 1;
   int P[N];
   int M[N + 1];

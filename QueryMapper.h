@@ -49,7 +49,7 @@ public:
    */
   void mapQuerySequence(HashTable *H, Document *targetFastADoc, BioSequence *q,
       PAF *output, int w, int k, int epsilon);
-  void lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret);
+  void lis(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret);
 private:
   /**
    * Fills vector A with target minimizers from hash table that are on the same
