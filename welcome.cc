@@ -22,7 +22,7 @@ int main(int argc, char**argv);
 int main(int argc, char**argv) {
 #if PROGRAM == 1
 
-  std::string document = argv[1];
+  std::string targetDocument = argv[1];
   std::string queryDocument = argv[2];
   int w = std::stoi(argv[3]);
   int k = std::stoi(argv[4]);
@@ -37,7 +37,7 @@ int main(int argc, char**argv) {
   stopwatch.start();
 
   //  Calculate and save hash table
-  Document *targetDoc = new FastADocument(document, true);
+  Document *targetDoc = new FastADocument(targetDocument, true);
   HashTableCalculationMethod method;
   HashTable *hashTable = method.calculate(targetDoc, w, k, threadCount);
 
@@ -47,7 +47,6 @@ int main(int argc, char**argv) {
   QueryMapper queryMapper;
   PAF *output = new PAF(k);
 
-  // std::cout << "Started quering..." << std::endl;
   BioSequence* querySequence;
   while ((querySequence = queryDoc->getNextSequence()) != NULL) {
 
@@ -63,7 +62,6 @@ int main(int argc, char**argv) {
   delete output;
 
   stopwatch.end();
-  std::cout << "Time: " << stopwatch.getTime() << " ms" << std::endl;
 
 #elif PROGRAM == 2
   std::string document = "lambda_reference.fasta";

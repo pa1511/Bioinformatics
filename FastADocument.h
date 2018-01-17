@@ -53,7 +53,7 @@ namespace bioinformatics {
      */
     BioSequence* getNextSequence();
   };
-} // namespace bioinformatics
+}
 
 #endif /* FASTADOCUMENT_H */
 

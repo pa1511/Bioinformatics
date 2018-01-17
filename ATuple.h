@@ -10,13 +10,12 @@
 
 #pragma pack(push, 1)
 
- /**
-  * Data structure used for storing the data of target minimizers
-  * @param t - id of a target sequence
-  * @param r - strand position
-  * @param c - distance on a strans
-  * @param i - position on target sequence
-  */
+/**
+ * A utility structure that represents a minimizer hit that contains data about
+ * mapping between a query minimizer and a target minimizer that acts as a
+ * tuple. It is used to wrap data, obtained from the mapping, as input for the
+ * LIS algorithm.
+ */
 struct ATuple {
   std::uint16_t t;
   std::uint8_t r;

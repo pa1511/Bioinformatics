@@ -28,8 +28,9 @@ void QueryMapper::mapQuerySequence(HashTable *H, Document *targetFastADoc,
   std::vector<ATuple> A;
 
 
-  { // added block so Minimizers sets get removed from memory as soon as they
+    // added block so Minimizers sets get removed from memory as soon as they
     // are no longer needed
+  {
     HashTableCalculationMethod method;
     std::vector<Minimizer> queryMinimizerSet0;
     std::vector<Minimizer> queryMinimizerSet1;
@@ -54,7 +55,7 @@ void QueryMapper::mapQuerySequence(HashTable *H, Document *targetFastADoc,
             (A[e + 1].t != A[e].t) || (A[e + 1].r != A[e].r) ||
             (A[e + 1].c - A[e].c >= epsilon)) {
       if (e - b + 1 >= MIN_MAPPING_SUBSET_SIZE) {
-        lis_test(A, b, e, lisC);
+        lis(A, b, e, lisC);
 
         int N = lisC.size();
         int matchingBases = N * k;
@@ -120,7 +121,7 @@ void QueryMapper::fillADiff(std::vector<Minimizer>& queryMinimizerSet,
   }
 }
 
-void QueryMapper::lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret) {
+void QueryMapper::lis(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret) {
   int N = e - b + 1;
   int P[N];
   int M[N + 1];
@@ -128,8 +129,8 @@ void QueryMapper::lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATu
   int L = 0;
   ret.clear();
   for (int i = 0; i < N; i++) {
-    //  Binary search for the largest positive j ≤ L
-    //  such that X[M[j]] < X[i]
+    // Binary search for the largest positive j ≤ L
+    // such that X[M[j]] < X[i]
     int lo = 1;
     int hi = L;
     while (lo <= hi) {
@@ -141,7 +142,7 @@ void QueryMapper::lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATu
       }
     }
 
-    // After searching,  lo is 1 greater than the
+    // After searching, lo is 1 greater than the
     // length of the longest prefix of X[i]
     int newL = lo;
 
@@ -162,63 +163,4 @@ void QueryMapper::lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATu
     ret.insert(ret.begin(), A[k + b]);
     k = P[k];
   }
-}
-
-std::vector<ATuple>* QueryMapper::lis(std::vector<ATuple>& array, int b, int e) {
-  std::vector<ATuple>* s0 = new std::vector<ATuple>();
-  s0->push_back(array[b]);
-
-  std::vector<std::vector<ATuple>*> solutions;
-  solutions.push_back(s0);
-
-  for (int i = b + 1; i <= e; i++) {
-    ATuple elem = array[i];
-
-    std::vector<ATuple>* longest_solution = solutions.back();
-    ATuple last_max = longest_solution->back();
-
-    if (last_max.i < elem.i) {
-      std::vector<ATuple>* new_longest_solution =
-              new std::vector<ATuple>(*longest_solution);
-
-      new_longest_solution->push_back(elem);
-      solutions.push_back(new_longest_solution);
-    }
-
-    for (auto solution = solutions.begin(); solution < solutions.end(); solution++) {
-      int sol_size = (*solution)->size();
-
-      ATuple last = (*solution)->at(sol_size - 1);
-
-      if (sol_size == 1) {
-        if (elem.i < last.i) {
-          (*solution)->clear();
-          (*solution)->push_back(elem);
-        }
-      } else {
-        ATuple second_last = (*solution)->at(sol_size - 2);
-
-        if (elem.i > second_last.i && elem.i < last.i) {
-          (*solution)->clear();
-          (*solution)->insert(
-                  (*solution)->end(),
-                  (*(solution - 1))->begin(),
-                  (*(solution - 1))->end()
-                  );
-          (*solution)->push_back(elem);
-        }
-      }
-    }
-  }
-  std::vector<ATuple>* solution = solutions.back();
-  solutions.pop_back();
-
-  // free memory
-  while (!solutions.empty()) {
-    std::vector<ATuple>* s = solutions.back();
-    solutions.pop_back();
-    delete s;
-  }
-
-  return solution;
 }

@@ -23,6 +23,9 @@
 
 using namespace bioinformatics;
 
+/**
+ * The class for mapping query sequences against obtained target minimizers.
+ */
 class QueryMapper {
 public:
   /**
@@ -35,26 +38,18 @@ public:
   ~QueryMapper();
 
   /**
-   * Maps query sequence against hash table containing target minimizers.
+   * Maps a query sequence against a hash table containing target minimizers.
    * @param H - hash table containing target minimizers 
    * @param targetFastADoc - FastADoc object with target sequences
    * @param q - query sequence
    * @param output - PAF object that prints mapping results in PAF format
    * @param w - window size
    * @param k - k-mer size
-   * @param epsilon
+   * @param epsilon - maximum distance between two minimizer hits
    */
   void mapQuerySequence(HashTable *H, Document *targetFastADoc, BioSequence *q,
       PAF *output, int w, int k, int epsilon);
-  std::vector<ATuple>* lis(std::vector<ATuple>& array, int b, int e);
-  /**
-   * Tests if implemented LIS algorithm works right.
-   * @param A - vector containing target minimizers for query sequence
-   * @param b - start index
-   * @param e - end index
-   * @param ret - return vector
-   */
-  void lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret);
+  void lis(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret);
 private:
   /**
    * Fills vector A with target minimizers from hash table that are on the same
