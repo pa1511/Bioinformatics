@@ -49,6 +49,13 @@ public:
    */
   void mapQuerySequence(HashTable *H, Document *targetFastADoc, BioSequence *q,
       PAF *output, int w, int k, int epsilon);
+  /**
+   * Writes the longest increasing susequence into vector ret 
+   * @param A - vector containing target minimizers for query sequence
+   * @param b - beginning index
+   * @param e - ending index
+   * @param ret - vector that contains the longest increasing susequence based on parametar i
+   */
   void lis(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret);
 private:
   /**
