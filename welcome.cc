@@ -56,6 +56,7 @@ int main(int argc, char**argv) {
     delete queryDoc;
     delete hashTable;
     delete targetDoc;
+    delete output;
     
     stopwatch.end();
     std::cout << "Time: " << stopwatch.getTime() << " ms" << std::endl;
