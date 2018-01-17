@@ -10,12 +10,23 @@
 
 #pragma pack(push, 1)
 
+ /**
+  * Data structure used for storing the data of target minimizers
+  * @param t - id of a target sequence
+  * @param r - strand position
+  * @param c - distance on a strans
+  * @param i - position on target sequence
+  */
 struct ATuple {
   std::uint16_t t;
   std::uint8_t r;
   int c;
   int i;
 
+  /**
+   * 
+   * Comparison operators implemented for comparing tuples
+   */
   bool operator<(const ATuple& other) const {
     if (this->t == other.t) {
       if (this->r == other.r) {
