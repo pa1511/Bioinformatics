@@ -1,14 +1,14 @@
 /*
- * To change this license header,  choose License Headers in Project Properties.
- * To change this template file,  choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
 /*
- * File:   HashTableCalculationMethod.h
+ * File: HashTableCalculationMethod.h
  * Author: paf
  *
- * Created on November 5,  2017,  1:56 PM
+ * Created on November 5, 2017, 1:56 PM
  */
 
 #ifndef HASHTABLECALCULATIONMETHOD_H
@@ -59,9 +59,10 @@ class HashTableCalculationMethod {
 
         /**
          * Calculates the HashTable which can be used for query mapping. <br/>
-         * The HashTable is calculated using BioSequences in the provided document and
-         * based on the given w and k parameters. <br/>
-         * Calculation can be parallelized if a threadCount number larger then 1 is given to the method.  <br/>
+         * The HashTable is calculated using BioSequences in the provided
+         * document and based on the given w and k parameters. <br/>
+         * Calculation can be parallelized if a threadCount number larger then 1
+         * is given to the method.  <br/>
          *
          * @param document - document from which the BioSequences are read
          * @param w - window size
@@ -69,7 +70,7 @@ class HashTableCalculationMethod {
          * @param threadCount - how many threads should work on calculating the HashTable
          * @return
          */
-        HashTable* calculate(Document* document,  int w,  int k,  int threadCount);
+        HashTable* calculate(Document* document, int w, int k, int threadCount);
 
         /**
          * Calculates the minimizer sketch for the given BioSequence.
@@ -79,7 +80,10 @@ class HashTableCalculationMethod {
          * @param minimizerSet0 - minimizers for the original sequence
          * @param minimizerSet1 - minimizers for the invert of the original sequence
          */
-        void minimizerSketch(bioinformatics::BioSequence *sequence,  int w,  int k, std::vector<Minimizer>& minimizerSet0,  std::vector<Minimizer>& minimizerSet1);
+        void minimizerSketch(bioinformatics::BioSequence *sequence, int w,
+                int k, std::vector<Minimizer>& minimizerSet0,
+                std::vector<Minimizer>& minimizerSet1
+        );
 
 
  private:
@@ -91,15 +95,18 @@ class HashTableCalculationMethod {
          * @param w - window size
          * @param k - k-mer size
          */
-        void calculateTask(SyncQueue<BioSequence*>& tasks, SyncQueue<CalculateTaskResult>& results, int w,  int k);
+        void calculateTask(SyncQueue<BioSequence*>& tasks,
+                SyncQueue<CalculateTaskResult>& results, int w, int k
+        );
 
         /**
          * Fills hashTable with the given minimizers.
          * @param hashTable
          * @param minimizerSet
-         * @param sequencePosition - sequence id for which the minimizers were calulated
+         * @param sequencePosition - sequence id for whichthe minimizers were calulated
          */
-        void fillMap(std::unordered_map<int, std::vector<bioinformatics::Entry>*>* hashTable,  std::vector<Minimizer>& minimizerSet,  int sequencePosition);
+        void fillMap(std::unordered_map<int, std::vector<bioinformatics::Entry>*>* hashTable,
+                std::vector<Minimizer>& minimizerSet, int sequencePosition);
 
         /**
          * Tries to reduce the size of vectors in the hashTable
@@ -107,31 +114,34 @@ class HashTableCalculationMethod {
          */
         inline void shrinkVectors(std::unordered_map<int, std::vector<bioinformatics::Entry>*>* hashTable0);
         /**
-         * Removes duplicates from the given vector of minimizers to make it "set" like.
+         * Removes duplicates from the given vector of minimizers to make it
+         * "set" like.
          * @param M
          */
         inline void removeDuplicates(std::vector<Minimizer>& M);
 
-          //  == =
+          // == =
           // The next functions are used in Minimizer hash calculation
 
         /**
-         * Calculates the hash of a sequence k-mer starting from position startIndex
+         * Calculates the hash of a sequence k-mer starting from
+         * position startIndex
          * @param seqence - sequence containing the k-mer
          * @param startIndex - start position of the k-mer
          * @param k - k-mer size
          * @return k-mer hash value
          */
-        int PHI_function(std::string *seqence,  int startIndex,  int k);
+        int PHI_function(std::string *seqence, int startIndex, int k);
         inline int PHI_function(char b);
         /**
-         * Applied when calculating the k-mer hash value to reduce the amount of hash collisions when using them as map keys.
+         * Applied when calculating the k-mer hash value to reduce the amount
+         * of hash collisions when using them as map keys.
          * @param x - hash value
          * @param m - mask used in invertibleHash calculation
          * @return - new hash value
          */
-        int invertibleHash(int x,  int m);
-          //  == ==
+        int invertibleHash(int x, int m);
+          // == ==
 
           // Static structures used for calculation optimization
         static int PHI_VALUE[8];

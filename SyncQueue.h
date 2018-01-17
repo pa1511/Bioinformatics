@@ -1,14 +1,14 @@
 /*
- * To change this license header,  choose License Headers in Project Properties.
- * To change this template file,  choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
 /*
- * File:   SyncQueue.h
+ * File: SyncQueue.h
  * Author: paf
  *
- * Created on January 16,  2018,  8:00 AM
+ * Created on January 16, 2018, 8:00 AM
  */
 
 #ifndef SYNCQUEUE_H
@@ -57,7 +57,7 @@ class SyncQueue {
 
   /**
    * Checks is the queue empty. If it is then true is returned otherwise false. <br/>
-   * @return true if empty,  false if not
+   * @return true if empty, false if not
    */
   bool empty() {
     std::unique_lock<std::mutex> mlock(mutex_);

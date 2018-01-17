@@ -1,14 +1,14 @@
 /*
- * To change this license header,  choose License Headers in Project Properties.
- * To change this template file,  choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
 /*
- * File:   Stopwatch.cpp
+ * File: Stopwatch.cpp
  * Author: paf
  *
- * Created on October 15,  2017,  4:11 PM
+ * Created on October 15, 2017, 4:11 PM
  */
 
 #include "Stopwatch.h"
@@ -28,7 +28,8 @@ void Stopwatch::end() {
 }
 
 int Stopwatch::getTime() {
-    return  std::chrono::duration_cast<std::chrono::milliseconds>( endMoment - startMoment ).count();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+            endMoment - startMoment).count();
 }
 
 void Stopwatch::reset() {

@@ -1,9 +1,9 @@
 
 /*
- * File:   FastADocument.cpp
+ * File: FastADocument.cpp
  * Author: paf
  *
- * Created on October 15,  2017,  10:20 PM
+ * Created on October 15, 2017, 10:20 PM
  */
 
 #include <string>
@@ -15,11 +15,11 @@
 
 using namespace bioinformatics;
 
-FastADocument::FastADocument(std::string documentLocation) : Document(documentLocation) {
+FastADocument::FastADocument(std::string documentLocation):Document(documentLocation) {
 }
 
-FastADocument::FastADocument(std::string documentLocation,  bool saveSequenceDetails)
-                            : Document(documentLocation, saveSequenceDetails) {
+FastADocument::FastADocument(std::string documentLocation,
+        bool saveSequenceDetails):Document(documentLocation, saveSequenceDetails) {
 }
 
 FastADocument::~FastADocument() {
@@ -36,32 +36,33 @@ BioSequence* FastADocument::getNextSequence() {
         char c;
         std::string input;
 
-        while ((c = inputStream->peek())  !=  EOF) {
-              //  we see the start of the next sequence
-            if (c  ==  '>' && sequence  !=  NULL) {
+        while ((c = inputStream->peek()) != EOF) {
+              // we see the start of the next sequence
+            if (c == '>' && sequence != NULL) {
                 break;
             }
-              //  read line
-            std::getline(*inputStream,  input);
+              // read line
+            std::getline(*inputStream, input);
 
-            if (c  ==  '>') {
+            if (c == '>') {
                 std::string name;
                 std::string comment;
 
                 input.erase(input.begin());
                 std::size_t firstEmptySpacePosition = input.find(" ");
-                if (firstEmptySpacePosition  !=  std::string::npos) {
-                    name = input.substr(0,  firstEmptySpacePosition);
+                if (firstEmptySpacePosition != std::string::npos) {
+                    name = input.substr(0, firstEmptySpacePosition);
                     comment = input.substr(firstEmptySpacePosition);
                 } else {
                     name = input;
                 }
 
-                sequence = new BioSequence(name,  comment,  this->sequencePosition);
+                sequence = new BioSequence(name,
+                        comment, this->sequencePosition);
 
                 this->sequencePosition++;
 
-            } else if (c  ==  ',') {
+            } else if (c == ',') {
                 continue;
             } else {
                 sequence->appeandSequence(input);
@@ -69,7 +70,7 @@ BioSequence* FastADocument::getNextSequence() {
         }
     }
 
-    if (sequence  !=  NULL) {
+    if (sequence != NULL) {
         sequence->initialize();
         if (this->saveSequenceDetails) {
             SequenceInfo sequenceInfo;

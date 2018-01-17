@@ -1,8 +1,8 @@
 /*
- * File:   BioSequence.h
+ * File: BioSequence.h
  * Author: paf
  *
- * Created on October 15,  2017,  10:35 PM
+ * Created on October 15, 2017, 10:35 PM
  */
 
 #ifndef BIOSEQUENCE_H
@@ -43,7 +43,7 @@ class BioSequence {
          * @param comment - sequence comment
          * @param sequencePosition - sequence position in the document it was read from
          */
-        BioSequence(std::string name,  std::string comment,  int sequencePosition);
+        BioSequence(std::string name, std::string comment, int sequencePosition);
 
         /**
          * Destructor
