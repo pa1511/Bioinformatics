@@ -10,6 +10,11 @@
 
 #pragma pack(push, 1)
 
+/**
+ * A utility structure that contains data about mapping between a query
+ * minimizer and a target minimizer that acts as a tuple. It is used to wrap
+ * data, obtained from the mapping, as input for the LIS algorithm.
+ */
 struct ATuple {
   std::uint16_t t;
   std::uint8_t r;

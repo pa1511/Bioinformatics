@@ -16,6 +16,10 @@
 
 using namespace bioinformatics;
 
+/**
+ * The class for printing the mapping results in PAF format.
+ * @param k - k-mer size
+ */
 class PAF {
 public:
   /**
