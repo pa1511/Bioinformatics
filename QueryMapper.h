@@ -49,14 +49,6 @@ public:
    */
   void mapQuerySequence(HashTable *H, Document *targetFastADoc, BioSequence *q,
       PAF *output, int w, int k, int epsilon);
-  std::vector<ATuple>* lis(std::vector<ATuple>& array, int b, int e);
-  /**
-   * Tests if implemented LIS algorithm works right.
-   * @param A - vector containing target minimizers for query sequence
-   * @param b - start index
-   * @param e - end index
-   * @param ret - return vector
-   */
   void lis_test(std::vector<ATuple>& A, int b, int e, std::vector<ATuple>& ret);
 private:
   /**
